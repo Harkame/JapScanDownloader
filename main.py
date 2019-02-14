@@ -4,8 +4,6 @@ from bs4 import BeautifulSoup
 import os
 import errno
 
-import urllib.request
-
 from yaml import Loader
 from yaml import load
 
@@ -41,8 +39,6 @@ for option, argument in opts:
     elif option in('-v', '--verbose'):
         log.basicConfig(format='%(levelname)s: %(message)s', level=log.DEBUG)
         log.info('option verbose')
-    else:
-        assert False, 'unhandled option'
 
 config_stream= open(config_file, 'r')
 
@@ -51,6 +47,8 @@ config = load(config_stream, Loader=Loader)
 config_stream.close()
 
 mangas = config['mangas']
+
+sys.exit()
 
 if destination_path == None:
     destination_path = config['destinationPath']
