@@ -1,6 +1,9 @@
 # JapScanDownloader
 
-## Installation
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/acf59998d8a743188d5f7ef058010ffa)](https://www.codacy.com/app/Harkame/JapScanDownloader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Harkame/JapScanDownloader&amp;utm_campaign=Badge_Grade)
+
+## I
+nstallation
 
 ``` bash
 pip install cfscrape BeautifulSoup4 pyyaml lxml tqdm
