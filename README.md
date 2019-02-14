@@ -1,6 +1,5 @@
 # Installation
 
-
 ``` bash
 pip install cfscrape BeautifulSoup4 pyyaml lxml tqdm
 ```
@@ -12,8 +11,7 @@ pip install cfscrape BeautifulSoup4 pyyaml lxml tqdm
 [Beautiful Soup 4](https://beautiful-soup-4.readthedocs.io/en/latest/)
 
 [PyYAML](https://github.com/yaml/pyyaml)
-  + (https://pyyaml.org)
-  
+
 [tqdm](https://github.com/tqdm/tqdm)
 
 # Usage
@@ -21,9 +19,7 @@ pip install cfscrape BeautifulSoup4 pyyaml lxml tqdm
 This program use an config file (config.yml)
 
  TODO
-## Parameters
-
-### Optional
+## Options
 
 + -c | --config_file : Path of config file
     + Default path is ./config_file.yml
