@@ -1,7 +1,5 @@
 # JapScanDownloader
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/acf59998d8a743188d5f7ef058010ffa)](https://www.codacy.com/app/Harkame/JapScanDownloader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Harkame/JapScanDownloader&amp;utm_campaign=Badge_Grade)
-
 ## Installation
 
 ``` bash
@@ -26,7 +24,7 @@ This program use an config file (config.yml)
 ### Options
 
 + -c | --config_file : Path of config file
-    + Default path is ./config_file.yml
+  + Default path is ./config_file.yml
 
 ### Download an manga
 Add an entry to attribute mangas
