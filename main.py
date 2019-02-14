@@ -1,18 +1,11 @@
-import cfscrape
-from bs4 import BeautifulSoup
-
-import os
-import errno
-
-from yaml import Loader
-from yaml import load
-
-from tqdm import tqdm
-import getopt, sys
-
-import logging as log
-
-scraper = cfscrape.create_scraper()
+from bs4 import BeautifulSoup #html parsing
+import cfscrape #bypass cloudflare
+import errno #makedirs error
+import logging #logs
+import getopt, sys #get options
+import os #makedirs
+import tqdm #progress bar
+from yaml import Loader, load #config file
 
 JAPSCAN_URL = 'https://www.japscan.to'
 DEFAULT_CONFIG_FILE = './config.yaml'
@@ -20,25 +13,30 @@ DEFAULT_CONFIG_FILE = './config.yaml'
 config_file = DEFAULT_CONFIG_FILE
 destination_path = None
 
+def usage():
+    print('Usage')
+
 try:
     opts, args = getopt.getopt(sys.argv[1:], 'cd:hv', ['config', 'destination_path', 'help', 'verbose'])
 except getopt.GetoptError as err:
     usage()
     sys.exit(2)
+
 output = None
 verbose = False
+
 for option, argument in opts:
     if option in ('-c', '--config'):
         config_file = argument
-        log.info('option config_file : %s', config_file)
+        logging.info('option config_file : %s', config_file)
     elif option in ('-d', '--destination_path'):
         destination_path = argument
-        log.info('option destinationPath : %s', destination_path)
+        logging.info('option destinationPath : %s', destination_path)
     elif option in ('-h', '--help'):
-        help()
+        usage()
     elif option in('-v', '--verbose'):
-        log.basicConfig(format='%(levelname)s: %(message)s', level=log.DEBUG)
-        log.info('option verbose')
+        logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
+        logging.info('option verbose')
 
 config_stream= open(config_file, 'r')
 
@@ -48,16 +46,16 @@ config_stream.close()
 
 mangas = config['mangas']
 
-sys.exit()
-
 if destination_path == None:
     destination_path = config['destinationPath']
 
-log.info('config_file : %s', config_file)
+logging.info('config_file : %s', config_file)
 
-log.info('destination_path : %s', destination_path)
+logging.info('destination_path : %s', destination_path)
 
 sys.exit()
+
+scraper = cfscrape.create_scraper()
 
 for manga in mangas:
     chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml').findAll('div',{'class':'chapters_list text-truncate'});
@@ -66,6 +64,8 @@ for manga in mangas:
 
     for chapter_div in chapter_divs:
         chapter_ref = JAPSCAN_URL + chapter_div.find(href=True)['href']
+
+        logging.info('chapter_ref: %s', chapter_ref)
 
         pages = BeautifulSoup(scraper.get(chapter_ref).content, features='lxml').find('select', {'id': 'pages'})
 
@@ -76,9 +76,13 @@ for manga in mangas:
         for page_tag in page_options:
             page_url = JAPSCAN_URL + page_tag['value']
 
+            logging.info('page_url: %s', page_url)
+
             page = BeautifulSoup(scraper.get(page_url).content, features='lxml')
 
             image_url = page.find('div', {'id': 'image'})['data-src']
+
+            logging.info('image_url: %s', image_url)
 
             reverse_image_url = image_url[::-1]
 
@@ -96,9 +100,12 @@ for manga in mangas:
 
             image_full_path = destination_path + image_path
 
+            logging.info('image_full_path : %s', image_full_path)
+
             if not os.path.exists(os.path.dirname(image_full_path)):
                 try:
                     os.makedirs(os.path.dirname(image_full_path))
+                    logging.info('File created : %s', image_full_path)
                 except OSError as exc:
                     if exc.errno != errno.EEXIST:
                         raise
