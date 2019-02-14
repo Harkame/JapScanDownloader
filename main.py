@@ -6,8 +6,8 @@ import errno
 
 import urllib.request
 
-from yaml import Loader, Dumper
-from yaml import load, dump
+from yaml import Loader
+from yaml import load
 
 from tqdm import tqdm
 import getopt, sys
@@ -97,7 +97,7 @@ for manga in mangas:
             image_path = reverse_image_url[::-1]
 
             image_full_path = destination_path + image_path
-            '''
+
             if not os.path.exists(os.path.dirname(image_full_path)):
                 try:
                     os.makedirs(os.path.dirname(image_full_path))
@@ -112,7 +112,7 @@ for manga in mangas:
             file.write(image_content)
 
             file.close()
-            '''
+
             pages_progress_bar.update(1);
 
         pages_progress_bar.close()
