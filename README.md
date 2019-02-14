@@ -1,10 +1,12 @@
-# Installation
+# JapScanDownloader
+
+## Installation
 
 ``` bash
 pip install cfscrape BeautifulSoup4 pyyaml lxml tqdm
 ```
 
-## Dependencies
+### Dependencies
 
 [cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape)
 
@@ -14,17 +16,17 @@ pip install cfscrape BeautifulSoup4 pyyaml lxml tqdm
 
 [tqdm](https://github.com/tqdm/tqdm)
 
-# Usage
+## Usage
 
 This program use an config file (config.yml)
 
  TODO
-## Options
+### Options
 
 + -c | --config_file : Path of config file
     + Default path is ./config_file.yml
 
-## Download an manga
+### Download an manga
 Add an entry to attribute mangas
 
 Copy past to avoid synthax error
@@ -40,16 +42,16 @@ mangas:
         my_manga_url
 ```
 
-### URL : Url of the manga
+#### URL : Url of the manga
 Be careful to URL format
 
-### minimalChapter : Download all chapters from the last to minimalChapter (TODO)
+#### minimalChapter : Download all chapters from the last to minimalChapter (TODO)
 
 Usefull to avoid full check of all chapters (Can take several time)
 
 To download all chapters, set minimalChapter to 0
 
-## Change downloads destination
+### Change downloads destination
 Replace destinationPath's value by desired path
 
  ``` yaml
