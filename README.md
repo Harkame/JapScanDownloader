@@ -23,8 +23,8 @@ This program use an config file (config.yml)
  TODO
 ### Options
 
-+ -c | --config_file : Path of config file
-  + Default path is ./config_file.yml
++  -c | --config_file : Path of config file
+  +  Default path is ./config_file.yml
 
 ### Download an manga
 Add an entry to attribute mangas
