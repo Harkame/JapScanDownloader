@@ -24,6 +24,10 @@ pip install cfscrape BeautifulSoup4 pyyaml lxml tqdm
 
 This program use an config file (config.yaml)
 
+``` bash
+python main.py
+```
+
 ### Options
 
 + -c | --config_file : Path of config file
