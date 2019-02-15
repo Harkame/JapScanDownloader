@@ -27,8 +27,8 @@ This program use an config file (config.yaml)
 ### Options
 
 + -c | --config_file : Path of config file
-  Example : ... -c /home/harkame/config.yaml
-  Default : "./config_file.yaml"
+  + Example : ... -c /home/harkame/config.yaml
+  + Default : "./config_file.yaml"
 
 ### Download an manga
 Add an entry to attribute mangas
