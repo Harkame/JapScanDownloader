@@ -22,14 +22,13 @@ pip install cfscrape BeautifulSoup4 pyyaml lxml tqdm
 
 ## Usage
 
-This program use an config file (config.yml)
+This program use an config file (config.yaml)
 
- TODO
 ### Options
 
 + -c | --config_file : Path of config file
   + Example : ... -c /home/harkame/config.yaml
-  + Default : "./config_file.yml"
+  + Default : "./config_file.yaml"
 
 ### Download an manga
 Add an entry to attribute mangas
