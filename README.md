@@ -62,9 +62,16 @@ To download all chapters, set minimalChapter to 0
 ### Change downloads destination
 Replace destinationPath's value by desired path
 
+#### Linux
+
+ ``` yaml
+destinationPath:
+    /home/harkame/mangas
+```
+
+#### Windows
+
  ``` yaml
 destinationPath:
     F:\data\mangas
-    #OR
-    /home/harkame/mangas
 ```
