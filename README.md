@@ -4,6 +4,8 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/Harkame/JapScanDownloader/badge.svg?branch=master)](https://coveralls.io/github/Harkame/JapScanDownloader?branch=master)
 
+[![Build Status](https://travis-ci.org/Harkame/JapScanDownloader.svg?branch=master)](https://travis-ci.org/Harkame/JapScanDownloader)
+
 ## Installation
 
 [Python](https://www.python.org/downloads/)
