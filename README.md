@@ -37,7 +37,7 @@ python main.py
 ### Options
 
 ``` bash
--c, --config_file <configFile> : Set config file [See](#How it work)
+-c, --config_file <configFile> : Set config file
   Example : ... -c /home/harkame/config.yaml
   Default : ./config_file.yaml
 
