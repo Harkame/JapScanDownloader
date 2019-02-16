@@ -15,13 +15,12 @@ config_file = DEFAULT_CONFIG_FILE
 destination_path = DEFAULT_DESTINATION_PATH
 
 def usage():
-    print('Usage')
+    print('-h, --help ')
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], 'cd:hv', ['config', 'destination_path', 'help', 'verbose'])
 except getopt.GetoptError as err:
     usage()
-    sys.exit(2)
 
 output = None
 verbose = False
@@ -59,7 +58,7 @@ scraper = cfscrape.create_scraper()
 for manga in mangas:
     chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml').findAll('div',{'class':'chapters_list text-truncate'});
 
-    chapters_progress_bar = tqdm(total=len(chapter_divs), position=0)
+    chapters_progress_bar = tqdm(total=len(chapter_divs), position=0, bar_format='[{bar}] [{n_fmt}/{total_fmt}]')
 
     for chapter_div in chapter_divs:
         chapter_ref = JAPSCAN_URL + chapter_div.find(href=True)['href']
@@ -70,7 +69,7 @@ for manga in mangas:
 
         page_options = pages.findAll('option', value=True)
 
-        pages_progress_bar = tqdm(total=len(page_options), position=1)
+        pages_progress_bar = tqdm(total=len(page_options), position=1, bar_format='[{bar}] [{n_fmt}/{total_fmt}]')
 
         for page_tag in page_options:
             page_url = JAPSCAN_URL + page_tag['value']
