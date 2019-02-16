@@ -34,9 +34,11 @@ python main.py
 
 ### Options
 
+``` bash
 +  -c | --config_file : Path of config file
   +   Example : ... -c /home/harkame/config.yaml
-  + Default : "./config_file.yaml"
+  + Default : ./config_file.yaml
+```
 
 ### How it work
 
