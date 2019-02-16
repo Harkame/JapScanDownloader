@@ -6,8 +6,10 @@
 
 ## Installation
 
+[Python](https://www.python.org/downloads/)
+
 ``` bash
-pip install cfscrape BeautifulSoup4 pyyaml lxml tqdm
+pip install -r packages.txt
 ```
 
 ### Dependencies
