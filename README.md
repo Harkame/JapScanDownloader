@@ -34,11 +34,11 @@ python main.py
 
 ### Options
 
-+ -c | --config_file : Path of config file
-  + Example : ... -c /home/harkame/config.yaml
++  -c | --config_file : Path of config file
+  +   Example : ... -c /home/harkame/config.yaml
   + Default : "./config_file.yaml"
 
-### How it work ?
+### How it work
 
 This program use an config file (default : ./config.yaml)
 
