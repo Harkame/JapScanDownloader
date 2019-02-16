@@ -58,6 +58,21 @@ This program use an config file (default : ./config.yaml)
 
 This file contains list of mangas to download, destination path, etc.
 
+#### Example  of config file
+
+``` yaml
+
+mangas:
+  - url:
+      https://www.japscan.to/manga/shingeki-no-kyojin/
+  - url:
+      https://www.japscan.to/manga/hunter-x-hunter/
+
+destinationPath:
+  ./mangas/
+  
+```
+
 ### Download an manga
 
 Add an entry to attribute mangas
