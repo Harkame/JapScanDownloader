@@ -5,4 +5,4 @@ mangas:
       https://www.japscan.to/manga/hunter-x-hunter/
 
 destinationPath:
- /home/harkame/manga
+  ./mangas/

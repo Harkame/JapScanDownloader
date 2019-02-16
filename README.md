@@ -16,15 +16,17 @@ pip install -r requirements.txt
 
 [cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape)
 
-[Beautiful Soup 4](https://beautiful-soup-4.readthedocs.io/en/latest/)
+[Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 
 [PyYAML](https://github.com/yaml/pyyaml)
 
 [tqdm](https://github.com/tqdm/tqdm)
 
+[lxml](https://github.com/lxml/lxml.git)
+
 ## Usage
 
-This program use an config file (config.yaml)
+### Run
 
 ``` bash
 python main.py
@@ -36,12 +38,15 @@ python main.py
   + Example : ... -c /home/harkame/config.yaml
   + Default : "./config_file.yaml"
 
+### How it work ?
+
+This program use an config file (default : ./config.yaml)
+
+This file contains list of mangas to download, destination path, etc.
+
 ### Download an manga
+
 Add an entry to attribute mangas
-
-Copy past to avoid synthax error
-
-If an scan is already on the drive, it is not re-downloaded
 
 ``` yaml
 mangas:
@@ -53,13 +58,7 @@ mangas:
 ```
 
 #### URL : Url of the manga
-Be careful to URL format
-
-#### minimalChapter : Download all chapters from the last to minimalChapter (TODO)
-
-Usefull to avoid full check of all chapters (Can take several time)
-
-To download all chapters, set minimalChapter to 0
+:boom: Be careful to URL format :boom:
 
 ### Change downloads destination
 Replace destinationPath's value by desired path

@@ -4,14 +4,15 @@ import errno #makedirs error
 import logging #logs
 import getopt, sys #get options
 import os #makedirs
-import tqdm #progress bar
+from tqdm import tqdm #progress bar
 from yaml import Loader, load #config file
 
 JAPSCAN_URL = 'https://www.japscan.to'
 DEFAULT_CONFIG_FILE = './config.yaml'
+DEFAULT_DESTINATION_PATH = './mangas'
 
 config_file = DEFAULT_CONFIG_FILE
-destination_path = None
+destination_path = DEFAULT_DESTINATION_PATH
 
 def usage():
     print('Usage')
@@ -28,15 +29,15 @@ verbose = False
 for option, argument in opts:
     if option in ('-c', '--config'):
         config_file = argument
-        logging.info('option config_file : %s', config_file)
+        logging.debug('option config_file : %s', config_file)
     elif option in ('-d', '--destination_path'):
         destination_path = argument
-        logging.info('option destinationPath : %s', destination_path)
+        logging.debug('option destinationPath : %s', destination_path)
     elif option in ('-h', '--help'):
         usage()
     elif option in('-v', '--verbose'):
         logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
-        logging.info('option verbose')
+        logging.debug('option verbose')
 
 config_stream= open(config_file, 'r')
 
@@ -49,11 +50,9 @@ mangas = config['mangas']
 if destination_path == None:
     destination_path = config['destinationPath']
 
-logging.info('config_file : %s', config_file)
+logging.debug('config_file : %s', config_file)
 
-logging.info('destination_path : %s', destination_path)
-
-sys.exit()
+logging.debug('destination_path : %s', destination_path)
 
 scraper = cfscrape.create_scraper()
 
@@ -65,7 +64,7 @@ for manga in mangas:
     for chapter_div in chapter_divs:
         chapter_ref = JAPSCAN_URL + chapter_div.find(href=True)['href']
 
-        logging.info('chapter_ref: %s', chapter_ref)
+        logging.debug('chapter_ref: %s', chapter_ref)
 
         pages = BeautifulSoup(scraper.get(chapter_ref).content, features='lxml').find('select', {'id': 'pages'})
 
@@ -76,13 +75,13 @@ for manga in mangas:
         for page_tag in page_options:
             page_url = JAPSCAN_URL + page_tag['value']
 
-            logging.info('page_url: %s', page_url)
+            logging.debug('page_url: %s', page_url)
 
             page = BeautifulSoup(scraper.get(page_url).content, features='lxml')
 
             image_url = page.find('div', {'id': 'image'})['data-src']
 
-            logging.info('image_url: %s', image_url)
+            logging.debug('image_url: %s', image_url)
 
             reverse_image_url = image_url[::-1]
 
@@ -100,12 +99,12 @@ for manga in mangas:
 
             image_full_path = destination_path + image_path
 
-            logging.info('image_full_path : %s', image_full_path)
+            logging.debug('image_full_path : %s', image_full_path)
 
             if not os.path.exists(os.path.dirname(image_full_path)):
                 try:
                     os.makedirs(os.path.dirname(image_full_path))
-                    logging.info('File created : %s', image_full_path)
+                    logging.debug('File created : %s', image_full_path)
                 except OSError as exc:
                     if exc.errno != errno.EEXIST:
                         raise
