@@ -6,6 +6,8 @@
 
 [![Build Status](https://travis-ci.org/Harkame/JapScanDownloader.svg?branch=master)](https://travis-ci.org/Harkame/JapScanDownloader)
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 ## Installation
 
 [Python](https://www.python.org/downloads/)
@@ -57,6 +59,21 @@ python main.py
 This program use an config file (default : ./config.yml)
 
 This file contains list of mangas to download, destination path, etc.
+
+#### Example  of config file
+
+``` yaml
+
+mangas:
+  - url:
+      https://www.japscan.to/manga/shingeki-no-kyojin/
+  - url:
+      https://www.japscan.to/manga/hunter-x-hunter/
+
+destinationPath:
+  ./mangas/
+  
+```
 
 ### Download an manga
 
