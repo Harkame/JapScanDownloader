@@ -37,9 +37,19 @@ python main.py
 ### Options
 
 ``` bash
-+  -c | --config_file : Path of config file
-  +   Example : ... -c /home/harkame/config.yaml
-  + Default : ./config_file.yaml
+-c, --config_file <configFile> : Set config file [See](#How it work)
+  Example : ... -c /home/harkame/config.yaml
+  Default : ./config_file.yaml
+
+-d, --destination_path <destinationPath> : Set destination path where download mangas
+  Example : ... -d /home/harkame/mangas
+  Default : ./mangas
+
+-h, --help : Print this help
+  Example : ... -h
+
+-v, --verbose : Activate verbose mod (debug, info, error)
+  Example : ... -v
 ```
 
 ### How it work
