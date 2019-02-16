@@ -20,7 +20,7 @@ pip install -r requirements.txt
 
 [Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 
-[PyYAML](https://github.com/yaml/pyyaml)
+[PyYAML](https://github.com/yml/pyyml)
 
 [tqdm](https://github.com/tqdm/tqdm)
 
@@ -38,8 +38,8 @@ python main.py
 
 ``` bash
 -c, --config_file <configFile> : Set config file
-  Example : ... -c /home/harkame/config.yaml
-  Default : ./config_file.yaml
+  Example : ... -c /home/harkame/config.yml
+  Default : ./config_file.yml
 
 -d, --destination_path <destinationPath> : Set destination path where download mangas
   Example : ... -d /home/harkame/mangas
@@ -54,7 +54,7 @@ python main.py
 
 ### How it work
 
-This program use an config file (default : ./config.yaml)
+This program use an config file (default : ./config.yml)
 
 This file contains list of mangas to download, destination path, etc.
 
@@ -62,7 +62,7 @@ This file contains list of mangas to download, destination path, etc.
 
 Add an entry to attribute mangas
 
-``` yaml
+``` yml
 mangas:
     url:
         https://www.japscan.cc/mangas/shingeki-no-kyojin/
@@ -79,14 +79,14 @@ Replace destinationPath's value by desired path
 
 #### Linux
 
- ``` yaml
+ ``` yml
 destinationPath:
     /home/harkame/mangas
 ```
 
 #### Windows
 
- ``` yaml
+ ``` yml
 destinationPath:
     F:\data\mangas
 ```

@@ -8,7 +8,7 @@ from tqdm import tqdm #progress bar
 from yaml import Loader, load #config file
 
 JAPSCAN_URL = 'https://www.japscan.to'
-DEFAULT_CONFIG_FILE = './config.yaml'
+DEFAULT_CONFIG_FILE = './config.yml'
 DEFAULT_DESTINATION_PATH = './mangas'
 
 config_file = DEFAULT_CONFIG_FILE
