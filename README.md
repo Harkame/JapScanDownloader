@@ -7,8 +7,6 @@
 
 ## Installation
 
-[Python](https://www.python.org/downloads/)
-
 ``` bash
 pip install -r requirements.txt
 ```
