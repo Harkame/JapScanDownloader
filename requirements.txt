@@ -3,3 +3,4 @@ BeautifulSoup4
 pyyaml
 lxml
 tqdm
+python-coveralls
