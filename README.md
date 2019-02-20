@@ -27,8 +27,14 @@ pip install -r requirements.txt
 
 ### Run
 
+#### Linux
 ``` bash
-python main.py
+python japscandownloader/main.py
+```
+
+#### Windows
+``` bash
+python japscandownloader\main.py
 ```
 
 ### Options
@@ -67,7 +73,7 @@ mangas:
 
 destinationPath:
   ./mangas/
-  
+
 ```
 
 ### Download an manga
