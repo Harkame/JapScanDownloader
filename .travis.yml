@@ -17,6 +17,12 @@ matrix:
 
 install:
   - pip install -r requirements.txt
+  - pip install python-coveralls
+  - pip install nose
 
 script:
-  python test.py
+  - python test.py
+  - nosetests --with-coverage
+
+after_success:
+  - coveralls
