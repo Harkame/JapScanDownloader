@@ -15,7 +15,16 @@ config_file = DEFAULT_CONFIG_FILE
 destination_path = DEFAULT_DESTINATION_PATH
 
 def usage():
-    print('-h, --help ')
+    print('\t-c, --config_file <configFile> : Set config file')
+    print('\t\tExample : ... -c /home/harkame/config.yml')
+    print('\t\tDefault : ./config_file.yml')
+    print('\t-d, --destination_path <destinationPath> : Set destination path where download mangas')
+    print('\t\tExample : ... -d /home/harkame/mangas')
+    print('\t\tDefault : ./mangas')
+    print('\t-h, --help : Print this help')
+    print('\t\tExample : ... -h')
+    print('\t-v, --verbose : Activate verbose mod (debug, info, error)')
+    print('\t\tExample : ... -v')
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], 'cd:hv', ['config', 'destination_path', 'help', 'verbose'])
@@ -34,6 +43,7 @@ for option, argument in opts:
         logging.debug('option destinationPath : %s', destination_path)
     elif option in ('-h', '--help'):
         usage()
+        sys.exit()
     elif option in('-v', '--verbose'):
         logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
         logging.debug('option verbose')
