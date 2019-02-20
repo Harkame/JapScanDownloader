@@ -1,4 +1,10 @@
-language: python
+language:
+  python
+
+os:
+  - linux
+  - osx
+  - windows
 
 python:
   - 2.7
