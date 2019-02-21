@@ -27,14 +27,8 @@ pip install -r requirements.txt
 
 ### Run
 
-#### Linux
 ``` bash
 python japscandownloader/main.py
-```
-
-#### Windows
-``` bash
-python japscandownloader\main.py
 ```
 
 ### Options
