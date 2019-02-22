@@ -22,7 +22,7 @@ install:
 
 script:
   - python ./test/test.py
-  - nosetests --with-coverage
+  - nosetests #--with-coverage
 
 after_success:
   - coveralls
