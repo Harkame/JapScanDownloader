@@ -76,10 +76,10 @@ Add an entry to attribute mangas
 
 ``` yml
 mangas :
-    - url :
+    - url:
         https://www.japscan.cc/mangas/shingeki-no-kyojin/
     ...
-    - url :
+    - url:
         my_manga_url
 ```
 
