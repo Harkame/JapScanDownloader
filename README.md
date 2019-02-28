@@ -47,6 +47,9 @@ python japscandownloader/main.py
 
 -v, --verbose : Activate verbose mod (debug, info, error)
   Example : ... -v
+  
+-u, --unscramble: unscramble images 
+  Example : ... -u
 ```
 
 ### How it work
