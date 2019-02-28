@@ -1,3 +1,4 @@
+from PIL import Image
 from bs4 import BeautifulSoup #html parsing
 import cfscrape #bypass cloudflare
 import errno #makedirs error
@@ -16,12 +17,13 @@ config_file = DEFAULT_CONFIG_FILE
 destination_path = DEFAULT_DESTINATION_PATH
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], 'cd:hv', ['config', 'destination_path', 'help', 'verbose'])
+    opts, args = getopt.getopt(sys.argv[1:], 'cd:hvu', ['config', 'destination_path', 'help', 'verbose', 'unscramble'])
 except getopt.GetoptError as err:
     usage()
 
 output = None
 verbose = False
+unscramble = False
 
 for option, argument in opts:
     if option in ('-c', '--config'):
@@ -36,8 +38,11 @@ for option, argument in opts:
     elif option in('-v', '--verbose'):
         logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
         logging.debug('option verbose')
+    elif option in ('-u', '--unscramble'):
+        unscramble = True
 
-config_stream= open(config_file, 'r')
+
+config_stream = open(config_file, 'r')
 
 config = load(config_stream, Loader=Loader)
 
@@ -45,7 +50,7 @@ config_stream.close()
 
 mangas = config['mangas']
 
-if destination_path == None:
+if destination_path is None:
     destination_path = config['destinationPath']
 
 logging.debug('config_file : %s', config_file)
@@ -53,6 +58,34 @@ logging.debug('config_file : %s', config_file)
 logging.debug('destination_path : %s', destination_path)
 
 scraper = cfscrape.create_scraper()
+
+
+def unscramble_image(scrambled_image):
+    input_image = Image.open(scrambled_image)
+    temp = Image.new("RGB", input_image.size)
+    output_image = Image.new("RGB", input_image.size)
+    for x in range(0, input_image.width, 200):
+        col1 = input_image.crop((x, 0, x + 100, input_image.height))
+        if (x + 200) <= input_image.width:
+            col2 = input_image.crop((x + 100, 0, x + 200, input_image.height))
+            temp.paste(col1, (x + 100, 0))
+            temp.paste(col2, (x, 0))
+        else:
+            col2 = input_image.crop((x + 100, 0, input_image.width, input_image.height))
+            temp.paste(col1, (x, 0))
+            temp.paste(col2, (x + 100, 0))
+    for y in range(0, temp.height, 200):
+        row1 = temp.crop((0, y, temp.width, y + 100))
+        if (y + 200) <= temp.height:
+            row2 = temp.crop((0, y + 100, temp.width, y + 200))
+            output_image.paste(row1, (0, y + 100))
+            output_image.paste(row2, (0, y))
+        else:
+            row2 = temp.crop((0, y + 100, temp.width, temp.height))
+            output_image.paste(row1, (0, y))
+            output_image.paste(row2, (0, y + 100))
+    output_image.save(image_full_path)
+
 
 for manga in mangas:
     chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml').findAll('div',{'class':'chapters_list text-truncate'});
@@ -109,13 +142,22 @@ for manga in mangas:
 
             image_content = scraper.get(image_url).content
 
-            file = open(image_full_path, 'wb')
+            if unscramble is True:
+                scrambled_image = image_full_path + '_scrambled'
+            else:
+                scrambled_image = image_full_path
+
+            file = open(scrambled_image, 'wb')
 
             file.write(image_content)
 
             file.close()
 
-            pages_progress_bar.update(1);
+            if unscramble is True:
+                unscramble_image(scrambled_image)
+                os.remove(scrambled_image)
+
+            pages_progress_bar.update(1)
 
         pages_progress_bar.close()
 
