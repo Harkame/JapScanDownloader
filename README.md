@@ -23,6 +23,8 @@ pip install -r requirements.txt
 
 [lxml](https://github.com/lxml/lxml.git)
 
+[Pillow](https://github.com/python-pillow/Pillow.git)
+
 ## Usage
 
 ### Run
@@ -48,7 +50,7 @@ python japscandownloader/main.py
 -v, --verbose : Activate verbose mod (debug, info, error)
   Example : ... -v
   
--u, --unscramble: unscramble images 
+-u, --unscramble : unscramble images 
   Example : ... -u
 ```
 
