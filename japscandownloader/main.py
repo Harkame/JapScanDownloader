@@ -13,13 +13,15 @@ from unscramble.unscramble import unscramble_image #unscramble method
 JAPSCAN_URL = 'https://www.japscan.to'
 DEFAULT_CONFIG_FILE = './config.yml'
 DEFAULT_DESTINATION_PATH = './mangas'
+DEFAULT_MANGA_FORMAT = 'jpg'
 
 def main():
     config_file = DEFAULT_CONFIG_FILE
     destination_path = DEFAULT_DESTINATION_PATH
+    manga_format = DEFAULT_MANGA_FORMAT
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'cd:hvu', ['config', 'destination_path', 'help', 'verbose', 'unscramble'])
+        opts, args = getopt.getopt(sys.argv[1:], 'cd:hvu', ['config', 'destination_path', 'help', 'verbose'])
     except getopt.GetoptError as err:
         usage()
 
@@ -52,9 +54,13 @@ def main():
     if destination_path is None:
         destination_path = config['destinationPath']
 
+    manga_format = config['mangaFormat']
+
     logging.debug('config_file : %s', config_file)
 
     logging.debug('destination_path : %s', destination_path)
+
+    logging.debug('manga_format : %s', manga_format)
 
     scraper = cfscrape.create_scraper()
 
@@ -101,6 +107,8 @@ def main():
 
                 reverse_image_url = reverse_image_url[0:index]
 
+                # TODO Chapter folder name
+
                 image_path = reverse_image_url[::-1]
 
                 image_full_path = destination_path + image_path
@@ -131,6 +139,8 @@ def main():
                 if unscramble is True:
                     unscramble_image(scrambled_image, image_full_path)
                     os.remove(scrambled_image)
+
+                # TODO manga format
 
                 pages_progress_bar.update(1)
 

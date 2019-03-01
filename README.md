@@ -74,6 +74,9 @@ mangas:
 destinationPath:
   ./mangas/
 
+mangaFormat:
+  pdf
+
 ```
 
 ### Download an manga
@@ -107,4 +110,21 @@ destinationPath:
  ``` yml
 destinationPath:
     F:\data\mangas
+```
+
+### IN DEV
+
+#### Change Manga format
+
+Replace mangaFormat value by desired format
+
+Supported format
++ jpg (default)
++ pdf
++ cbz
+
+
+``` yml
+mangaFormat:
+   pdf
 ```

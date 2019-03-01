@@ -7,3 +7,6 @@ mangas:
 
 destinationPath:
   ./mangas/
+
+mangaFormat:
+  pdf
