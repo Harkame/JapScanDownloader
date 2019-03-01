@@ -1,4 +1,6 @@
-def unscramble_image(scrambled_image):
+from PIL import Image #image modifications
+
+def unscramble_image(scrambled_image, image_full_path):
     input_image = Image.open(scrambled_image)
     temp = Image.new("RGB", input_image.size)
     output_image = Image.new("RGB", input_image.size)

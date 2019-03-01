@@ -1,4 +1,3 @@
-from PIL import Image #image (unscramble)
 from bs4 import BeautifulSoup #html parsing
 import cfscrape #bypass cloudflare
 import errno #makedirs error
@@ -7,7 +6,9 @@ import getopt, sys #get options
 import os #makedirs
 from tqdm import tqdm #progress bar
 from yaml import Loader, load #config file
+
 from usage.usage import usage #usage method
+from unscramble.unscramble import unscramble_image #unscramble method
 
 JAPSCAN_URL = 'https://www.japscan.to'
 DEFAULT_CONFIG_FILE = './config.yml'
@@ -40,7 +41,7 @@ def main():
             logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
             logging.debug('option verbose')
         elif option in ('-u', '--unscramble'):
-            loggin.debug('option unscramble')
+            logging.debug('option unscramble')
             unscramble = True
 
     config_stream = open(config_file, 'r')
@@ -127,7 +128,7 @@ def main():
                 file.close()
 
                 if unscramble is True:
-                    unscramble_image(scrambled_image)
+                    unscramble_image(scrambled_image, image_full_path)
                     os.remove(scrambled_image)
 
                 pages_progress_bar.update(1)
