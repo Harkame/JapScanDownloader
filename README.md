@@ -14,6 +14,7 @@ pip install -r requirements.txt
 ## TODO
 + Choose manga's format (jpg, pdf, cbz)
 + Chapters folders name (not only number)
++ Code covering
 
 ### Dependencies
 
