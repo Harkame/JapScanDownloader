@@ -1,8 +1,9 @@
 mangas:
   - url:
-    https://www.japscan.to/manga/shingeki-no-kyojin/
+      https://www.japscan.to/manga/shingeki-no-kyojin/
   - url:
-    https://www.japscan.to/manga/hunter-x-hunter/
+      https://www.japscan.to/manga/hunter-x-hunter/
+
 
 destinationPath:
   ./mangas/
