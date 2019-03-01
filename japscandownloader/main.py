@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image #image (unscramble)
 from bs4 import BeautifulSoup #html parsing
 import cfscrape #bypass cloudflare
 import errno #makedirs error
@@ -13,154 +13,130 @@ JAPSCAN_URL = 'https://www.japscan.to'
 DEFAULT_CONFIG_FILE = './config.yml'
 DEFAULT_DESTINATION_PATH = './mangas'
 
-config_file = DEFAULT_CONFIG_FILE
-destination_path = DEFAULT_DESTINATION_PATH
+def main():
+    config_file = DEFAULT_CONFIG_FILE
+    destination_path = DEFAULT_DESTINATION_PATH
 
-try:
-    opts, args = getopt.getopt(sys.argv[1:], 'cd:hvu', ['config', 'destination_path', 'help', 'verbose', 'unscramble'])
-except getopt.GetoptError as err:
-    usage()
-
-output = None
-verbose = False
-unscramble = False
-
-for option, argument in opts:
-    if option in ('-c', '--config'):
-        config_file = argument
-        logging.debug('option config_file : %s', config_file)
-    elif option in ('-d', '--destination_path'):
-        destination_path = argument
-        logging.debug('option destinationPath : %s', destination_path)
-    elif option in ('-h', '--help'):
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], 'cd:hvu', ['config', 'destination_path', 'help', 'verbose', 'unscramble'])
+    except getopt.GetoptError as err:
         usage()
-        sys.exit()
-    elif option in('-v', '--verbose'):
-        logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
-        logging.debug('option verbose')
-    elif option in ('-u', '--unscramble'):
-        unscramble = True
 
+    output = None
+    verbose = False
+    unscramble = False
 
-config_stream = open(config_file, 'r')
+    for option, argument in opts:
+        if option in ('-c', '--config'):
+            config_file = argument
+            logging.debug('option config_file : %s', config_file)
+        elif option in ('-d', '--destination_path'):
+            destination_path = argument
+            logging.debug('option destinationPath : %s', destination_path)
+        elif option in ('-h', '--help'):
+            usage()
+            sys.exit()
+        elif option in('-v', '--verbose'):
+            logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
+            logging.debug('option verbose')
+        elif option in ('-u', '--unscramble'):
+            loggin.debug('option unscramble')
+            unscramble = True
 
-config = load(config_stream, Loader=Loader)
+    config_stream = open(config_file, 'r')
 
-config_stream.close()
+    config = load(config_stream, Loader=Loader)
 
-mangas = config['mangas']
+    config_stream.close()
 
-if destination_path is None:
-    destination_path = config['destinationPath']
+    mangas = config['mangas']
 
-logging.debug('config_file : %s', config_file)
+    if destination_path is None:
+        destination_path = config['destinationPath']
 
-logging.debug('destination_path : %s', destination_path)
+    logging.debug('config_file : %s', config_file)
 
-scraper = cfscrape.create_scraper()
+    logging.debug('destination_path : %s', destination_path)
 
+    scraper = cfscrape.create_scraper()
 
-def unscramble_image(scrambled_image):
-    input_image = Image.open(scrambled_image)
-    temp = Image.new("RGB", input_image.size)
-    output_image = Image.new("RGB", input_image.size)
-    for x in range(0, input_image.width, 200):
-        col1 = input_image.crop((x, 0, x + 100, input_image.height))
-        if (x + 200) <= input_image.width:
-            col2 = input_image.crop((x + 100, 0, x + 200, input_image.height))
-            temp.paste(col1, (x + 100, 0))
-            temp.paste(col2, (x, 0))
-        else:
-            col2 = input_image.crop((x + 100, 0, input_image.width, input_image.height))
-            temp.paste(col1, (x, 0))
-            temp.paste(col2, (x + 100, 0))
-    for y in range(0, temp.height, 200):
-        row1 = temp.crop((0, y, temp.width, y + 100))
-        if (y + 200) <= temp.height:
-            row2 = temp.crop((0, y + 100, temp.width, y + 200))
-            output_image.paste(row1, (0, y + 100))
-            output_image.paste(row2, (0, y))
-        else:
-            row2 = temp.crop((0, y + 100, temp.width, temp.height))
-            output_image.paste(row1, (0, y))
-            output_image.paste(row2, (0, y + 100))
-    output_image.save(image_full_path)
+    for manga in mangas:
+        chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml').findAll('div',{'class':'chapters_list text-truncate'});
 
+        chapters_progress_bar = tqdm(total=len(chapter_divs), position=0, bar_format='[{bar}] [{n_fmt}/{total_fmt}]')
 
-for manga in mangas:
-    chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml').findAll('div',{'class':'chapters_list text-truncate'});
+        for chapter_div in chapter_divs:
+            chapter_ref = JAPSCAN_URL + chapter_div.find(href=True)['href']
 
-    chapters_progress_bar = tqdm(total=len(chapter_divs), position=0, bar_format='[{bar}] [{n_fmt}/{total_fmt}]')
+            logging.debug('chapter_ref: %s', chapter_ref)
 
-    for chapter_div in chapter_divs:
-        chapter_ref = JAPSCAN_URL + chapter_div.find(href=True)['href']
+            pages = BeautifulSoup(scraper.get(chapter_ref).content, features='lxml').find('select', {'id': 'pages'})
 
-        logging.debug('chapter_ref: %s', chapter_ref)
+            page_options = pages.findAll('option', value=True)
 
-        pages = BeautifulSoup(scraper.get(chapter_ref).content, features='lxml').find('select', {'id': 'pages'})
+            pages_progress_bar = tqdm(total=len(page_options), position=1, bar_format='[{bar}] [{n_fmt}/{total_fmt}]')
 
-        page_options = pages.findAll('option', value=True)
+            for page_tag in page_options:
+                page_url = JAPSCAN_URL + page_tag['value']
 
-        pages_progress_bar = tqdm(total=len(page_options), position=1, bar_format='[{bar}] [{n_fmt}/{total_fmt}]')
+                logging.debug('page_url: %s', page_url)
 
-        for page_tag in page_options:
-            page_url = JAPSCAN_URL + page_tag['value']
+                page = BeautifulSoup(scraper.get(page_url).content, features='lxml')
 
-            logging.debug('page_url: %s', page_url)
+                image_url = page.find('div', {'id': 'image'})['data-src']
 
-            page = BeautifulSoup(scraper.get(page_url).content, features='lxml')
+                logging.debug('image_url: %s', image_url)
 
-            image_url = page.find('div', {'id': 'image'})['data-src']
+                reverse_image_url = image_url[::-1]
 
-            logging.debug('image_url: %s', image_url)
+                slash_counter = 0
+                index = 0
 
-            reverse_image_url = image_url[::-1]
+                while slash_counter < 3:
+                    if reverse_image_url[index] == '/':
+                        slash_counter += 1
+                    index += 1
 
-            slash_counter = 0
-            index = 0
+                reverse_image_url = reverse_image_url[0:index]
 
-            while slash_counter < 3:
-                if reverse_image_url[index] == '/':
-                    slash_counter += 1
-                index += 1
+                image_path = reverse_image_url[::-1]
 
-            reverse_image_url = reverse_image_url[0:index]
+                image_full_path = destination_path + image_path
 
-            image_path = reverse_image_url[::-1]
+                logging.debug('image_full_path : %s', image_full_path)
 
-            image_full_path = destination_path + image_path
+                if not os.path.exists(os.path.dirname(image_full_path)):
+                    try:
+                        os.makedirs(os.path.dirname(image_full_path))
+                        logging.debug('File created : %s', image_full_path)
+                    except OSError as exc:
+                        if exc.errno != errno.EEXIST:
+                            raise
 
-            logging.debug('image_full_path : %s', image_full_path)
+                image_content = scraper.get(image_url).content
 
-            if not os.path.exists(os.path.dirname(image_full_path)):
-                try:
-                    os.makedirs(os.path.dirname(image_full_path))
-                    logging.debug('File created : %s', image_full_path)
-                except OSError as exc:
-                    if exc.errno != errno.EEXIST:
-                        raise
+                if unscramble is True:
+                    scrambled_image = image_full_path + '_scrambled'
+                else:
+                    scrambled_image = image_full_path
 
-            image_content = scraper.get(image_url).content
+                file = open(scrambled_image, 'wb')
 
-            if unscramble is True:
-                scrambled_image = image_full_path + '_scrambled'
-            else:
-                scrambled_image = image_full_path
+                file.write(image_content)
 
-            file = open(scrambled_image, 'wb')
+                file.close()
 
-            file.write(image_content)
+                if unscramble is True:
+                    unscramble_image(scrambled_image)
+                    os.remove(scrambled_image)
 
-            file.close()
+                pages_progress_bar.update(1)
 
-            if unscramble is True:
-                unscramble_image(scrambled_image)
-                os.remove(scrambled_image)
+            pages_progress_bar.close()
 
-            pages_progress_bar.update(1)
+            chapters_progress_bar.update(1)
 
-        pages_progress_bar.close()
+        chapters_progress_bar.close()
 
-        chapters_progress_bar.update(1)
-
-    chapters_progress_bar.close()
+if __name__ == "__main__":
+    main()

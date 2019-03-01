@@ -7,5 +7,7 @@ def usage():
     print('\t\tDefault : ./mangas')
     print('\t-h, --help : Print this help')
     print('\t\tExample : ... -h')
+    print('\t-u, --unscramble : Unscramble images')
+    print('\t\tExample : ... -u')
     print('\t-v, --verbose : Activate verbose mod (debug, info, error)')
     print('\t\tExample : ... -v')
