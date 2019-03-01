@@ -40,9 +40,6 @@ def main():
         elif option in('-v', '--verbose'):
             logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
             logging.debug('option verbose')
-        elif option in ('-u', '--unscramble'):
-            logging.debug('option unscramble')
-            unscramble = True
 
     config_stream = open(config_file, 'r')
 
@@ -87,6 +84,10 @@ def main():
                 image_url = page.find('div', {'id': 'image'})['data-src']
 
                 logging.debug('image_url: %s', image_url)
+
+                if 'clel' in image_url:
+                    logging.debug('scrambled image')
+                    unscramble = True
 
                 reverse_image_url = image_url[::-1]
 

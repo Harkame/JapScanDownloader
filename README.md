@@ -13,8 +13,6 @@ pip install -r requirements.txt
 
 ## TODO
 + Choose manga's format (jpg, pdf, cbz)
-+ Auto-unscramble
-  + Check URL (clel)
 + Chapters folders name (not only number)
 
 ### Dependencies
@@ -55,9 +53,6 @@ python japscandownloader/main.py
 
 -v, --verbose : Activate verbose mod (debug, info, error)
   Example : ... -v
-
--u, --unscramble : Unscramble images
-  Example : ... -u
 ```
 
 ### How it work
