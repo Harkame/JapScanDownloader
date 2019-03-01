@@ -11,6 +11,12 @@
 pip install -r requirements.txt
 ```
 
+## TODO
++ Choose manga's format (jpg, pdf, cbz)
++ Auto-unscramble
+  + Check URL (clel)
++ Chapters folders name (not only number)
+
 ### Dependencies
 
 [cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape)
@@ -44,13 +50,13 @@ python japscandownloader/main.py
   Example : ... -d /home/harkame/mangas
   Default : ./mangas
 
--h, --help : Print this help
+-h, --help : Print this help and exit
   Example : ... -h
 
 -v, --verbose : Activate verbose mod (debug, info, error)
   Example : ... -v
-  
--u, --unscramble : unscramble images 
+
+-u, --unscramble : Unscramble images
   Example : ... -u
 ```
 
