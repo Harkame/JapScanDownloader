@@ -10,6 +10,9 @@ from yaml import Loader, load #config file
 from usage.usage import usage #usage method
 from unscramble.unscramble import unscramble_image #unscramble method
 
+from manga_format.manga_format_cbz import create_cbz #manga format cbz archive
+from manga_format.manga_format_pdf import create_pdf #manga format pdf
+
 JAPSCAN_URL = 'https://www.japscan.to'
 DEFAULT_CONFIG_FILE = './config.yml'
 DEFAULT_DESTINATION_PATH = './mangas'
@@ -21,10 +24,10 @@ def main():
     manga_format = DEFAULT_MANGA_FORMAT
 
     try:
-        opts = getopt.getopt(sys.argv[1:], 'cd:hvu', ['config', 'destination_path', 'help', 'verbose'])
+        opts, args = getopt.getopt(sys.argv[1:], 'cd:hvu', ['config', 'destination_path', 'help', 'verbose'])
     except getopt.GetoptError as err:
         usage()
-        
+
     unscramble = False
 
     for option, argument in opts:
@@ -138,7 +141,10 @@ def main():
                     unscramble_image(scrambled_image, image_full_path)
                     os.remove(scrambled_image)
 
-                # TODO manga format
+                elif manga_format == 'pdf':
+                    create_pdf()
+                elif manga_format == 'cbz':
+                    create_cbz()
 
                 pages_progress_bar.update(1)
 
