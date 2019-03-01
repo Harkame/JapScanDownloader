@@ -21,12 +21,10 @@ def main():
     manga_format = DEFAULT_MANGA_FORMAT
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'cd:hvu', ['config', 'destination_path', 'help', 'verbose'])
+        opts = getopt.getopt(sys.argv[1:], 'cd:hvu', ['config', 'destination_path', 'help', 'verbose'])
     except getopt.GetoptError as err:
         usage()
-
-    output = None
-    verbose = False
+        
     unscramble = False
 
     for option, argument in opts:
