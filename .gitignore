@@ -1,3 +1,4 @@
 mangas/
 __pycache__/
 .coverage
+config.yml
