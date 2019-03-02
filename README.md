@@ -120,7 +120,7 @@ destinationPath:
 Replace mangaFormat value by desired format
 
 Supported format
-+ jpg (default)
++ png (default)
 + pdf
 + cbz
 
