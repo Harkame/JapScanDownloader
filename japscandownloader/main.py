@@ -81,6 +81,9 @@ def main():
 
             pages_progress_bar = tqdm(total=len(page_options), position=1, bar_format='[{bar}] [{n_fmt}/{total_fmt}]')
 
+            chapter_path = ''
+            chapter_number = ''
+
             for page_tag in page_options:
                 page_url = JAPSCAN_URL + page_tag['value']
 
@@ -112,9 +115,23 @@ def main():
 
                 image_path = reverse_image_url[::-1]
 
+                logging.debug('image_path : %s', image_path)
+
                 image_full_path = destination_path + image_path
 
                 logging.debug('image_full_path : %s', image_full_path)
+
+                data = image_path.split('/')
+
+                logging.debug('data : %s', str(data))
+
+                manga_name = data[1]
+                chapter_numberr = data[2]
+                fiel_name = data[3];
+
+                chapter_path = destination_path + '/' + manga_name + '/' + chapter_number + '/'
+                chapter_number = chapter_numberr
+
 
                 if not os.path.exists(os.path.dirname(image_full_path)):
                     try:
@@ -141,12 +158,13 @@ def main():
                     unscramble_image(scrambled_image, image_full_path)
                     os.remove(scrambled_image)
 
-                elif manga_format == 'pdf':
-                    create_pdf()
-                elif manga_format == 'cbz':
-                    create_cbz()
-
                 pages_progress_bar.update(1)
+
+            if manga_format == 'pdf':
+                create_pdf(chapter_path, chapter_path + chapter_number + '.pdf')
+            elif manga_format == 'cbz':
+                create_cbz()
+
 
             pages_progress_bar.close()
 
