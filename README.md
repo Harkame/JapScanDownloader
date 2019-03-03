@@ -12,7 +12,6 @@ pip install -r requirements.txt
 ```
 
 ## TODO
-+ Choose manga's format (jpg, pdf, cbz)
 + Chapters folders name (not only number)
 + Code coverage + test
 
@@ -112,8 +111,6 @@ destinationPath:
 destinationPath:
     F:\data\mangas
 ```
-
-### IN DEV
 
 #### Change Manga format
 

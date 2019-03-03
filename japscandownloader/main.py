@@ -14,8 +14,8 @@ from manga_format.manga_format_cbz import create_cbz #manga format cbz archive
 from manga_format.manga_format_pdf import create_pdf #manga format pdf
 
 JAPSCAN_URL = 'https://www.japscan.to'
-DEFAULT_CONFIG_FILE = './config.yml'
-DEFAULT_DESTINATION_PATH = './mangas'
+DEFAULT_CONFIG_FILE = os.path.join('.', 'config.yml')
+DEFAULT_DESTINATION_PATH = os.path.join('.', 'mangas')
 DEFAULT_MANGA_FORMAT = 'jpg'
 
 def main():
@@ -68,7 +68,7 @@ def main():
     for manga in mangas:
         chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml').findAll('div',{'class':'chapters_list text-truncate'});
 
-        chapters_progress_bar = tqdm(total=len(chapter_divs), position=0, bar_format='[{bar}] [{n_fmt}/{total_fmt}]')
+        chapters_progress_bar = tqdm(total=len(chapter_divs), position=0, bar_format='[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]')
 
         for chapter_div in chapter_divs:
             chapter_ref = JAPSCAN_URL + chapter_div.find(href=True)['href']
@@ -79,7 +79,7 @@ def main():
 
             page_options = pages.findAll('option', value=True)
 
-            pages_progress_bar = tqdm(total=len(page_options), position=1, bar_format='[{bar}] [{n_fmt}/{total_fmt}]')
+            pages_progress_bar = tqdm(total=len(page_options), position=1, bar_format='[{bar}] - [{n_fmt}/{total_fmt}] - [pages]')
 
             chapter_path = ''
             chapter_number = ''
@@ -129,9 +129,9 @@ def main():
                 chapter_numberr = data[2]
                 fiel_name = data[3];
 
-                chapter_path = destination_path + '/' + manga_name + '/' + chapter_number + '/'
-                chapter_number = chapter_numberr
 
+                chapter_path = os.path.join(destination_path, manga_name, chapter_number)
+                chapter_number = chapter_numberr
 
                 if not os.path.exists(os.path.dirname(image_full_path)):
                     try:
@@ -161,9 +161,9 @@ def main():
                 pages_progress_bar.update(1)
 
             if manga_format == 'pdf':
-                create_pdf(chapter_path, chapter_path + chapter_number + '.pdf')
+                create_pdf(chapter_path, os.path.join(chapter_path, chapter_number + '.pdf'))
             elif manga_format == 'cbz':
-                create_cbz()
+                create_cbz(chapter_path, os.path.join(chapter_path, chapter_number + '.cbz'))
 
 
             pages_progress_bar.close()

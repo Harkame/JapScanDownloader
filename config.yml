@@ -6,7 +6,6 @@ mangas:
   - url:
       https://www.japscan.to/manga/hunter-x-hunter/
 
-
 destinationPath:
   ./mangas/
 
