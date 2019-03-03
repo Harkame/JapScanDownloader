@@ -13,7 +13,9 @@ pip install -r requirements.txt
 
 ## TODO
 + Chapters folders name (not only number)
-+ Code coverage + test
++ Code coverage, test
++ Don't download already downloaded chapter
++ Reverse option (Download chapters from first to last)
 
 ### Dependencies
 
