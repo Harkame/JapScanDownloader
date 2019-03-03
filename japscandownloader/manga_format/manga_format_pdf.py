@@ -1,19 +1,19 @@
-from PIL import Image
-import glob
+from PIL import Image #image
+import glob #list image
 import logging #logs
-import os
+import os #remove=
 
+def create_pdf(path, pdf_file_name):
+    logging.debug('path : %s', path)
+    logging.debug('pdf_file_name : %s', pdf_file_name)
 
-def create_pdf(path, file_name):
     images = []
-    images_name = []
 
-    for image_name in glob.glob(path + '*.png'):
-        image = Image.open(image_name)
-        images.append(image.convert("RGB"))
-        images_name.append(image_name)
+    for file in os.listdir(path):
+        logging.debug('file : %s', file)
+        if file.endswith('.png'):
+            image = Image.open(os.path.join(path, file))
+            images.append(image.convert("RGB"))
+            os.remove(os.path.join(path, file))
 
-    images[0].save(file_name, "PDF" ,resolution=100.0, save_all=True, append_images=images[1:])
-
-    for image_name in images_name:
-        os.remove(image_name)
+    images[0].save(pdf_file_name, "PDF" ,resolution=100.0, save_all=True, append_images=images[1:])
