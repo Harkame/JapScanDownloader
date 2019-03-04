@@ -2,7 +2,9 @@ from bs4 import BeautifulSoup #html parsing
 import cfscrape #bypass cloudflare
 import errno #makedirs error
 import logging #logs
-import getopt, sys #get options
+import getopt
+import sys #exit
+import argparse
 import os #makedirs
 from tqdm import tqdm #progress bar
 from yaml import Loader, load #config file
@@ -25,12 +27,45 @@ manga_format = None
 mangas = []
 
 def get_options():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '-c', '--config',
+        help='Set config file',
+        action='store_const', dest='loglevel', const=logging.DEBUG,
+        default=logging.WARNING,
+    )
+
+    parser.add_argument(
+        '-d', '--destination_path',
+        help='Set destination path of downloaded mangas',
+        action='store_const', dest='loglevel', const=logging.DEBUG,
+        default=logging.WARNING,
+    )
+
+    parser.add_argument(
+        '-f', '--format',
+        help='Set format of downloaded mangas',
+        action='store_const', dest='loglevel', const=logging.DEBUG,
+        default=logging.WARNING,
+    )
+
+    parser.add_argument(
+        '-v', '--verbose',
+        help='Active verbose mode',
+        action='store_const', dest='loglevel', const=logging.DEBUG# DEBUG: ,
+    )
+
+    args = parser.parse_args()
+    logging.basicConfig(level=args.loglevel)
+
+    '''
     try:
         options, arguments = getopt.getopt(sys.argv[1:], 'cdf:hv', ['config', 'destination_path', 'format', 'help', 'verbose'])
-        logging.debug('arguments : %s', arguments)
-    except getopt.GetoptError as error:
-        logging.error(error)
+        print(arguments)
+    except getopt.GetoptError as exception:
+        print(exception)
         usage()
+        sys.exit()
 
     global config_file
     global destination_path
@@ -39,19 +74,16 @@ def get_options():
     for option, argument in options:
         if option in ('-c', '--config'):
             config_file = argument
-            logging.debug('option config_file : %s', config_file)
         elif option in ('-d', '--destination_path'):
             destination_path = argument
-            logging.debug('option destinationPath : %s', destination_path)
         elif option in ('-f', '--format'):
             manga_format = argument
-            logging.debug('option mangaFormat : %s', manga_format)
         elif option in ('-h', '--help'):
             usage()
             sys.exit()
         elif option in('-v', '--verbose'):
             logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
-            logging.debug('option verbose')
+        '''
 
 def get_config():
     global config_file
@@ -70,19 +102,16 @@ def get_config():
 
     if config['mangas'] is not None:
         mangas.extend(config['mangas'])
-        logging.debug('mangas : %s', mangas)
 
     if destination_path is None:
         if config['destinationPath'] is not None:
             destination_path = config['destinationPath']
-            logging.debug('destination_path : %s', destination_path)
         else:
             destination_path = DEFAULT_DESTINATION_PATH
 
     if manga_format is None:
         if config['mangaFormat'] is not None:
             manga_format = config['mangaFormat']
-            logging.debug('manga_format : %s', manga_format)
         else:
             manga_format = DEFAULT_MANGA_FORMAT
 
@@ -94,6 +123,10 @@ def main():
     global mangas
     global destination_path
     global manga_format
+
+    logging.debug(mangas)
+    logging.debug(destination_path)
+    logging.debug(manga_format)
 
     scraper = cfscrape.create_scraper()
 
@@ -206,5 +239,5 @@ def main():
 
         chapters_progress_bar.close()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
