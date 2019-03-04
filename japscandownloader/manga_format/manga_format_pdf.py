@@ -1,5 +1,4 @@
 from PIL import Image #image
-import glob #list image
 import logging #logs
 import os #remove=
 

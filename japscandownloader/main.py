@@ -18,17 +18,21 @@ DEFAULT_CONFIG_FILE = os.path.join('.', 'config.yml')
 DEFAULT_DESTINATION_PATH = os.path.join('.', 'mangas')
 DEFAULT_MANGA_FORMAT = 'jpg'
 
-def main():
-    config_file = DEFAULT_CONFIG_FILE
-    destination_path = DEFAULT_DESTINATION_PATH
-    manga_format = DEFAULT_MANGA_FORMAT
+config_file = None
+destination_path = None
+manga_format = None
 
+mangas = []
+
+def get_options():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'cd:hvu', ['config', 'destination_path', 'help', 'verbose'])
+        opts, args = getopt.getopt(sys.argv[1:], 'cdf:hv', ['config', 'destination_path', 'format', 'help', 'verbose'])
     except getopt.GetoptError as err:
         usage()
 
-    unscramble = False
+    global config_file
+    global destination_path
+    global manga_format
 
     for option, argument in opts:
         if option in ('-c', '--config'):
@@ -37,6 +41,9 @@ def main():
         elif option in ('-d', '--destination_path'):
             destination_path = argument
             logging.debug('option destinationPath : %s', destination_path)
+        elif option in ('-f', '--format'):
+            manga_format = argument
+            logging.debug('option mangaFormat : %s', manga_format)
         elif option in ('-h', '--help'):
             usage()
             sys.exit()
@@ -44,24 +51,47 @@ def main():
             logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
             logging.debug('option verbose')
 
+def get_config():
+    global config_file
+    global destination_path
+    global manga_format
+    global mangas
+
+    if config_file is None:
+        config_file = DEFAULT_CONFIG_FILE
+
     config_stream = open(config_file, 'r')
 
     config = load(config_stream, Loader=Loader)
 
     config_stream.close()
 
-    mangas = config['mangas']
+    if config['mangas'] is not None:
+        mangas.extend(config['mangas'])
+        logging.debug('mangas : %s', mangas)
 
     if destination_path is None:
-        destination_path = config['destinationPath']
+        if config['destinationPath'] is not None:
+            destination_path = config['destinationPath']
+            logging.debug('destination_path : %s', destination_path)
+        else:
+            destination_path = DEFAULT_DESTINATION_PATH
 
-    manga_format = config['mangaFormat']
+    if manga_format is None:
+        if config['mangaFormat'] is not None:
+            manga_format = config['mangaFormat']
+            logging.debug('manga_format : %s', manga_format)
+        else:
+            manga_format = DEFAULT_MANGA_FORMAT
 
-    logging.debug('config_file : %s', config_file)
+def main():
+    get_options()
 
-    logging.debug('destination_path : %s', destination_path)
+    get_config()
 
-    logging.debug('manga_format : %s', manga_format)
+    global mangas
+    global destination_path
+    global manga_format
 
     scraper = cfscrape.create_scraper()
 
@@ -71,9 +101,15 @@ def main():
         chapters_progress_bar = tqdm(total=len(chapter_divs), position=0, bar_format='[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]')
 
         for chapter_div in chapter_divs:
-            chapter_ref = JAPSCAN_URL + chapter_div.find(href=True)['href']
+            chapter_tag = chapter_div.find(href=True)
 
-            logging.debug('chapter_ref: %s', chapter_ref)
+            chapter_ref = JAPSCAN_URL + chapter_tag['href']
+
+            chapter_name = chapter_tag.contents[0].replace('\t', '').replace('\n', '')
+
+            logging.debug('chapter_ref : %s', chapter_ref)
+
+            logging.debug('chapter_name : %s', chapter_name)
 
             pages = BeautifulSoup(scraper.get(chapter_ref).content, features='lxml').find('select', {'id': 'pages'})
 
@@ -82,7 +118,6 @@ def main():
             pages_progress_bar = tqdm(total=len(page_options), position=1, bar_format='[{bar}] - [{n_fmt}/{total_fmt}] - [pages]')
 
             chapter_path = ''
-            chapter_number = ''
 
             for page_tag in page_options:
                 page_url = JAPSCAN_URL + page_tag['value']
@@ -94,6 +129,8 @@ def main():
                 image_url = page.find('div', {'id': 'image'})['data-src']
 
                 logging.debug('image_url: %s', image_url)
+
+                unscramble = False
 
                 if 'clel' in image_url:
                     logging.debug('scrambled image')
@@ -111,8 +148,6 @@ def main():
 
                 reverse_image_url = reverse_image_url[0:index]
 
-                # TODO Chapter folder name
-
                 image_path = reverse_image_url[::-1]
 
                 logging.debug('image_path : %s', image_path)
@@ -126,12 +161,10 @@ def main():
                 logging.debug('data : %s', str(data))
 
                 manga_name = data[1]
-                chapter_numberr = data[2]
-                fiel_name = data[3];
-
+                chapter_number = data[2]
+                file_name = data[3];
 
                 chapter_path = os.path.join(destination_path, manga_name, chapter_number)
-                chapter_number = chapter_numberr
 
                 if not os.path.exists(os.path.dirname(image_full_path)):
                     try:
@@ -164,7 +197,6 @@ def main():
                 create_pdf(chapter_path, os.path.join(chapter_path, chapter_number + '.pdf'))
             elif manga_format == 'cbz':
                 create_cbz(chapter_path, os.path.join(chapter_path, chapter_number + '.cbz'))
-
 
             pages_progress_bar.close()
 
