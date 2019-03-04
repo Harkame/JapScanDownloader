@@ -12,10 +12,10 @@ pip install -r requirements.txt
 ```
 
 ## TODO
-+ Chapters folders name (not only number)
-+ Code coverage, test
-+ Don't download already downloaded chapter
-+ Reverse option (Download chapters from first to last)
++   Chapters folders name (not only number)
++   Code coverage, test
++   Don't download already downloaded chapter
++   Reverse option (Download chapters from first to last)
 
 ### Dependencies
 
@@ -124,9 +124,9 @@ destinationPath:
 Replace mangaFormat value by desired format
 
 Supported format
-+ png (default)
-+ pdf
-+ cbz
++   png (default)
++   pdf
++   cbz
 
 
 ``` yml
