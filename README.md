@@ -51,9 +51,9 @@ python japscandownloader/main.py
   Default : ./mangas
 
 -f, --format <mangaFormat> : Change format of downloaded mangas
-supported format : png, pdf, cbz
-Example : ... -f pdf
-Default : png
+  supported format : png, pdf, cbz
+  Example : ... -f pdf
+  Default : png
 
 -h, --help : Print this help and exit
   Example : ... -h
