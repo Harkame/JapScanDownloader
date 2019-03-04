@@ -50,6 +50,11 @@ python japscandownloader/main.py
   Example : ... -d /home/harkame/mangas
   Default : ./mangas
 
+-f, --format <mangaFormat> : Change format of downloaded mangas
+supported format : png, pdf, cbz
+Example : ... -f pdf
+Default : png
+
 -h, --help : Print this help and exit
   Example : ... -h
 
