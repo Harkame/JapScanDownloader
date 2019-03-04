@@ -17,8 +17,8 @@ pip install -r requirements.txt
 +   Chapters folders name (not only number)
 +   Code coverage, test
 +   Don't download already downloaded chapter
-+   Reverse option (Download chapters from first to last)
-+   Option : Don't remove downloaded pnn (pdf, cbz)
++   Option : Reverse exploration (Download chapters from first to last)
++   Option : Don't remove downloaded png (pdf, cbz)
 
 ### Bug
 +   Sometimes japscan website exploration don't start
