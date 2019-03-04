@@ -12,10 +12,17 @@ pip install -r requirements.txt
 ```
 
 ## TODO
+
+### Feature, etc
 +   Chapters folders name (not only number)
 +   Code coverage, test
 +   Don't download already downloaded chapter
 +   Reverse option (Download chapters from first to last)
++   Option : Don't remove downloaded pnn (pdf, cbz)
+
+### Bug
++   Sometimes japscan website exploration don't start
+    +   cfscrape problem ?
 
 ### Dependencies
 
@@ -127,7 +134,6 @@ Supported format
 +   png (default)
 +   pdf
 +   cbz
-
 
 ``` yml
 mangaFormat:

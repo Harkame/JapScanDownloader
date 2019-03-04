@@ -26,15 +26,17 @@ mangas = []
 
 def get_options():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'cdf:hv', ['config', 'destination_path', 'format', 'help', 'verbose'])
-    except getopt.GetoptError as err:
+        options, arguments = getopt.getopt(sys.argv[1:], 'cdf:hv', ['config', 'destination_path', 'format', 'help', 'verbose'])
+        logging.debug('arguments : %s', arguments)
+    except getopt.GetoptError as error:
+        logging.error(error)
         usage()
 
     global config_file
     global destination_path
     global manga_format
 
-    for option, argument in opts:
+    for option, argument in options:
         if option in ('-c', '--config'):
             config_file = argument
             logging.debug('option config_file : %s', config_file)
