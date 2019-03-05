@@ -2,12 +2,13 @@ from bs4 import BeautifulSoup #html parsing
 import cfscrape #bypass cloudflare
 import errno #makedirs error
 import logging #logs
-import getopt, sys #get options
+import getopt
+import sys #exit
+import argparse
 import os #makedirs
 from tqdm import tqdm #progress bar
 from yaml import Loader, load #config file
 
-from usage.usage import usage #usage method
 from unscramble.unscramble import unscramble_image #unscramble method
 
 from manga_format.manga_format_cbz import create_cbz #manga format cbz archive
@@ -24,34 +25,72 @@ manga_format = None
 
 mangas = []
 
-def get_options():
-    try:
-        options, arguments = getopt.getopt(sys.argv[1:], 'cdf:hv', ['config', 'destination_path', 'format', 'help', 'verbose'])
-        logging.debug('arguments : %s', arguments)
-    except getopt.GetoptError as error:
-        logging.error(error)
-        usage()
+logger = None
 
+stream_handler = None
+
+def get_options():
     global config_file
     global destination_path
     global manga_format
 
-    for option, argument in options:
-        if option in ('-c', '--config'):
-            config_file = argument
-            logging.debug('option config_file : %s', config_file)
-        elif option in ('-d', '--destination_path'):
-            destination_path = argument
-            logging.debug('option destinationPath : %s', destination_path)
-        elif option in ('-f', '--format'):
-            manga_format = argument
-            logging.debug('option mangaFormat : %s', manga_format)
-        elif option in ('-h', '--help'):
-            usage()
-            sys.exit()
-        elif option in('-v', '--verbose'):
-            logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
-            logging.debug('option verbose')
+    global logger
+
+    argument_parser = argparse.ArgumentParser()
+
+    argument_parser.add_argument(
+        '-c', '--config_file',
+        help='Set config file',
+        type=str,
+    )
+
+    argument_parser.add_argument(
+        '-d', '--destination_path',
+        help='Set destination path of downloaded mangas',
+        type=str,
+    )
+
+    argument_parser.add_argument(
+        '-f', '--format',
+        help='Set format of downloaded mangas',
+        default=logging.WARNING,
+        type=str,
+    )
+
+    argument_parser.add_argument(
+        '-v', '--verbose',
+        help='Active verbose mode, support different level',
+        action='count',
+    )
+
+    arguments = argument_parser.parse_args()
+
+    if arguments.verbose:
+        print(arguments.verbose)
+        logger = logging.getLogger()
+        logger.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
+        stream_handler = logging.StreamHandler()
+        stream_handler.setFormatter(formatter)
+
+        if arguments.verbose == 0:
+            logger.setLevel(logging.NOTSET)
+        elif arguments.verbose == 1:
+            logger.setLevel(logging.DEBUG)
+        elif arguments.verbose == 2:
+            logger.setLevel(logging.INFO)
+        elif arguments.verbose == 3:
+            logger.setLevel(logging.WARNING)
+        elif arguments.verbose == 4:
+            logger.setLevel(logging.ERROR)
+        elif arguments.verbose == 5:
+            logger.setLevel(logging.CRITICAL)
+
+        logger.addHandler(stream_handler)
+
+    config_file = arguments.config_file
+    destination_path = arguments.destination_path
+    manga_format = arguments.format
 
 def get_config():
     global config_file
@@ -70,19 +109,16 @@ def get_config():
 
     if config['mangas'] is not None:
         mangas.extend(config['mangas'])
-        logging.debug('mangas : %s', mangas)
 
     if destination_path is None:
         if config['destinationPath'] is not None:
             destination_path = config['destinationPath']
-            logging.debug('destination_path : %s', destination_path)
         else:
             destination_path = DEFAULT_DESTINATION_PATH
 
     if manga_format is None:
         if config['mangaFormat'] is not None:
             manga_format = config['mangaFormat']
-            logging.debug('manga_format : %s', manga_format)
         else:
             manga_format = DEFAULT_MANGA_FORMAT
 
@@ -94,6 +130,10 @@ def main():
     global mangas
     global destination_path
     global manga_format
+
+    logger.debug(mangas)
+    logger.debug(destination_path)
+    logger.debug(manga_format)
 
     scraper = cfscrape.create_scraper()
 
@@ -109,9 +149,9 @@ def main():
 
             chapter_name = chapter_tag.contents[0].replace('\t', '').replace('\n', '')
 
-            logging.debug('chapter_ref : %s', chapter_ref)
+            logger.debug('chapter_ref : %s', chapter_ref)
 
-            logging.debug('chapter_name : %s', chapter_name)
+            logger.debug('chapter_name : %s', chapter_name)
 
             pages = BeautifulSoup(scraper.get(chapter_ref).content, features='lxml').find('select', {'id': 'pages'})
 
@@ -124,18 +164,18 @@ def main():
             for page_tag in page_options:
                 page_url = JAPSCAN_URL + page_tag['value']
 
-                logging.debug('page_url: %s', page_url)
+                logger.debug('page_url: %s', page_url)
 
                 page = BeautifulSoup(scraper.get(page_url).content, features='lxml')
 
                 image_url = page.find('div', {'id': 'image'})['data-src']
 
-                logging.debug('image_url: %s', image_url)
+                logger.debug('image_url: %s', image_url)
 
                 unscramble = False
 
                 if 'clel' in image_url:
-                    logging.debug('scrambled image')
+                    logger.debug('scrambled image')
                     unscramble = True
 
                 reverse_image_url = image_url[::-1]
@@ -152,15 +192,15 @@ def main():
 
                 image_path = reverse_image_url[::-1]
 
-                logging.debug('image_path : %s', image_path)
+                logger.debug('image_path : %s', image_path)
 
                 image_full_path = destination_path + image_path
 
-                logging.debug('image_full_path : %s', image_full_path)
+                logger.debug('image_full_path : %s', image_full_path)
 
                 data = image_path.split('/')
 
-                logging.debug('data : %s', str(data))
+                logger.debug('data : %s', str(data))
 
                 manga_name = data[1]
                 chapter_number = data[2]
@@ -171,7 +211,7 @@ def main():
                 if not os.path.exists(os.path.dirname(image_full_path)):
                     try:
                         os.makedirs(os.path.dirname(image_full_path))
-                        logging.debug('File created : %s', image_full_path)
+                        logger.debug('File created : %s', image_full_path)
                     except OSError as exc:
                         if exc.errno != errno.EEXIST:
                             raise
@@ -206,5 +246,5 @@ def main():
 
         chapters_progress_bar.close()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
