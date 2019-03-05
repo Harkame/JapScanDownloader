@@ -49,24 +49,15 @@ python japscandownloader/main.py
 ### Options
 
 ``` bash
--c, --config_file <configFile> : Set config file
-  Example : ... -c /home/harkame/config.yml
-  Default : ./config_file.yml
-
--d, --destination_path <destinationPath> : Set destination path where download mangas
-  Example : ... -d /home/harkame/mangas
-  Default : ./mangas
-
--f, --format <mangaFormat> : Change format of downloaded mangas
-  supported format : png, pdf, cbz
-  Example : ... -f pdf
-  Default : png
-
--h, --help : Print this help and exit
-  Example : ... -h
-
--v, --verbose : Activate verbose mod (debug, info, error)
-  Example : ... -v
+optional arguments:
+  -h, --help            show this help message and exit
+  -c CONFIG_FILE, --config_file CONFIG_FILE
+                        Set config file
+  -d DESTINATION_PATH, --destination_path DESTINATION_PATH
+                        Set destination path of downloaded mangas
+  -f FORMAT, --format FORMAT
+                        Set format of downloaded mangas
+  -v, --verbose         Active verbose mode, support different level
 ```
 
 ### How it work
