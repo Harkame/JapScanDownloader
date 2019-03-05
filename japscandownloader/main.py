@@ -2,9 +2,7 @@ from bs4 import BeautifulSoup #html parsing
 import cfscrape #bypass cloudflare
 import errno #makedirs error
 import logging #logs
-import getopt
-import sys #exit
-import argparse
+import argparse #argument parser
 import os #makedirs
 from tqdm import tqdm #progress bar
 from yaml import Loader, load #config file
