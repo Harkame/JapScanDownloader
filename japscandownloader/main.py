@@ -2,9 +2,9 @@ from bs4 import BeautifulSoup #html parsing
 import cfscrape #bypass cloudflare
 import errno #makedirs error
 import os #makedirs, path, etc
-import sys
 from tqdm import tqdm #progress bar
 import logging #logs
+import sys
 
 from unscramble.unscramble import unscramble_image #unscramble method
 
@@ -13,8 +13,8 @@ from manga_format.manga_format_pdf import create_pdf #manga format pdf
 
 import config.config as config #all global variables and constants
 
-from helper.config_helper import get_config
-from helper.argument_helper import get_arguments
+from helper.config_helper import get_config #helper config
+from helper.argument_helper import get_arguments #helper arguments
 
 def main():
     config.logger = logging.getLogger()
@@ -28,6 +28,8 @@ def main():
     config.logger.debug('manga_format : %s', config.manga_format)
 
     scraper = cfscrape.create_scraper()
+
+    sys.exit()
 
     for manga in config.mangas:
         chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml').findAll('div',{'class':'chapters_list text-truncate'});
