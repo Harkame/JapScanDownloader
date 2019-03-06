@@ -7,13 +7,13 @@ def get_arguments():
     argument_parser = argparse.ArgumentParser()
 
     argument_parser.add_argument(
-        '-c', '--config.config_file',
+        '-c', '--config_file',
         help='Set config file',
         type=str,
     )
 
     argument_parser.add_argument(
-        '-d', '--config.destination_path',
+        '-d', '--destination_path',
         help='Set destination path of downloaded config.mangas',
         type=str,
     )
@@ -21,7 +21,6 @@ def get_arguments():
     argument_parser.add_argument(
         '-f', '--format',
         help='Set format of downloaded config.mangas',
-        default=logging.WARNING,
         type=str,
     )
 
@@ -35,9 +34,8 @@ def get_arguments():
 
     if arguments.verbose:
         print(arguments.verbose)
-        config.logger = logging.getLogger()
         config.logger.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
+        formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(module)s :: %(lineno)s :: %(funcName)s :: %(message)s')
         stream_handler = logging.StreamHandler()
         stream_handler.setFormatter(formatter)
 
@@ -55,3 +53,12 @@ def get_arguments():
             config.logger.setLevel(logging.CRITICAL)
 
         config.logger.addHandler(stream_handler)
+
+    if arguments.config_file:
+        config.config_file = arguments.config_file
+
+    if arguments.destination_path:
+        config.destination_path = arguments.destination_path
+
+    if arguments.format:
+        config.manga_format = arguments.format

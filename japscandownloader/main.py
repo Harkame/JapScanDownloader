@@ -2,7 +2,9 @@ from bs4 import BeautifulSoup #html parsing
 import cfscrape #bypass cloudflare
 import errno #makedirs error
 import os #makedirs, path, etc
+import sys
 from tqdm import tqdm #progress bar
+import logging #logs
 
 from unscramble.unscramble import unscramble_image #unscramble method
 
@@ -15,13 +17,15 @@ from helper.config_helper import get_config
 from helper.argument_helper import get_arguments
 
 def main():
+    config.logger = logging.getLogger()
+
     get_arguments()
 
     get_config()
 
-    config.logger.debug(config.mangas)
-    config.logger.debug(config.destination_path)
-    config.logger.debug(config.manga_format)
+    config.logger.debug('mangas : %s', config.mangas)
+    config.logger.debug('destination_path : %s', config.destination_path)
+    config.logger.debug('manga_format : %s', config.manga_format)
 
     scraper = cfscrape.create_scraper()
 
@@ -33,7 +37,7 @@ def main():
         for chapter_div in chapter_divs:
             chapter_tag = chapter_div.find(href=True)
 
-            chapter_ref = JAPSCAN_URL + chapter_tag['href']
+            chapter_ref = config.JAPSCAN_URL + chapter_tag['href']
 
             chapter_name = chapter_tag.contents[0].replace('\t', '').replace('\n', '')
 
@@ -50,7 +54,7 @@ def main():
             chapter_path = ''
 
             for page_tag in page_options:
-                page_url = JAPSCAN_URL + page_tag['value']
+                page_url = config.JAPSCAN_URL + page_tag['value']
 
                 config.logger.debug('page_url: %s', page_url)
 

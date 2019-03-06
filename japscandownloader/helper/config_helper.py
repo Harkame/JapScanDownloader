@@ -12,8 +12,8 @@ def get_config():
 
     config_stream.close()
 
-    if config_file['config.mangas'] is not None:
-        config.mangas.extend(config_file['config.mangas'])
+    if config_file['mangas'] is not None:
+        config.mangas.extend(config_file['mangas'])
 
     if config.destination_path is None:
         if config_file['destinationPath'] is not None:

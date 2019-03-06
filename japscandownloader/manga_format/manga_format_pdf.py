@@ -1,11 +1,16 @@
 from PIL import Image #image
 import os #remove=
 
+import config.config as config #all global variables and constants
+
 def create_pdf(path, pdf_file_name):
+    config.logger.debug('path : %s', path)
+    config.logger.debug('pdf_file_name : %s', pdf_file_name)
+
     images = []
 
     for file in os.listdir(path):
-        if file.endswith('.png'):
+        if file.endswith('.jpg') or file.endswith('.png'):
             image = Image.open(os.path.join(path, file))
             images.append(image.convert("RGB"))
             os.remove(os.path.join(path, file))
