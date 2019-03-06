@@ -124,11 +124,11 @@ destinationPath:
 Replace mangaFormat value by desired format
 
 Supported format
-+   png (default)
-+   pdf
-+   cbz
++   jpg/png (default) : Just download image file
++   pdf : Create PDF file
++   cbz : Create CBZ archive
 
 ``` yml
 mangaFormat:
-   pdf
+   jpg
 ```
