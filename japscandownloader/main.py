@@ -29,8 +29,6 @@ def main():
 
     scraper = cfscrape.create_scraper()
 
-    sys.exit()
-
     for manga in config.mangas:
         chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml').findAll('div',{'class':'chapters_list text-truncate'});
 
