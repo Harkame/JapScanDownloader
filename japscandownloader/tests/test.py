@@ -5,7 +5,7 @@ import config.config as config #all global variables and constants
 
 import unittest
 
-class RandomTest(unittest.TestCase):
+class JapScanDownloaderTest(unittest.TestCase):
     def test_shuffle(self):
         print('TODO')
 
