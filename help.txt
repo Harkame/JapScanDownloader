@@ -3,3 +3,5 @@ https://stackoverflow.com/questions/27327513/create-pdf-from-a-list-of-images
 https://coverage.readthedocs.io/en/v4.5.x/
 
 https://stackoverflow.com/questions/714063/importing-modules-from-parent-folder
+
+nosetests --with-coverage --cover-erase --cover-package japscandownloader/

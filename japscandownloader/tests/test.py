@@ -17,4 +17,5 @@ class RandomTest(unittest.TestCase):
     def test_shuffle(self):
         print('TODO')
 
-unittest.main()
+if __name__ == '__main__':
+    unittest.main()
