@@ -1,0 +1,11 @@
+mangas:
+  - url:
+      https://www.japscan.to/manga/shingeki-no-kyojin/
+  - url:
+      https://www.japscan.to/manga/hunter-x-hunter/
+
+destinationPath:
+  ./mymangas/
+
+mangaFormat:
+  pdf

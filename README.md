@@ -19,7 +19,7 @@ pip install -r requirements.txt
 +   Don't download already downloaded chapter
 +   Download scans from other website
 +   Option : Reverse exploration (Download chapters from first to last)
-+   Option : Don't remove downloaded png (pdf, cbz)
++   Option : Don't remove downloaded png/jpg (pdf, cbz)
 
 ### Bug
 +   Sometimes japscan website exploration don't start

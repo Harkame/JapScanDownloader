@@ -4,3 +4,5 @@ config.yml
 .tox
 japscandownloader.egg-info/
 .coverage
+.pytest_cache
+coverage.xml
