@@ -10,7 +10,7 @@ import sys #sys.args sys.exit
 from helper.unscramble_helper import unscramble_image #unscramble method
 from helper.config_helper import get_config #helper config
 from helper.argument_helper import get_arguments #helper arguments
-from helper.format_helper import create_cbz, create_pdf
+from helper.format_helper import create_cbz, create_pdf, delete_images
 
 JAPSCAN_URL = 'https://www.japscan.to'
 DEFAULT_CONFIG_FILE = os.path.join('.', 'config.yml')
@@ -24,6 +24,7 @@ def main():
     config_file = DEFAULT_CONFIG_FILE
     destination_path = None
     manga_format = None
+    erase = False
 
     arguments = get_arguments(sys.argv[1:])
 
@@ -57,6 +58,9 @@ def main():
     if arguments.format:
         manga_format = arguments.format
 
+    if arguments.erase:
+        erase = arguments.erase
+
     config = get_config(config_file)
 
     mangas = []
@@ -79,6 +83,7 @@ def main():
     logger.debug('mangas : %s', mangas)
     logger.debug('destination_path : %s', destination_path)
     logger.debug('manga_format : %s', manga_format)
+    logger.debug('erase : %s', erase)
 
     scraper = cfscrape.create_scraper()
 
@@ -181,8 +186,14 @@ def main():
 
             if manga_format == 'pdf':
                 create_pdf(chapter_path, os.path.join(chapter_path, chapter_number + '.pdf'))
+                if erase:
+                    delete_images(chapter_path)
+
             elif manga_format == 'cbz':
                 create_cbz(chapter_path, os.path.join(chapter_path, chapter_number + '.cbz'))
+                if erase:
+                    delete_images(chapter_path)
+
 
             pages_progress_bar.close()
 

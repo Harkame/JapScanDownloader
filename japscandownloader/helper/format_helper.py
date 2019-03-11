@@ -11,7 +11,6 @@ def create_pdf(path, pdf_file_name):
         if file.endswith('.jpg') or file.endswith('.png'):
             image = Image.open(os.path.join(path, file))
             images.append(image.convert("RGB"))
-            os.remove(os.path.join(path, file))
 
     images[0].save(pdf_file_name, "PDF" ,resolution=100.0, save_all=True, append_images=images[1:])
 
@@ -22,6 +21,10 @@ def create_cbz(path, cbz_file_name):
     for file in os.listdir(path):
         if file.endswith('.jpg') or file.endswith('.png'):
             zipf.write(os.path.join(path, file), basename(os.path.join(path, file)))
-            os.remove(os.path.join(path, file))
 
     zipf.close()
+
+def delete_images(path):
+    for file in os.listdir(path):
+        if file.endswith('.jpg') or file.endswith('.png'):
+            os.remove(os.path.join(path, file))

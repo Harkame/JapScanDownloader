@@ -50,15 +50,21 @@ python japscandownloader/main.py
 ### Options
 
 ``` bash
+usage: main.py [-h] [-c CONFIG_FILE] [-d DESTINATION_PATH] [-f FORMAT] [-v]
+               [-erase ERASE]
+
 optional arguments:
   -h, --help            show this help message and exit
   -c CONFIG_FILE, --config_file CONFIG_FILE
                         Set config file
   -d DESTINATION_PATH, --destination_path DESTINATION_PATH
-                        Set destination path of downloaded mangas
+                        Set destination path of downloaded config.mangas
   -f FORMAT, --format FORMAT
-                        Set format of downloaded mangas
+                        Set format of downloaded config.mangas
   -v, --verbose         Active verbose mode, support different level
+  -erase ERASE, --erase ERASE
+                        Erase downloaded image (pdf, cbz), default is True
+
 ```
 
 ### How it work
