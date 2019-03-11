@@ -149,7 +149,6 @@ def main():
 
                 manga_name = data[1]
                 chapter_number = data[2]
-                file_name = data[3];
 
                 chapter_path = os.path.join(destination_path, manga_name, chapter_number)
 
