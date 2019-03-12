@@ -48,20 +48,26 @@ python japscandownloader/main.py
 
 ``` bash
 usage: main.py [-h] [-c CONFIG_FILE] [-d DESTINATION_PATH] [-f FORMAT] [-v]
-               [-erase ERASE]
+               [-r REMOVE]
 
 optional arguments:
   -h, --help            show this help message and exit
   -c CONFIG_FILE, --config_file CONFIG_FILE
-                        Set config file
+                        Set config file Example : python
+                        japscandownloader/main.py -c /home/myconfigfile.yml
   -d DESTINATION_PATH, --destination_path DESTINATION_PATH
                         Set destination path of downloaded config.mangas
+                        Example : python japscandownloader/main.py -d
+                        /home/mymangas/
   -f FORMAT, --format FORMAT
-                        Set format of downloaded config.mangas
-  -v, --verbose         Active verbose mode, support different level
-  -erase ERASE, --erase ERASE
-                        Erase downloaded image (pdf, cbz), default is True
-
+                        Set format of downloaded config.mangas Example :
+                        python japscandownloader/main.py -f cbz
+  -v, --verbose         Active verbose mode, support different level Example :
+                        python japscandownloader/main.py -vv
+  -r REMOVE, --remove REMOVE
+                        remove downloaded images (when format is pdf/cbz)
+                        (default : true) Example : python
+                        japscandownloader/main.py -r false|f|no|n|0
 ```
 
 ### How it work

@@ -24,7 +24,7 @@ def main():
     config_file = DEFAULT_CONFIG_FILE
     destination_path = None
     manga_format = None
-    erase = False
+    remove = False
 
     arguments = get_arguments(sys.argv[1:])
 
@@ -58,8 +58,8 @@ def main():
     if arguments.format:
         manga_format = arguments.format
 
-    if arguments.erase:
-        erase = arguments.erase
+    if arguments.remove:
+        remove = arguments.remove
 
     config = get_config(config_file)
 
@@ -83,7 +83,7 @@ def main():
     logger.debug('mangas : %s', mangas)
     logger.debug('destination_path : %s', destination_path)
     logger.debug('manga_format : %s', manga_format)
-    logger.debug('erase : %s', erase)
+    logger.debug('remove : %s', remove)
 
     scraper = cfscrape.create_scraper()
 
@@ -186,12 +186,12 @@ def main():
 
             if manga_format == 'pdf':
                 create_pdf(chapter_path, os.path.join(chapter_path, chapter_number + '.pdf'))
-                if erase:
+                if remove:
                     delete_images(chapter_path)
 
             elif manga_format == 'cbz':
                 create_cbz(chapter_path, os.path.join(chapter_path, chapter_number + '.cbz'))
-                if erase:
+                if remove:
                     delete_images(chapter_path)
 
 
