@@ -39,7 +39,7 @@ class ArgumentTest(unittest.TestCase):
 
 class ConfigTest(unittest.TestCase):
     def test_get_config(self):
-        config = config_helper.get_config(os.path.join('.', 'tests', 'test_config.yml'))
+        config = config_helper.get_config(os.path.join('.', 'tests', 'test_config', 'test_config.yml'))
         self.assertEqual(config['destinationPath'], './mymangas/')
         self.assertEqual(config['mangaFormat'], 'pdf')
         self.assertEqual(len(config['mangas']), 2)
@@ -49,9 +49,9 @@ class ConfigTest(unittest.TestCase):
 
 class UnscrambleTest(unittest.TestCase):
     def test_unscramble_image(self):
-        scrambled_image = os.path.join('.', 'tests', 'test_scrambled_image.png')
-        unscrambled_image = os.path.join('.', 'tests', 'test_unscrambled_image.png')
-        temp_unscrambled_image = os.path.join('.', 'tests', 'test_temp_unscrambled_image.png')
+        scrambled_image = os.path.join('.', 'tests', 'test_unscramble', 'test_scrambled_image.png')
+        unscrambled_image = os.path.join('.', 'tests', 'test_unscramble', 'test_unscrambled_image.png')
+        temp_unscrambled_image = os.path.join('.', 'tests', 'test_unscramble', 'test_temp_unscrambled_image.png')
 
         unscramble_helper.unscramble_image(scrambled_image, temp_unscrambled_image);
 
@@ -63,17 +63,31 @@ class UnscrambleTest(unittest.TestCase):
         os.remove(temp_unscrambled_image)
 
 class FormatTest(unittest.TestCase):
+    def setUp(self):
+        for image_index in range(0, 10):
+            image_array = numpy.random.rand(500, 500, 3) * 255
+            image = Image.fromarray(image_array.astype('uint8')).convert('RGBA')
+            image.save(os.path.join('.', 'tests', 'test_chapter', ('temp_%s.png' % (image_index))))
+
     def test_format_pdf(self):
         chapter = os.path.join('.', 'tests', 'test_chapter')
         file_name = os.path.join('.', 'tests', 'test_chapter.pdf')
 
         format_helper.create_pdf(chapter, file_name)
 
+        format_helper.delete_images(chapter)
+
+        os.remove(file_name)
+
     def test_format_cbz(self):
         chapter = os.path.join('.', 'tests', 'test_chapter')
         file_name = os.path.join('.', 'tests', 'test_chapter.cbz')
 
         format_helper.create_cbz(chapter, file_name)
+
+        format_helper.delete_images(chapter)
+
+        os.remove(file_name)
 
 class DownloadTest(unittest.TestCase):
     def test_download(self):

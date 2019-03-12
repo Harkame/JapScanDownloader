@@ -6,3 +6,6 @@ japscandownloader.egg-info/
 .coverage
 .pytest_cache
 coverage.xml
+test_chapter/*
+*.cbz
+*.pdf
