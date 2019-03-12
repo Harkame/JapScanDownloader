@@ -64,10 +64,16 @@ class UnscrambleTest(unittest.TestCase):
 
 class FormatTest(unittest.TestCase):
     def setUp(self):
+        dirname = os.path.join('.', 'tests', 'test_chapter')
+
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
+
         for image_index in range(0, 10):
             image_array = numpy.random.rand(500, 500, 3) * 255
             image = Image.fromarray(image_array.astype('uint8')).convert('RGBA')
-            image.save(os.path.join('.', 'tests', 'test_chapter', ('temp_%s.png' % (image_index))))
+            image_name = os.path.join('.', 'tests', 'test_chapter', ('temp_%s.png' % (image_index)))
+            image.save(image_name)
 
     def test_format_pdf(self):
         chapter = os.path.join('.', 'tests', 'test_chapter')
