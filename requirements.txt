@@ -4,4 +4,4 @@ pyyaml
 lxml
 tqdm
 python-coveralls
-Pillow
+pillow
