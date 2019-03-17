@@ -5,12 +5,17 @@ import helper.argument_helper as argument_helper
 import helper.config_helper as config_helper
 import helper.unscramble_helper as unscramble_helper
 import helper.format_helper as format_helper
+import helper.download_helper as download_helper
+
+import settings.settings as settings
 
 import unittest
 
 import numpy
 
 from PIL import Image
+import cfscrape
+import shutil
 
 class ArgumentTest(unittest.TestCase):
     def test_short_option(self):
@@ -96,5 +101,29 @@ class FormatTest(unittest.TestCase):
         os.remove(file_name)
 
 class DownloadTest(unittest.TestCase):
-    def test_download(self):
-        print('todo')
+    def setUp(self):
+        settings.init()
+
+        settings.manga_format = 'png'
+        settings.destination_path = os.path.join('.', 'tests', 'test_download')
+
+        if not os.path.exists(settings.destination_path):
+            os.makedirs(settings.destination_path)
+
+    def test_download_chapter(self):
+        scraper = cfscrape.create_scraper()
+
+        chapter_url = 'https://www.japscan.to/lecture-en-ligne/hajime-no-ippo/1255/'
+
+        download_helper.download_chapter(scraper, chapter_url)
+
+    def test_download_page(self):
+        scraper = cfscrape.create_scraper()
+
+        page_url = 'https://www.japscan.to/lecture-en-ligne/hajime-no-ippo/1255/1.html'
+
+        download_helper.download_page(scraper, page_url)
+
+    def tearDown(self):
+        if os.path.exists(settings.destination_path):
+            shutil.rmtree(settings.destination_path, ignore_errors=True)

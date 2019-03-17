@@ -1,16 +1,15 @@
-import cfscrape #bypass cloudflare
-import errno #makedirs error
-import os #makedirs, path, etc
+import cfscrape
+import errno
 
-from helper.config_helper import get_config #helper config
-from helper.argument_helper import get_arguments #helper arguments
-from helper.download_helper import download_manga #helper arguments
+from helper.config_helper import get_config
+from helper.argument_helper import get_arguments
+from helper.download_helper import download_manga
 
 import sys
+import os
 
 import settings.settings as settings
-
-JAPSCAN_URL = 'https://www.japscan.to'
+import logging #logs
 
 DEFAULT_CONFIG_FILE = os.path.join('.', 'config.yml')
 DEFAULT_DESTINATION_PATH = os.path.join('.', 'mangas')
@@ -44,11 +43,11 @@ def main():
 
         settings.logger.addHandler(stream_handler)
 
-    if arguments.settings.config_file:
-        settings.config_file = arguments.settings.config_file
+    if arguments.config_file:
+        settings.config_file = arguments.config_file
 
-    if arguments.settings:
-        settings = arguments.settings
+    if arguments.destination_path:
+        settings.destination_path = arguments.destination_path
 
     if arguments.format:
         settings.manga_format = arguments.format
