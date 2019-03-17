@@ -1,5 +1,5 @@
-from PIL import Image #image
-import os #remove
+from PIL import Image
+import os
 
 import zipfile #zip
 from os.path import basename #basename
