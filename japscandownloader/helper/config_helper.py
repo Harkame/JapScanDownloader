@@ -1,4 +1,4 @@
-from yaml import Loader, load #read yaml file
+from yaml import Loader, load
 
 def get_config(config_file_path):
     config_stream = open(config_file_path, 'r')

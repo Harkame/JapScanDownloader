@@ -1,8 +1,7 @@
-from PIL import Image
 import os
-
-import zipfile #zip
-from os.path import basename #basename
+from PIL import Image
+from os.path import basename
+import zipfile
 
 def create_pdf(path, pdf_file_name):
     images = []

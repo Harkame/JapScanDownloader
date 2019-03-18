@@ -1,4 +1,4 @@
-import logging #logs
+import logging
 
 logger = logging.getLogger()
 config_file = None

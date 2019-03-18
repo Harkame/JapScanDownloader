@@ -1,12 +1,11 @@
-from tqdm import tqdm
-
-import os
 from helper.format_helper import create_cbz, create_pdf, delete_images
 from helper.unscramble_helper import unscramble_image
 
-from bs4 import BeautifulSoup
-
 import settings.settings as settings
+
+from bs4 import BeautifulSoup
+import os
+from tqdm import tqdm
 
 JAPSCAN_URL = 'https://www.japscan.to'
 

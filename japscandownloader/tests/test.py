@@ -1,4 +1,5 @@
 import os.path, sys
+
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 
 import helper.argument_helper as argument_helper
@@ -9,12 +10,10 @@ import helper.download_helper as download_helper
 
 import settings.settings as settings
 
-import unittest
-
-import numpy
-
-from PIL import Image
 import cfscrape
+import unittest
+import numpy
+from PIL import Image
 import shutil
 
 class ArgumentTest(unittest.TestCase):

@@ -1,14 +1,13 @@
-import cfscrape
-
 from helper.config_helper import get_config
 from helper.argument_helper import get_arguments
 from helper.download_helper import download_manga
 
+import settings.settings as settings
+
+import cfscrape
+import logging
 import sys
 import os
-
-import settings.settings as settings
-import logging #logs
 
 DEFAULT_CONFIG_FILE = os.path.join('.', 'config.yml')
 DEFAULT_DESTINATION_PATH = os.path.join('.', 'mangas')
