@@ -1,5 +1,4 @@
 import cfscrape
-import errno
 
 from helper.config_helper import get_config
 from helper.argument_helper import get_arguments

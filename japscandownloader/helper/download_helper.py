@@ -1,6 +1,5 @@
 from tqdm import tqdm
 
-import sys
 import os
 from helper.format_helper import create_cbz, create_pdf, delete_images
 from helper.unscramble_helper import unscramble_image

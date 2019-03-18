@@ -143,7 +143,9 @@ mangaFormat:
 
 ## Test
 
-### Dependencies
+### Installation
+
+#### Dependencies
 
 [tox](https://github.com/tox-dev/tox)
 
@@ -151,6 +153,12 @@ mangaFormat:
 
 ``` bash
   pip install tox
+```
 
+### Usage
+
+#### Run
+
+``` bash
   tox
 ```
