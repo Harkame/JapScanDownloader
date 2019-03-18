@@ -140,3 +140,17 @@ Supported format
 mangaFormat:
    jpg
 ```
+
+## Test
+
+### Dependencies
+
+[tox](https://github.com/tox-dev/tox)
+
+(Others are specified in tox.ini)
+
+``` bash
+  pip install tox
+
+  tox
+```
