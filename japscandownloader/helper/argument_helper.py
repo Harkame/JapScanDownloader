@@ -30,7 +30,7 @@ def get_arguments(arguments):
 
     argument_parser.add_argument(
         '-R', '--remove',
-        help = 'remove downloaded images (when format is pdf/cbz) (default : true)' + os.linesep + 'Example : python japscandownloader/main.py -e false|f|no|n|0',
+        help = 'remove downloaded images (when format is pdf/cbz) (default : true)' + os.linesep + 'Example : python japscandownloader/main.py -R false|f|no|n|0',
         default = True,
         type = str,
     )
