@@ -141,7 +141,6 @@ mangas:
 +   chapter_min : range min of chapters to download
 +   chapter_max : range max of chapters to download
 
-
 ### Change downloads destination
 Replace destination_path value by desired path
 
