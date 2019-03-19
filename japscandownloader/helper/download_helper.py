@@ -10,22 +10,31 @@ from tqdm import tqdm
 JAPSCAN_URL = 'https://www.japscan.to'
 
 def download_manga(scraper, manga):
-    chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml').findAll('div',{'class':'chapters_list text-truncate'});
+    if 'url' in manga:
+        chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml').findAll('div',{'class':'chapters_list text-truncate'});
 
-    chapters_progress_bar = tqdm(total=len(chapter_divs), position=0, bar_format='[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]')
+        #chapters_progress_bar = tqdm(total=len(chapter_divs), position=0, bar_format='[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]')
 
-    for chapter_div in chapter_divs:
-        chapter_tag = chapter_div.find(href=True)
+        for chapter_div in chapter_divs:
+            chapter_tag = chapter_div.find(href=True)
 
-        chapter_name = chapter_tag.contents[0].replace('\t', '').replace('\n', '')
+            chapter_name = chapter_tag.contents[0].replace('\t', '').replace('\n', '')
 
-        settings.logger.debug('chapter_name : %s', chapter_name)
+            settings.logger.debug('chapter_name : %s', chapter_name)
 
-        chapter_url = JAPSCAN_URL + chapter_tag['href']
+            chapter_url = JAPSCAN_URL + chapter_tag['href']
 
-        download_chapter(scraper, chapter_url)
+            download_chapter(scraper, chapter_url)
+            #chapters_progress_bar.close()
 
-    chapters_progress_bar.close()
+    elif 'chapters' in manga:
+        base_counter = manga['chapters']['plagemin']
+        while base_counter < manga['chapters']['plagemax']:
+            download_chapter(scraper, manga['chapters']['url'] + str(base_counter) + "/")
+            base_counter += 1
+    else:
+        download_chapter(scraper, manga['chapter'])
+
 
 def download_chapter(scraper, chapter_url):
     settings.logger.debug('chapter_url : %s', chapter_url)
