@@ -66,7 +66,7 @@ optional arguments:
   -R REMOVE, --remove REMOVE
                         remove downloaded images (when format is pdf/cbz)
                         (default : true) Example : python
-                        japscandownloader/main.py -e false|f|no|n|0
+                        japscandownloader/main.py -R false|f|no|n|0
 ```
 
 ### How it work
