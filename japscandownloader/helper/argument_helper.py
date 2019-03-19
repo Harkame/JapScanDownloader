@@ -12,13 +12,13 @@ def get_arguments(arguments):
 
     argument_parser.add_argument(
         '-d', '--destination_path',
-        help = 'Set destination path of downloaded config.mangas' + os.linesep + 'Example : python japscandownloader/main.py -d /home/mymangas/',
+        help = 'Set destination path of downloaded mangas' + os.linesep + 'Example : python japscandownloader/main.py -d /home/mymangas/',
         type = str,
     )
 
     argument_parser.add_argument(
         '-f', '--format',
-        help = 'Set format of downloaded config.mangas' + os.linesep + 'Example : python japscandownloader/main.py -f cbz',
+        help = 'Set format of downloaded mangas' + os.linesep + 'Example : python japscandownloader/main.py -f cbz',
         type = str,
     )
 
@@ -29,10 +29,10 @@ def get_arguments(arguments):
     )
 
     argument_parser.add_argument(
-        '-r', '--remove',
-        help = 'remove downloaded images (when format is pdf/cbz) (default : true)' + os.linesep + 'Example : python japscandownloader/main.py -r false|f|no|n|0',
+        '-R', '--remove',
+        help = 'remove downloaded images (when format is pdf/cbz) (default : true)' + os.linesep + 'Example : python japscandownloader/main.py -e false|f|no|n|0',
         default = True,
-        type=lambda s: s.lower() not in ['false', 'f', 'no', 'n', '0']
+        type = str,
     )
 
     return argument_parser.parse_args(arguments)

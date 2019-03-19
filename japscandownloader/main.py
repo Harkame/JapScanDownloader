@@ -51,7 +51,7 @@ def main():
         settings.manga_format = arguments.format
 
     if arguments.remove:
-        remove = arguments.remove
+        settings.remove = arguments.remove not in ['false', 'f', 'no', 'n', '0']
 
     config = get_config(settings.config_file)
 
@@ -61,21 +61,21 @@ def main():
         mangas = config['mangas']
 
     if settings.destination_path is None:
-        if config['destinationPath'] is not None:
-            settings.destination_path = config['destinationPath']
+        if config['destination_path'] is not None:
+            settings.destination_path = config['destination_path']
         else:
             settings.destination_path = DEFAULT_DESTINATION_PATH
 
     if settings.manga_format is None:
-        if config['mangaFormat'] is not None:
-            settings.manga_format = config['mangaFormat']
+        if config['manga_format'] is not None:
+            settings.manga_format = config['manga_format']
         else:
             settings.manga_format = DEFAULT_MANGA_FORMAT
 
     settings.logger.debug('mangas : %s', mangas)
-    settings.logger.debug('settings : %s', settings)
-    settings.logger.debug('settings.manga_format : %s', settings.manga_format)
-    settings.logger.debug('remove : %s', remove)
+    settings.logger.debug('destination_path : %s', settings.destination_path)
+    settings.logger.debug('manga_format : %s', settings.manga_format)
+    settings.logger.debug('remove : %s', settings.remove)
 
     scraper = cfscrape.create_scraper()
 

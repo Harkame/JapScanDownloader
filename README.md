@@ -48,7 +48,7 @@ python japscandownloader/main.py
 
 ``` bash
 usage: main.py [-h] [-c CONFIG_FILE] [-d DESTINATION_PATH] [-f FORMAT] [-v]
-               [-r REMOVE]
+               [-R REMOVE]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -56,18 +56,17 @@ optional arguments:
                         Set config file Example : python
                         japscandownloader/main.py -c /home/myconfigfile.yml
   -d DESTINATION_PATH, --destination_path DESTINATION_PATH
-                        Set destination path of downloaded config.mangas
-                        Example : python japscandownloader/main.py -d
-                        /home/mymangas/
+                        Set destination path of downloaded mangas Example :
+                        python japscandownloader/main.py -d /home/mymangas/
   -f FORMAT, --format FORMAT
-                        Set format of downloaded config.mangas Example :
-                        python japscandownloader/main.py -f cbz
+                        Set format of downloaded mangas Example : python
+                        japscandownloader/main.py -f cbz
   -v, --verbose         Active verbose mode, support different level Example :
                         python japscandownloader/main.py -vv
-  -r REMOVE, --remove REMOVE
+  -R REMOVE, --remove REMOVE
                         remove downloaded images (when format is pdf/cbz)
                         (default : true) Example : python
-                        japscandownloader/main.py -r false|f|no|n|0
+                        japscandownloader/main.py -e false|f|no|n|0
 ```
 
 ### How it work
@@ -81,16 +80,25 @@ This file contains list of mangas to download, destination path, etc.
 ``` yaml
 
 mangas:
-  - url:
-      https://www.japscan.to/manga/shingeki-no-kyojin/
-  - url:
-      https://www.japscan.to/manga/hunter-x-hunter/
+  - chapter:
+    https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
 
-destinationPath:
+  - url:
+    https://www.japscan.to/manga/uq-holder/
+
+  - chapters:
+      url:
+         https://www.japscan.to/lecture-en-ligne/black-clover/
+      chapter_min:
+         158
+      chapter_max:
+         197
+
+destination_path:
   ./mangas/
 
-mangaFormat:
-  pdf
+manga_format:
+  jpg
 
 ```
 
@@ -99,19 +107,43 @@ mangaFormat:
 Add an entry to attribute mangas
 
 ``` yml
-mangas :
-    - url:
-        https://www.japscan.cc/mangas/shingeki-no-kyojin/
-    ...
-    - url:
-        my_manga_url
+mangas:
+  - url:
+    https://www.japscan.to/manga/uq-holder/
+
+  - chapter:
+    https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
+
+  - chapters:
+      url:
+         https://www.japscan.to/lecture-en-ligne/black-clover/
+      chapter_min:
+         158
+      chapter_max:
+         197
 ```
 
-#### URL : Url of the manga
+3 supported format of download
+
 :boom: Be careful to URL format :boom:
 
+#### Manga
+
++   url : Url of the manga to download
+
+#### Chapter
+
++   url : Url of the chapter to download
+
+#### Chapters
+
++   url : Url of the manga to download
++   chapter_min : range min of chapters to download
++   chapter_max : range max of chapters to download
+
+
 ### Change downloads destination
-Replace destinationPath's value by desired path
+Replace destination_path value by desired path
 
 #### Linux
 
@@ -129,7 +161,7 @@ destinationPath:
 
 #### Change Manga format
 
-Replace mangaFormat value by desired format
+Replace manga_format value by desired format
 
 Supported format
 +   jpg/png (default) : Just download image file
@@ -143,21 +175,19 @@ mangaFormat:
 
 ## Test
 
-### Installation
-
-#### Dependencies
-
-[tox](https://github.com/tox-dev/tox)
-
-(Others are specified in tox.ini)
+### Installation test
 
 ``` bash
   pip install tox
 ```
 
-### Usage
+#### Dependencies test
 
-#### Run
+[tox](https://github.com/tox-dev/tox)
+
+(Others are specified in tox.ini)
+
+### Run test
 
 ``` bash
   tox

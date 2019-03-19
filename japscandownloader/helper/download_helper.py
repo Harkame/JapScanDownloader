@@ -25,16 +25,16 @@ def download_manga(scraper, manga):
             chapter_url = JAPSCAN_URL + chapter_tag['href']
 
             download_chapter(scraper, chapter_url)
-            #chapters_progress_bar.close()
+
+        #chapters_progress_bar.close()
 
     elif 'chapters' in manga:
-        base_counter = manga['chapters']['plagemin']
-        while base_counter < manga['chapters']['plagemax']:
+        base_counter = manga['chapters']['chapter_min']
+        while base_counter < manga['chapters']['chapter_max']:
             download_chapter(scraper, manga['chapters']['url'] + str(base_counter) + "/")
             base_counter += 1
     else:
         download_chapter(scraper, manga['chapter'])
-
 
 def download_chapter(scraper, chapter_url):
     settings.logger.debug('chapter_url : %s', chapter_url)
