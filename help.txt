@@ -1,0 +1,3 @@
+git update-index --assume-unchanged config.yml
+
+git update-index --no-assume-unchanged config.yml
