@@ -30,7 +30,7 @@ def download_manga(scraper, manga):
 
     elif 'chapters' in manga:
         base_counter = manga['chapters']['chapter_min']
-        while base_counter < manga['chapters']['chapter_max']:
+        while base_counter <= manga['chapters']['chapter_max']:
             download_chapter(scraper, manga['chapters']['url'] + str(base_counter) + "/")
             base_counter += 1
     else:
