@@ -49,7 +49,6 @@ class ConfigTest(unittest.TestCase):
         self.assertEqual(len(config['mangas']), 2)
         self.assertEqual(config['mangas'][0]['url'], 'https://www.japscan.to/manga/shingeki-no-kyojin/')
         self.assertEqual(config['mangas'][1]['url'], 'https://www.japscan.to/manga/hunter-x-hunter/')
-#TODO
 
 class UnscrambleTest(unittest.TestCase):
     def test_unscramble_image(self):
@@ -67,37 +66,76 @@ class UnscrambleTest(unittest.TestCase):
         os.remove(temp_unscrambled_image)
 
 class FormatTest(unittest.TestCase):
+    chapter = os.path.join('.', 'tests', 'test_chapter')
+    file_name = None
+    image_number = 10
+
     def setUp(self):
         dirname = os.path.join('.', 'tests', 'test_chapter')
 
         if not os.path.exists(dirname):
             os.makedirs(dirname)
 
-        for image_index in range(0, 10):
+        for image_index in range(0, self.image_number):
             image_array = numpy.random.rand(500, 500, 3) * 255
             image = Image.fromarray(image_array.astype('uint8')).convert('RGBA')
             image_name = os.path.join('.', 'tests', 'test_chapter', ('temp_%s.png' % (image_index)))
             image.save(image_name)
 
     def test_format_pdf(self):
-        chapter = os.path.join('.', 'tests', 'test_chapter')
-        file_name = os.path.join('.', 'tests', 'test_chapter.pdf')
+        self.file_name = os.path.join('.', 'tests', 'test_chapter.pdf')
 
-        format_helper.create_pdf(chapter, file_name)
+        format_helper.create_pdf(self.chapter, self.file_name)
 
-        format_helper.delete_images(chapter)
-
-        os.remove(file_name)
+        self.assertGreater(os.path.getsize(self.file_name), 0)
 
     def test_format_cbz(self):
-        chapter = os.path.join('.', 'tests', 'test_chapter')
-        file_name = os.path.join('.', 'tests', 'test_chapter.cbz')
+        self.file_name = os.path.join('.', 'tests', 'test_chapter.cbz')
 
-        format_helper.create_cbz(chapter, file_name)
+        format_helper.create_cbz(self.chapter, self.file_name)
 
-        format_helper.delete_images(chapter)
+        self.assertGreater(os.path.getsize(self.file_name), 0)
 
-        os.remove(file_name)
+    def tearDown(self):
+        format_helper.delete_images(self.chapter)
+
+        os.remove(self.file_name)
+
+
+class DeleteTest(unittest.TestCase):
+    chapter = os.path.join('.', 'tests', 'test_chapter')
+    image_number = 10
+
+    def setUp(self):
+        dirname = os.path.join('.', 'tests', 'test_chapter')
+
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
+
+        for image_index in range(0, self.image_number):
+            image_array = numpy.random.rand(500, 500, 3) * 255
+            image = Image.fromarray(image_array.astype('uint8')).convert('RGBA')
+            image_name = os.path.join('.', 'tests', 'test_chapter', ('temp_%s.png' % (image_index)))
+            image.save(image_name)
+
+    def test_delete_images(self):
+        image_counter = 0
+
+        for file in os.listdir(self.chapter):
+            if file.endswith('.jpg') or file.endswith('.png'):
+                image_counter += 1
+
+        self.assertEqual(image_counter, self.image_number)
+
+        format_helper.delete_images(self.chapter)
+
+        image_counter = 0;
+
+        for file in os.listdir(self.chapter):
+            if file.endswith('.jpg') or file.endswith('.png'):
+                image_counter += 1
+
+        self.assertEqual(image_counter, 0)
 
 class DownloadTest(unittest.TestCase):
     def setUp(self):
