@@ -29,7 +29,7 @@ def download_manga(scraper, manga):
 
     elif 'chapters' in manga:
         base_counter = manga['chapters']['plagemin']
-        while base_counter < manga['chapters']['plagemax']:
+        while base_counter <= manga['chapters']['plagemax']:
             download_chapter(scraper, manga['chapters']['url'] + str(base_counter) + "/")
             base_counter += 1
     else:
