@@ -77,7 +77,7 @@ def main():
     settings.logger.debug('manga_format : %s', settings.manga_format)
     settings.logger.debug('remove : %s', settings.remove)
 
-    scraper = cfscrape.create_scraper(delay=10)
+    scraper = cfscrape.create_scraper()
 
     for manga in mangas:
         download_manga(scraper, manga)
