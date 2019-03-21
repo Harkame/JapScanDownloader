@@ -9,3 +9,5 @@ coverage.xml
 test_chapter/*
 *.cbz
 *.pdf
+build/
+dist/
