@@ -16,7 +16,6 @@ pip install -r requirements.txt
 ### Feature, etc
 +   Chapters folders name (not only number)
 +   Don't download already downloaded chapter/page
-+   Option : Reverse exploration (Download chapters from first to last)
 
 ### Bug
 +   Sometimes japscan website exploration don't start
@@ -48,7 +47,7 @@ python japscandownloader/main.py
 
 ``` bash
 usage: main.py [-h] [-c CONFIG_FILE] [-d DESTINATION_PATH] [-f FORMAT] [-v]
-               [-R REMOVE]
+               [-r] [-k]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -63,10 +62,11 @@ optional arguments:
                         japscandownloader/main.py -f cbz
   -v, --verbose         Active verbose mode, support different level Example :
                         python japscandownloader/main.py -vv
-  -R REMOVE, --remove REMOVE
-                        remove downloaded images (when format is pdf/cbz)
-                        (default : true) Example : python
-                        japscandownloader/main.py -R false|f|no|n|0
+  -r, --reverse         Reverse chapters download order (Default : Last to
+                        first) Example : python japscandownloader/main.py -r
+  -k, --keep            Keep downloaded images (when format is pdf/cbz)
+                        (default : false) Example : python
+                        japscandownloader/main.py -k
 ```
 
 ### How it work

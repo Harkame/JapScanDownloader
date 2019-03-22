@@ -29,10 +29,15 @@ def get_arguments(arguments):
     )
 
     argument_parser.add_argument(
-        '-R', '--remove',
-        help = 'remove downloaded images (when format is pdf/cbz) (default : true)' + os.linesep + 'Example : python japscandownloader/main.py -R false|f|no|n|0',
-        default = True,
-        type = str,
+        '-r', '--reverse',
+        help = 'Reverse chapters download order (Default : Last to first)' + os.linesep + 'Example : python japscandownloader/main.py -r',
+        action = 'count',
+    )
+
+    argument_parser.add_argument(
+        '-k', '--keep',
+        help = 'Keep downloaded images (when format is pdf/cbz) (default : false)' + os.linesep + 'Example : python japscandownloader/main.py -k',
+        action = 'count',
     )
 
     return argument_parser.parse_args(arguments)

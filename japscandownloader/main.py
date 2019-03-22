@@ -50,8 +50,11 @@ def main():
     if arguments.format:
         settings.manga_format = arguments.format
 
-    if arguments.remove:
-        settings.remove = arguments.remove not in ['false', 'f', 'no', 'n', '0']
+    if arguments.reverse:
+        settings.reverse = True
+
+    if arguments.keep:
+        settings.keep = True
 
     config = get_config(settings.config_file)
 
@@ -75,7 +78,8 @@ def main():
     settings.logger.debug('mangas : %s', mangas)
     settings.logger.debug('destination_path : %s', settings.destination_path)
     settings.logger.debug('manga_format : %s', settings.manga_format)
-    settings.logger.debug('remove : %s', settings.remove)
+    settings.logger.debug('reverse : %s', settings.reverse)
+    settings.logger.debug('keep : %s', settings.keep)
 
     scraper = cfscrape.create_scraper()
 

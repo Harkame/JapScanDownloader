@@ -15,7 +15,14 @@ def download_manga(scraper, manga):
 
         #chapters_progress_bar = tqdm(total=len(chapter_divs), position=0, bar_format='[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]')
 
-        for chapter_div in chapter_divs:
+        chapters = None
+
+        if settings.reverse:
+            chapters = reversed(chapter_divs)
+        else:
+            chapters = chapter_divs
+
+        for chapter_div in chapters:
             chapter_tag = chapter_div.find(href=True)
 
             chapter_name = chapter_tag.contents[0].replace('\t', '').replace('\n', '')
@@ -67,12 +74,12 @@ def download_chapter(scraper, chapter_url):
 
     if settings.manga_format == 'pdf':
         create_pdf(chapter_path, os.path.join(chapter_path, chapter_number + '.pdf'))
-        if settings.remove:
+        if not settings.keep:
             delete_images(chapter_path)
 
     elif settings.manga_format == 'cbz':
         create_cbz(chapter_path, os.path.join(chapter_path, chapter_number + '.cbz'))
-        if settings.remove:
+        if not settings.keep:
             delete_images(chapter_path)
 
 def download_page(scraper, page_url):
