@@ -15,7 +15,7 @@ pip install -r requirements.txt
 
 ### Feature, etc
 +   Chapters folders name (not only number)
-+   Don't download already downloaded chapter
++   Don't download already downloaded chapter/page
 +   Option : Reverse exploration (Download chapters from first to last)
 
 ### Bug
@@ -174,20 +174,8 @@ mangaFormat:
 
 ## Test
 
-### Installation test
-
 ``` bash
   pip install tox
-```
 
-#### Dependencies test
-
-[tox](https://github.com/tox-dev/tox)
-
-(Others are specified in tox.ini)
-
-### Run test
-
-``` bash
   tox
 ```
