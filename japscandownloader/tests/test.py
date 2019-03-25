@@ -63,7 +63,7 @@ class UnscrambleTest(unittest.TestCase):
             images[i] = (numpy.array(Image.open(f).convert('L').resize((32,32), resample=Image.BICUBIC))).astype(numpy.int)   # convert from unsigned bytes to signed int using numpy
         self.assertEqual(numpy.abs(images[0] - images[1]).sum(), 0)
 
-        os.remove(temp_unscrambled_image)
+        #os.remove(temp_unscrambled_image)
 
 class FormatTest(unittest.TestCase):
     chapter = os.path.join('.', 'tests', 'test_chapter')

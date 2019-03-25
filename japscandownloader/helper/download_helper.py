@@ -6,12 +6,15 @@ import settings.settings as settings
 from bs4 import BeautifulSoup
 import os
 from tqdm import tqdm
+import sys
 
 JAPSCAN_URL = 'https://www.japscan.to'
 
 def download_manga(scraper, manga):
     if 'url' in manga:
-        chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml').findAll('div',{'class':'chapters_list text-truncate'});
+        manga_page = chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml')
+
+        chapter_divs = manga_page.findAll('div',{'class':'chapters_list text-truncate'});
 
         #chapters_progress_bar = tqdm(total=len(chapter_divs), position=0, bar_format='[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]')
 
@@ -86,6 +89,12 @@ def download_page(scraper, page_url):
     settings.logger.debug('page_url: %s', page_url)
 
     page = BeautifulSoup(scraper.get(page_url).content, features='lxml')
+
+    scrambled_div = page.find('div', {'id': 'image'}).find_all(recursive=False)
+
+    print('scrambled_div : %s', len(scrambled_div))
+
+    sys.exit()
 
     image_url = page.find('div', {'id': 'image'})['data-src']
 
