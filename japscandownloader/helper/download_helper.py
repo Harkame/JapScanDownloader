@@ -1,5 +1,6 @@
 from helper.format_helper import create_cbz, create_pdf, delete_images
 from helper.unscramble_helper import unscramble_image
+from urlparse import urlparse
 
 import settings.settings as settings
 
@@ -59,18 +60,18 @@ def download_chapter(scraper, chapter_url):
     manga_name = data[4]
     chapter_number = data[5]
 
+    chapter_path = os.path.join(settings.destination_path, manga_name, chapter_number)
+
     for page_tag in page_options:
         page_url = JAPSCAN_URL + page_tag['value']
 
         settings.logger.debug('page_url : %s', page_url)
 
-        download_page(scraper, page_url)
+        download_page(scraper, chapter_path, page_url)
 
         pages_progress_bar.update(1)
 
     pages_progress_bar.close()
-
-    chapter_path = os.path.join(settings.destination_path, manga_name, chapter_number)
 
     if settings.manga_format == 'pdf':
         create_pdf(chapter_path, os.path.join(chapter_path, chapter_number + '.pdf'))
@@ -82,7 +83,7 @@ def download_chapter(scraper, chapter_url):
         if not settings.keep:
             delete_images(chapter_path)
 
-def download_page(scraper, page_url):
+def download_page(scraper, chapter_path , page_url):
     settings.logger.debug('page_url: %s', page_url)
 
     page = BeautifulSoup(scraper.get(page_url).content, features='lxml')
@@ -97,23 +98,9 @@ def download_page(scraper, page_url):
         settings.logger.debug('scrambled image')
         unscramble = True
 
-    reverse_image_url = image_url[::-1]
+    image_name = urlparse(image_url).path.split('/')[-1]
 
-    slash_counter = 0
-    index = 0
-
-    while slash_counter < 3:
-        if reverse_image_url[index] == '/':
-            slash_counter += 1
-        index += 1
-
-    reverse_image_url = reverse_image_url[0:index]
-
-    image_path = reverse_image_url[::-1]
-
-    settings.logger.debug('image_path : %s', image_path)
-
-    image_full_path = settings.destination_path + image_path
+    image_full_path = os.path.join(chapter_path, image_name)
 
     settings.logger.debug('image_full_path : %s', image_full_path)
 
