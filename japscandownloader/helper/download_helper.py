@@ -46,6 +46,7 @@ def download_manga(scraper, manga):
     else:
         download_chapter(scraper, manga['chapter'])
 
+
 def download_chapter(scraper, chapter_url):
     settings.logger.debug('chapter_url : %s', chapter_url)
 
@@ -90,21 +91,11 @@ def download_page(scraper, page_url):
 
     page = BeautifulSoup(scraper.get(page_url).content, features='lxml')
 
-    scrambled_div = page.find('div', {'id': 'image'}).find_all(recursive=False)
-
-    print('scrambled_div : %s', len(scrambled_div))
-
-    sys.exit()
-
     image_url = page.find('div', {'id': 'image'})['data-src']
 
+    unscramble = is_scrambled_scripts(page)
+
     settings.logger.debug('image_url: %s', image_url)
-
-    unscramble = False
-
-    if 'clel' in image_url:
-        settings.logger.debug('scrambled image')
-        unscramble = True
 
     reverse_image_url = image_url[::-1]
 
@@ -150,3 +141,23 @@ def download_page(scraper, page_url):
     if unscramble is True:
         unscramble_image(scrambled_image, image_full_path)
         os.remove(scrambled_image)
+
+def is_scrambled_scripts(page):
+    scripts = page.find('head').find_all('script')
+
+    if len(scripts) > 9:
+        script = scripts[8]
+
+        settings.logger.debug('script : %s', script)
+
+        if '_' in str(script):
+            return True
+
+    return False
+
+def is_scrambled_clel(image_url):
+    if 'clel' in image_url:
+        settings.logger.debug('scrambled image')
+        return True
+
+    return False
