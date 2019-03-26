@@ -11,3 +11,4 @@ test_chapter/*
 *.pdf
 build/
 dist/
+japscandownloader/*/*.pyc
