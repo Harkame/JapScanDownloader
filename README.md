@@ -11,7 +11,7 @@
 pip install -r requirements.txt
 ```
 
-### YOU NEED Node.JS
+### :boom: Requiere Node.JS :boom:
 [Node.js](https://nodejs.org/en/)
 
 ## TODO
