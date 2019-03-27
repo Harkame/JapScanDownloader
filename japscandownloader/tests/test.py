@@ -7,6 +7,7 @@ import helper.config_helper as config_helper
 import helper.unscramble_helper as unscramble_helper
 import helper.format_helper as format_helper
 import helper.download_helper as download_helper
+import main
 
 import settings.settings as settings
 
@@ -18,20 +19,26 @@ import shutil
 
 class ArgumentTest(unittest.TestCase):
     def test_short_option(self):
-        arguments = argument_helper.get_arguments(['-v', '-c', './myconfig.yml', '-d', './mymangas', '-f', 'myformat'])
+        arguments = argument_helper.get_arguments(['-v', '-c', './myconfig.yml', '-d', './mymangas', '-f', 'myformat', '-u', '-k', '-r'])
 
         self.assertEqual(arguments.verbose, 1)
         self.assertEqual(arguments.config_file, './myconfig.yml')
         self.assertEqual(arguments.destination_path, './mymangas')
         self.assertEqual(arguments.format, 'myformat')
+        self.assertEqual(arguments.unscramble, '1')
+        self.assertEqual(arguments.keep, '1')
+        self.assertEqual(arguments.reverse, '1')
 
     def test_long_option(self):
-        arguments = argument_helper.get_arguments(['--verbose', '--config_file', './myconfig.yml', '--destination_path', './mymangas', '--format', 'myformat'])
+        arguments = argument_helper.get_arguments(['--verbose', '--config_file', './myconfig.yml', '--destination_path', './mymangas', '--format', 'myformat', '--unscramble', '--keep', '--reverse'])
 
         self.assertEqual(arguments.verbose, 1)
         self.assertEqual(arguments.config_file, './myconfig.yml')
         self.assertEqual(arguments.destination_path, './mymangas')
         self.assertEqual(arguments.format, 'myformat')
+        self.assertEqual(arguments.unscramble, '1')
+        self.assertEqual(arguments.keep, '1')
+        self.assertEqual(arguments.reverse, '1')
 
     def test_multiple_verbose(self):
         verbosity_argument = '-'
@@ -49,6 +56,16 @@ class ConfigTest(unittest.TestCase):
         self.assertEqual(len(config['mangas']), 2)
         self.assertEqual(config['mangas'][0]['url'], 'https://www.japscan.to/manga/shingeki-no-kyojin/')
         self.assertEqual(config['mangas'][1]['url'], 'https://www.japscan.to/manga/hunter-x-hunter/')
+
+class SettingsTest(unittest.TestCase):
+    def test_settings_init_arguments(self):
+        print('TODO')
+
+    def test_settings_init_config(self):
+        print('TODO')
+
+    def test_settings_init_config(self):
+        print('TODO')
 
 class UnscrambleTest(unittest.TestCase):
     def test_unscramble_image(self):
@@ -164,3 +181,12 @@ class DownloadTest(unittest.TestCase):
     def tearDown(self):
         if os.path.exists(settings.destination_path):
             shutil.rmtree(settings.destination_path, ignore_errors=True)
+
+if __name__ == '__main__':
+    iterations = 5
+
+    for iteration in range(iterations):
+        sucess = unittest.main(exit=False, argv=unitargs).result.wasSuccessful()
+
+        if not sucess:
+            sys.exit(1)

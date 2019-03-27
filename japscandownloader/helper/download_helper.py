@@ -1,5 +1,5 @@
 from helper.format_helper import create_cbz, create_pdf, delete_images
-from helper.unscramble_helper import unscramble_image
+from helper.unscramble_helper import unscramble_image, is_scrambled_scripts
 
 import settings.settings as settings
 
@@ -155,24 +155,3 @@ def download_page(scraper, chapter_path, page_url):
     if unscramble is True:
         unscramble_image(scrambled_image, image_full_path)
         os.remove(scrambled_image)
-
-def is_scrambled_scripts(page):
-    scripts = page.find('head').find_all('script')
-
-    if len(scripts) > 9:
-        script = scripts[8]
-
-        settings.logger.debug('script : %s', script)
-
-        if '_' in str(script):
-            return True
-
-    return False
-
-# Old way to detect scrambling
-def is_scrambled_clel(image_url):
-    if 'clel' in image_url:
-        settings.logger.debug('scrambled image')
-        return True
-
-    return False
