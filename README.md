@@ -14,18 +14,6 @@ pip install -r requirements.txt
 ### :boom: Requiere Node.JS :boom:
 [Node.js](https://nodejs.org/en/)
 
-## TODO
-
-### Feature, etc
-+   Chapters folders name (not only number)
-+   Don't download already downloaded manga/chapter/page
-+   Add unscramble force option
-+   Better scrambling detection
-
-### Bug
-+   Sometimes japscan website exploration don't start
-    +   cfscrape problem ?
-
 ### Dependencies
 
 [cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape)
@@ -174,6 +162,18 @@ Supported format
 mangaFormat:
    jpg
 ```
+
+## TODO
+
+### Feature, etc
++   Chapters folders name (not only number)
++   Don't download already downloaded manga/chapter/page
++   Add unscramble force option
++   Better scrambling detection
+
+### Bug
++   Sometimes japscan website exploration don't start
+    +   cfscrape problem ?
 
 ## Test
 
