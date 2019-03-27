@@ -16,17 +16,17 @@ pip install -r requirements.txt
 
 ### Dependencies
 
-[cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape)
++   [cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape)
 
-[Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
++   [Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 
-[PyYAML](https://github.com/yml/pyyml)
++   [PyYAML](https://github.com/yml/pyyml)
 
-[tqdm](https://github.com/tqdm/tqdm)
++   [tqdm](https://github.com/tqdm/tqdm)
 
-[lxml](https://github.com/lxml/lxml.git)
++   [lxml](https://github.com/lxml/lxml.git)
 
-[Pillow](https://github.com/python-pillow/Pillow.git)
++   [Pillow](https://github.com/python-pillow/Pillow.git)
 
 ## Usage
 
