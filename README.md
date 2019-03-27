@@ -11,7 +11,7 @@
 pip install -r requirements.txt
 ```
 
-### :boom: Requiere Node.JS :boom:
+### :boom: Requiere Node.js (cloudflare-scrape) :boom:
 [Node.js](https://nodejs.org/en/)
 
 ### Dependencies
