@@ -11,13 +11,16 @@
 pip install -r requirements.txt
 ```
 
+### YOU NEED Node.JS
 [Node.js](https://nodejs.org/en/)
 
 ## TODO
 
 ### Feature, etc
 +   Chapters folders name (not only number)
-+   Don't download already downloaded chapter/page
++   Don't download already downloaded manga/chapter/page
++   Add unscramble force option
++   Better scrambling detection
 
 ### Bug
 +   Sometimes japscan website exploration don't start
@@ -80,13 +83,12 @@ This file contains list of mangas to download, destination path, etc.
 #### Example  of config file
 
 ``` yaml
-
 mangas:
   - chapter:
-    https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
+      https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
 
   - url:
-    https://www.japscan.to/manga/uq-holder/
+      https://www.japscan.to/manga/uq-holder/
 
   - chapters:
       url:
@@ -101,7 +103,6 @@ destination_path:
 
 manga_format:
   jpg
-
 ```
 
 ### Download an manga

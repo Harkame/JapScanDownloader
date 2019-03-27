@@ -1,6 +1,17 @@
 mangas:
   - chapter:
-      https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/114/
+      https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
+
+#  - url:
+#      https://www.japscan.to/manga/uq-holder/
+
+  - chapters:
+      url:
+         https://www.japscan.to/lecture-en-ligne/black-clover/
+      chapter_min:
+         158
+      chapter_max:
+         161
 
 destination_path:
   ./mangas/

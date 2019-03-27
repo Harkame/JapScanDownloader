@@ -13,7 +13,7 @@ DEFAULT_CONFIG_FILE = os.path.join('.', 'config.yml')
 DEFAULT_DESTINATION_PATH = os.path.join('.', 'mangas')
 DEFAULT_MANGA_FORMAT = 'jpg'
 
-def main():
+def init():
     settings.init()
 
     settings.config_file = DEFAULT_CONFIG_FILE
@@ -80,6 +80,11 @@ def main():
     settings.logger.debug('manga_format : %s', settings.manga_format)
     settings.logger.debug('reverse : %s', settings.reverse)
     settings.logger.debug('keep : %s', settings.keep)
+
+    return mangas
+
+def main():
+    mangas = init()
 
     scraper = cfscrape.create_scraper()
 
