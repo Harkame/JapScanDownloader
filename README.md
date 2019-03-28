@@ -40,7 +40,7 @@ python japscandownloader/main.py
 
 ``` bash
 usage: main.py [-h] [-c CONFIG_FILE] [-d DESTINATION_PATH] [-f FORMAT] [-v]
-               [-r] [-k]
+               [-r] [-k] [-u]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -52,7 +52,7 @@ optional arguments:
                         python japscandownloader/main.py -d /home/mymangas/
   -f FORMAT, --format FORMAT
                         Set format of downloaded mangas Example : python
-                        japscandownloader/main.py -f cbz
+                        japscandownloader/main.py -f cbz|pdf|jpg|png
   -v, --verbose         Active verbose mode, support different level Example :
                         python japscandownloader/main.py -vv
   -r, --reverse         Reverse chapters download order (Default : Last to
@@ -60,6 +60,8 @@ optional arguments:
   -k, --keep            Keep downloaded images (when format is pdf/cbz)
                         (default : false) Example : python
                         japscandownloader/main.py -k
+  -u, --unscramble      Force unscrambling Example : python
+                        japscandownloader/main.py -u
 ```
 
 ### How it work

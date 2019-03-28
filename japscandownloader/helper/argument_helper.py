@@ -18,7 +18,7 @@ def get_arguments(arguments):
 
     argument_parser.add_argument(
         '-f', '--format',
-        help = 'Set format of downloaded mangas' + os.linesep + 'Example : python japscandownloader/main.py -f cbz',
+        help = 'Set format of downloaded mangas' + os.linesep + 'Example : python japscandownloader/main.py -f cbz|pdf|jpg|png',
         type = str,
     )
 
