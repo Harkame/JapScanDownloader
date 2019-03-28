@@ -25,9 +25,9 @@ class ArgumentTest(unittest.TestCase):
         self.assertEqual(arguments.config_file, './myconfig.yml')
         self.assertEqual(arguments.destination_path, './mymangas')
         self.assertEqual(arguments.format, 'myformat')
-        self.assertEqual(arguments.unscramble, '1')
-        self.assertEqual(arguments.keep, '1')
-        self.assertEqual(arguments.reverse, '1')
+        self.assertEqual(arguments.unscramble, 1)
+        self.assertEqual(arguments.keep, 1)
+        self.assertEqual(arguments.reverse, 1)
 
     def test_long_option(self):
         arguments = argument_helper.get_arguments(['--verbose', '--config_file', './myconfig.yml', '--destination_path', './mymangas', '--format', 'myformat', '--unscramble', '--keep', '--reverse'])
@@ -36,9 +36,9 @@ class ArgumentTest(unittest.TestCase):
         self.assertEqual(arguments.config_file, './myconfig.yml')
         self.assertEqual(arguments.destination_path, './mymangas')
         self.assertEqual(arguments.format, 'myformat')
-        self.assertEqual(arguments.unscramble, '1')
-        self.assertEqual(arguments.keep, '1')
-        self.assertEqual(arguments.reverse, '1')
+        self.assertEqual(arguments.unscramble, 1)
+        self.assertEqual(arguments.keep, 1)
+        self.assertEqual(arguments.reverse, 1)
 
     def test_multiple_verbose(self):
         verbosity_argument = '-'
@@ -59,13 +59,11 @@ class ConfigTest(unittest.TestCase):
 
 class SettingsTest(unittest.TestCase):
     def test_settings_init_arguments(self):
-        print('TODO')
+        settings.init_arguments('')
 
     def test_settings_init_config(self):
-        print('TODO')
-
-    def test_settings_init_config(self):
-        print('TODO')
+        #settings.init_config()
+        pass
 
 class UnscrambleTest(unittest.TestCase):
     def test_unscramble_image(self):
@@ -80,7 +78,13 @@ class UnscrambleTest(unittest.TestCase):
             images[i] = (numpy.array(Image.open(f).convert('L').resize((32,32), resample=Image.BICUBIC))).astype(numpy.int)   # convert from unsigned bytes to signed int using numpy
         self.assertEqual(numpy.abs(images[0] - images[1]).sum(), 0)
 
-        #os.remove(temp_unscrambled_image)
+        #os.remove(temp_unscrambled_image
+
+    def test_is_scrambled_scripts(self):
+        pass
+
+    def test_is_scrambled_clel(self):
+        pass
 
 class FormatTest(unittest.TestCase):
     chapter = os.path.join('.', 'tests', 'test_chapter')
@@ -118,7 +122,6 @@ class FormatTest(unittest.TestCase):
 
         os.remove(self.file_name)
 
-
 class DeleteTest(unittest.TestCase):
     chapter = os.path.join('.', 'tests', 'test_chapter')
     image_number = 10
@@ -155,28 +158,26 @@ class DeleteTest(unittest.TestCase):
         self.assertEqual(image_counter, 0)
 
 class DownloadTest(unittest.TestCase):
-    def setUp(self):
-        settings.init()
+    scraper = cfscrape.create_scraper()
 
+    def setUp(self):
         settings.manga_format = 'png'
         settings.destination_path = os.path.join('.', 'tests', 'test_download')
 
         if not os.path.exists(settings.destination_path):
             os.makedirs(settings.destination_path)
 
-    def test_download_chapter(self):
-        scraper = cfscrape.create_scraper()
-
-        chapter_url = 'https://www.japscan.to/lecture-en-ligne/hajime-no-ippo/1255/'
-
-        download_helper.download_chapter(scraper, chapter_url)
-
     def test_download_page(self):
-        scraper = cfscrape.create_scraper()
-
         page_url = 'https://www.japscan.to/lecture-en-ligne/hajime-no-ippo/1255/1.html'
 
-        download_helper.download_page(scraper, page_url)
+        chapter_path = os.path.join(settings.destination_path, 'hajime-no-ippo', '1255')
+
+        download_helper.download_page(self.scraper, chapter_path, page_url)
+
+    def test_download_chapter(self):
+        chapter_url = 'https://www.japscan.to/lecture-en-ligne/hajime-no-ippo/1255/'
+
+        download_helper.download_chapter(self.scraper, chapter_url)
 
     def tearDown(self):
         if os.path.exists(settings.destination_path):

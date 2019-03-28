@@ -16,8 +16,9 @@ keep = False
 manga_format = None
 reverse = False
 unscramble = False
+mangas = []
 
-def init():
+def init(arguments):
     global logger
 
     global config_file
@@ -27,9 +28,11 @@ def init():
     global unscramble
     global reverse
 
+    global mangas
+
     config_file = DEFAULT_CONFIG_FILE
 
-    init_arguments()
+    init_arguments(arguments)
 
     mangas = init_config()
 
@@ -41,10 +44,8 @@ def init():
     logger.debug('reverse : %s', reverse)
 
     logger.debug('mangas : %s', mangas)
-
-    return mangas
-
-def init_arguments():
+    
+def init_arguments(arguments):
     global logger
 
     global config_file
@@ -54,7 +55,9 @@ def init_arguments():
     global reverse
     global unscramble
 
-    arguments = get_arguments(sys.argv[1:])
+    global mangas
+
+    arguments = get_arguments(arguments)
 
     if arguments.verbose:
         logger.setLevel(logging.DEBUG)
@@ -105,9 +108,9 @@ def init_config():
     global reverse
     global unscramble
 
-    config = get_config(config_file)
+    global mangas
 
-    mangas = []
+    config = get_config(config_file)
 
     if config['mangas'] is not None:
         mangas = config['mangas']
@@ -123,5 +126,3 @@ def init_config():
             manga_format = config['manga_format']
         else:
             manga_format = DEFAULT_MANGA_FORMAT
-
-    return mangas
