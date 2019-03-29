@@ -103,6 +103,9 @@ def download_page(scraper, chapter_path, page_url):
 
     unscramble = is_scrambled_scripts(page)
 
+    if settings.unscramble:
+        unscramble = True
+
     settings.logger.debug('unscramble : %s', unscramble)
 
     settings.logger.debug('image_url: %s', image_url)
