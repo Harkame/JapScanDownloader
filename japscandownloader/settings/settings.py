@@ -1,9 +1,9 @@
+from helper.argument_helper import get_arguments
+from helper.config_helper import get_config
+
 import logging
 import os
 import sys
-
-from helper.argument_helper import get_arguments
-from helper.config_helper import get_config
 
 DEFAULT_CONFIG_FILE = os.path.join('.', 'config.yml')
 DEFAULT_DESTINATION_PATH = os.path.join('.', 'mangas')
