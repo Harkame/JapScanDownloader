@@ -34,7 +34,7 @@ def init(arguments):
 
     init_arguments(arguments)
 
-    mangas = init_config()
+    init_config()
 
     logger.debug('config_file : %s', config_file)
     logger.debug('destination_path : %s', destination_path)
@@ -44,7 +44,7 @@ def init(arguments):
     logger.debug('reverse : %s', reverse)
 
     logger.debug('mangas : %s', mangas)
-    
+
 def init_arguments(arguments):
     global logger
 
@@ -113,7 +113,7 @@ def init_config():
     config = get_config(config_file)
 
     if config['mangas'] is not None:
-        mangas = config['mangas']
+        mangas.extend(config['mangas'])
 
     if destination_path is None:
         if config['destination_path'] is not None:

@@ -10,11 +10,11 @@ import sys
 import os
 
 def main(arguments):
-    mangas = settings.init(arguments)
+    settings.init(arguments)
 
     scraper = cfscrape.create_scraper()
 
-    for manga in mangas:
+    for manga in settings.mangas:
         download_manga(scraper, manga)
 
 if __name__ == '__main__':
