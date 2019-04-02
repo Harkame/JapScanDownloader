@@ -9,7 +9,6 @@ import logging
 import sys
 import os
 
-
 def main(arguments):
     settings.init(arguments)
 
