@@ -174,12 +174,7 @@ mangaFormat:
 ### Feature, etc
 +   Chapters folders name (not only number)
 +   Don't download already downloaded manga/chapter/page
-+   Add unscramble force option
 +   Better scrambling detection
-
-### Bug
-+   Sometimes japscan website exploration don't start
-    +   cfscrape problem ?
 
 ## Test
 
