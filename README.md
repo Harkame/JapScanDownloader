@@ -7,8 +7,17 @@
 
 ## Installation
 
+
+### cloudflare-scrape-js2py
+
+We need this module to bypass cloudflare, all instruction on the project README
+
+[cloudflare-scrape-js2py](https://github.com/VeNoMouS/cloudflare-scrape-js2py.git)
+
 ``` bash
+
 pip install -r requirements.txt
+
 ```
 
 ###  :boom: CloudFlare  :boom:
@@ -19,8 +28,6 @@ pip install -r requirements.txt
 [Node.js](https://nodejs.org/en/)
 
 ### Dependencies
-
-+   [cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape)
 
 +   [Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 

@@ -3,3 +3,5 @@ git update-index --assume-unchanged config.yml
 git update-index --no-assume-unchanged config.yml
 
 https://packaging.python.org/tutorials/packaging-projects/
+
+cfscrape
