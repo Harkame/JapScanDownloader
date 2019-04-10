@@ -8,7 +8,7 @@
 ## Installation
 
 
-### cloudflare-scrape-js2py
+### :boom: cloudflare-scrape-js2py :boom:
 
 We need this module to bypass cloudflare, all instruction on the project README
 
@@ -19,13 +19,6 @@ We need this module to bypass cloudflare, all instruction on the project README
 pip install -r requirements.txt
 
 ```
-
-###  :boom: CloudFlare  :boom:
-
-### Keep packages up to date, especially cloudflare-scrape
-
-### Requiere Node.js (cloudflare-scrape)
-[Node.js](https://nodejs.org/en/)
 
 ### Dependencies
 
