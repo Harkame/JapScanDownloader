@@ -7,33 +7,39 @@
 
 ## Installation
 
+### Auto
+
+Execute script install.sh
+
+``` bash
+./install.sh
+```
+
+### Manual
+
+#### :boom: cloudflare-scrape-js2py :boom:
+
+[cloudflare-scrape-js2py](https://github.com/VeNoMouS/cloudflare-scrape-js2py.git)
+
+Install this module to bypass cloudflare, all install instructions in the README.md
+
+#### Other dependencies
+
 ``` bash
 pip install -r requirements.txt
 ```
 
-## TODO
-
-### Feature, etc
-+   Chapters folders name (not only number)
-+   Don't download already downloaded chapter/page
-
-### Bug
-+   Sometimes japscan website exploration don't start
-    +   cfscrape problem ?
-
 ### Dependencies
 
-[cloudflare-scrape](https://github.com/Anorov/cloudflare-scrape)
++   [Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 
-[Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
++   [PyYAML](https://github.com/yml/pyyml)
 
-[PyYAML](https://github.com/yml/pyyml)
++   [tqdm](https://github.com/tqdm/tqdm)
 
-[tqdm](https://github.com/tqdm/tqdm)
++   [lxml](https://github.com/lxml/lxml.git)
 
-[lxml](https://github.com/lxml/lxml.git)
-
-[Pillow](https://github.com/python-pillow/Pillow.git)
++   [Pillow](https://github.com/python-pillow/Pillow.git)
 
 ## Usage
 
@@ -47,7 +53,7 @@ python japscandownloader/main.py
 
 ``` bash
 usage: main.py [-h] [-c CONFIG_FILE] [-d DESTINATION_PATH] [-f FORMAT] [-v]
-               [-r] [-k]
+               [-r] [-k] [-u]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -59,7 +65,7 @@ optional arguments:
                         python japscandownloader/main.py -d /home/mymangas/
   -f FORMAT, --format FORMAT
                         Set format of downloaded mangas Example : python
-                        japscandownloader/main.py -f cbz
+                        japscandownloader/main.py -f cbz|pdf|jpg|png
   -v, --verbose         Active verbose mode, support different level Example :
                         python japscandownloader/main.py -vv
   -r, --reverse         Reverse chapters download order (Default : Last to
@@ -67,6 +73,8 @@ optional arguments:
   -k, --keep            Keep downloaded images (when format is pdf/cbz)
                         (default : false) Example : python
                         japscandownloader/main.py -k
+  -u, --unscramble      Force unscrambling Example : python
+                        japscandownloader/main.py -u
 ```
 
 ### How it work
@@ -78,13 +86,12 @@ This file contains list of mangas to download, destination path, etc.
 #### Example  of config file
 
 ``` yaml
-
 mangas:
   - chapter:
-    https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
+      https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
 
   - url:
-    https://www.japscan.to/manga/uq-holder/
+      https://www.japscan.to/manga/uq-holder/
 
   - chapters:
       url:
@@ -99,7 +106,6 @@ destination_path:
 
 manga_format:
   jpg
-
 ```
 
 ### Download an manga
@@ -171,6 +177,13 @@ Supported format
 mangaFormat:
    jpg
 ```
+
+## TODO
+
+### Feature, etc
++   Chapters folders name (not only number)
++   Don't download already downloaded manga/chapter/page
++   Better scrambling detection
 
 ## Test
 

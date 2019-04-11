@@ -1,19 +1,24 @@
 from helper.format_helper import create_cbz, create_pdf, delete_images
-from helper.unscramble_helper import unscramble_image
+from helper.unscramble_helper import unscramble_image, is_scrambled_scripts
 
 import settings.settings as settings
 
 from bs4 import BeautifulSoup
 import os
 from tqdm import tqdm
+import sys
+
+from urllib.parse import urlparse
 
 JAPSCAN_URL = 'https://www.japscan.to'
 
 def download_manga(scraper, manga):
     if 'url' in manga:
-        chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml').findAll('div',{'class':'chapters_list text-truncate'});
+        manga_page = chapter_divs = BeautifulSoup(scraper.get(manga['url']).content, features='lxml')
 
-        #chapters_progress_bar = tqdm(total=len(chapter_divs), position=0, bar_format='[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]')
+        chapter_divs = manga_page.findAll('div',{'class':'chapters_list text-truncate'});
+
+        chapters_progress_bar = tqdm(total=len(chapter_divs), position=0, bar_format='[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]')
 
         chapters = None
 
@@ -33,13 +38,20 @@ def download_manga(scraper, manga):
 
             download_chapter(scraper, chapter_url)
 
-        #chapters_progress_bar.close()
+        chapters_progress_bar.close()
 
     elif 'chapters' in manga:
         base_counter = manga['chapters']['chapter_min']
+
+        diff = manga['chapters']['chapter_max'] - manga['chapters']['chapter_min']
+
+        chapters_progress_bar = tqdm(total=diff, position=0, bar_format='[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]')
+
         while base_counter <= manga['chapters']['chapter_max']:
             download_chapter(scraper, manga['chapters']['url'] + str(base_counter) + "/")
             base_counter += 1
+
+        chapters_progress_bar.close()
     else:
         download_chapter(scraper, manga['chapter'])
 
@@ -59,18 +71,18 @@ def download_chapter(scraper, chapter_url):
     manga_name = data[4]
     chapter_number = data[5]
 
+    chapter_path = os.path.join(settings.destination_path, manga_name, chapter_number)
+
     for page_tag in page_options:
         page_url = JAPSCAN_URL + page_tag['value']
 
         settings.logger.debug('page_url : %s', page_url)
 
-        download_page(scraper, page_url)
+        download_page(scraper, chapter_path, page_url)
 
         pages_progress_bar.update(1)
 
     pages_progress_bar.close()
-
-    chapter_path = os.path.join(settings.destination_path, manga_name, chapter_number)
 
     if settings.manga_format == 'pdf':
         create_pdf(chapter_path, os.path.join(chapter_path, chapter_number + '.pdf'))
@@ -82,22 +94,29 @@ def download_chapter(scraper, chapter_url):
         if not settings.keep:
             delete_images(chapter_path)
 
-def download_page(scraper, page_url):
+def download_page(scraper, chapter_path, page_url):
     settings.logger.debug('page_url: %s', page_url)
 
     page = BeautifulSoup(scraper.get(page_url).content, features='lxml')
 
     image_url = page.find('div', {'id': 'image'})['data-src']
 
-    settings.logger.debug('image_url: %s', image_url)
+    unscramble = is_scrambled_scripts(page)
 
-    unscramble = False
-
-    if 'clel' in image_url:
-        settings.logger.debug('scrambled image')
+    if settings.unscramble:
         unscramble = True
 
+    settings.logger.debug('unscramble : %s', unscramble)
+
+    settings.logger.debug('image_url: %s', image_url)
+
     reverse_image_url = image_url[::-1]
+
+    image_name = urlparse(image_url).path.split('/')[-1]
+
+    image_full_path = os.path.join(chapter_path, image_name)
+
+    settings.logger.debug('image_full_path : %s', image_full_path)
 
     slash_counter = 0
     index = 0
@@ -112,8 +131,6 @@ def download_page(scraper, page_url):
     image_path = reverse_image_url[::-1]
 
     settings.logger.debug('image_path : %s', image_path)
-
-    image_full_path = settings.destination_path + image_path
 
     settings.logger.debug('image_full_path : %s', image_full_path)
 

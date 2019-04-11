@@ -2,8 +2,8 @@ mangas:
   - chapter:
       https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
 
-  - url:
-      https://www.japscan.to/manga/uq-holder/
+#  - url:
+#      https://www.japscan.to/manga/uq-holder/
 
   - chapters:
       url:
@@ -11,7 +11,7 @@ mangas:
       chapter_min:
          158
       chapter_max:
-         197
+         161
 
 destination_path:
   ./mangas/

@@ -7,6 +7,7 @@ import helper.config_helper as config_helper
 import helper.unscramble_helper as unscramble_helper
 import helper.format_helper as format_helper
 import helper.download_helper as download_helper
+import main
 
 import settings.settings as settings
 
@@ -18,20 +19,26 @@ import shutil
 
 class ArgumentTest(unittest.TestCase):
     def test_short_option(self):
-        arguments = argument_helper.get_arguments(['-v', '-c', './myconfig.yml', '-d', './mymangas', '-f', 'myformat'])
+        arguments = argument_helper.get_arguments(['-v', '-c', './myconfig.yml', '-d', './mymangas', '-f', 'myformat', '-u', '-k', '-r'])
 
         self.assertEqual(arguments.verbose, 1)
         self.assertEqual(arguments.config_file, './myconfig.yml')
         self.assertEqual(arguments.destination_path, './mymangas')
         self.assertEqual(arguments.format, 'myformat')
+        self.assertEqual(arguments.unscramble, 1)
+        self.assertEqual(arguments.keep, 1)
+        self.assertEqual(arguments.reverse, 1)
 
     def test_long_option(self):
-        arguments = argument_helper.get_arguments(['--verbose', '--config_file', './myconfig.yml', '--destination_path', './mymangas', '--format', 'myformat'])
+        arguments = argument_helper.get_arguments(['--verbose', '--config_file', './myconfig.yml', '--destination_path', './mymangas', '--format', 'myformat', '--unscramble', '--keep', '--reverse'])
 
         self.assertEqual(arguments.verbose, 1)
         self.assertEqual(arguments.config_file, './myconfig.yml')
         self.assertEqual(arguments.destination_path, './mymangas')
         self.assertEqual(arguments.format, 'myformat')
+        self.assertEqual(arguments.unscramble, 1)
+        self.assertEqual(arguments.keep, 1)
+        self.assertEqual(arguments.reverse, 1)
 
     def test_multiple_verbose(self):
         verbosity_argument = '-'
@@ -50,6 +57,14 @@ class ConfigTest(unittest.TestCase):
         self.assertEqual(config['mangas'][0]['url'], 'https://www.japscan.to/manga/shingeki-no-kyojin/')
         self.assertEqual(config['mangas'][1]['url'], 'https://www.japscan.to/manga/hunter-x-hunter/')
 
+class SettingsTest(unittest.TestCase):
+    def test_settings_init_arguments(self):
+        settings.init_arguments('')
+
+    def test_settings_init_config(self):
+        #settings.init_config()
+        pass
+
 class UnscrambleTest(unittest.TestCase):
     def test_unscramble_image(self):
         scrambled_image = os.path.join('.', 'tests', 'test_unscramble', 'test_scrambled_image.png')
@@ -63,7 +78,13 @@ class UnscrambleTest(unittest.TestCase):
             images[i] = (numpy.array(Image.open(f).convert('L').resize((32,32), resample=Image.BICUBIC))).astype(numpy.int)   # convert from unsigned bytes to signed int using numpy
         self.assertEqual(numpy.abs(images[0] - images[1]).sum(), 0)
 
-        os.remove(temp_unscrambled_image)
+        #os.remove(temp_unscrambled_image
+
+    def test_is_scrambled_scripts(self):
+        pass
+
+    def test_is_scrambled_clel(self):
+        pass
 
 class FormatTest(unittest.TestCase):
     chapter = os.path.join('.', 'tests', 'test_chapter')
@@ -101,7 +122,6 @@ class FormatTest(unittest.TestCase):
 
         os.remove(self.file_name)
 
-
 class DeleteTest(unittest.TestCase):
     chapter = os.path.join('.', 'tests', 'test_chapter')
     image_number = 10
@@ -138,29 +158,36 @@ class DeleteTest(unittest.TestCase):
         self.assertEqual(image_counter, 0)
 
 class DownloadTest(unittest.TestCase):
-    def setUp(self):
-        settings.init()
+    scraper = cfscrape.create_scraper()
 
+    def setUp(self):
         settings.manga_format = 'png'
         settings.destination_path = os.path.join('.', 'tests', 'test_download')
 
         if not os.path.exists(settings.destination_path):
             os.makedirs(settings.destination_path)
 
-    def test_download_chapter(self):
-        scraper = cfscrape.create_scraper()
-
-        chapter_url = 'https://www.japscan.to/lecture-en-ligne/hajime-no-ippo/1255/'
-
-        download_helper.download_chapter(scraper, chapter_url)
-
     def test_download_page(self):
-        scraper = cfscrape.create_scraper()
-
         page_url = 'https://www.japscan.to/lecture-en-ligne/hajime-no-ippo/1255/1.html'
 
-        download_helper.download_page(scraper, page_url)
+        chapter_path = os.path.join(settings.destination_path, 'hajime-no-ippo', '1255')
+
+        download_helper.download_page(self.scraper, chapter_path, page_url)
+
+    def test_download_chapter(self):
+        chapter_url = 'https://www.japscan.to/lecture-en-ligne/hajime-no-ippo/1255/'
+
+        download_helper.download_chapter(self.scraper, chapter_url)
 
     def tearDown(self):
         if os.path.exists(settings.destination_path):
             shutil.rmtree(settings.destination_path, ignore_errors=True)
+
+if __name__ == '__main__':
+    iterations = 5
+
+    for iteration in range(iterations):
+        sucess = unittest.main(exit=False, argv=unitargs).result.wasSuccessful()
+
+        if not sucess:
+            sys.exit(1)
