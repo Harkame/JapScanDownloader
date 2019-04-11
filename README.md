@@ -7,17 +7,26 @@
 
 ## Installation
 
+### Auto
 
-### :boom: cloudflare-scrape-js2py :boom:
+Execute script install.sh
 
-We need this module to bypass cloudflare, all instruction on the project README
+``` bash
+./install.sh
+```
+
+### Manual
+
+#### :boom: cloudflare-scrape-js2py :boom:
 
 [cloudflare-scrape-js2py](https://github.com/VeNoMouS/cloudflare-scrape-js2py.git)
 
+Install this module to bypass cloudflare, all install instructions in the README.md
+
+#### Other dependencies
+
 ``` bash
-
 pip install -r requirements.txt
-
 ```
 
 ### Dependencies

@@ -12,3 +12,5 @@ test_chapter/*
 build/
 dist/
 *.pyc
+cloudflare-scrape-js2py/
+cfscrape.egg-info/
