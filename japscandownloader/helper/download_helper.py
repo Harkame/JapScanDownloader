@@ -6,7 +6,6 @@ import settings.settings as settings
 from bs4 import BeautifulSoup
 import os
 from tqdm import tqdm
-import sys
 
 from urllib.parse import urlparse
 

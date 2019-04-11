@@ -17,7 +17,7 @@ Execute script install.sh
 
 ### Manual
 
-#### :boom: cloudflare-scrape-js2py :boom:
+#### cloudflare-scrape-js2py
 
 [cloudflare-scrape-js2py](https://github.com/VeNoMouS/cloudflare-scrape-js2py.git)
 
@@ -32,13 +32,9 @@ pip install -r requirements.txt
 ### Dependencies
 
 +   [Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
-
 +   [PyYAML](https://github.com/yml/pyyml)
-
 +   [tqdm](https://github.com/tqdm/tqdm)
-
 +   [lxml](https://github.com/lxml/lxml.git)
-
 +   [Pillow](https://github.com/python-pillow/Pillow.git)
 
 ## Usage
