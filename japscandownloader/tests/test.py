@@ -7,11 +7,10 @@ import helper.config_helper as config_helper
 import helper.unscramble_helper as unscramble_helper
 import helper.format_helper as format_helper
 import helper.download_helper as download_helper
-import main
 
 import settings.settings as settings
 
-import cfscrape
+#import cfscrape
 import unittest
 import numpy
 from PIL import Image
@@ -156,7 +155,7 @@ class DeleteTest(unittest.TestCase):
                 image_counter += 1
 
         self.assertEqual(image_counter, 0)
-
+'''
 class DownloadTest(unittest.TestCase):
     scraper = cfscrape.create_scraper()
 
@@ -182,7 +181,7 @@ class DownloadTest(unittest.TestCase):
     def tearDown(self):
         if os.path.exists(settings.destination_path):
             shutil.rmtree(settings.destination_path, ignore_errors=True)
-
+'''
 if __name__ == '__main__':
     iterations = 5
 

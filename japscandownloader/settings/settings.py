@@ -3,7 +3,6 @@ from helper.config_helper import get_config
 
 import logging
 import os
-import sys
 
 DEFAULT_CONFIG_FILE = os.path.join('.', 'config.yml')
 DEFAULT_DESTINATION_PATH = os.path.join('.', 'mangas')
