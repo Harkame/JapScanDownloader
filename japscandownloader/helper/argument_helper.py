@@ -1,8 +1,6 @@
 import argparse
 import os
 
-from argparse import RawTextHelpFormatter
-
 def get_arguments(arguments):
     argument_parser = argparse.ArgumentParser(description='Script to download mangas from JapScan',
     formatter_class=lambda prog: argparse.RawTextHelpFormatter(prog, width=99999))
