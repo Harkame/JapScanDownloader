@@ -37,6 +37,7 @@ def is_scrambled_scripts(page):
         settings.logger.debug('script : %s', script)
 
         if '_' in str(script):
+            settings.logger.debug('scrambled image')
             return True
 
     return False
