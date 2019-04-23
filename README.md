@@ -180,6 +180,7 @@ mangaFormat:
 +   Chapters folders name (not only number)
 +   Don't download already downloaded manga/chapter/page
 +   Better scrambling detection
++  ?  Use webdriver instead of CloudFlare bypass ?
 
 ## Test
 
