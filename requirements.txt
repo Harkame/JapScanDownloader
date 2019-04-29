@@ -3,3 +3,4 @@ pyyaml
 lxml
 tqdm
 pillow
+cloudscraper

@@ -9,25 +9,7 @@
 
 ### Auto
 
-Execute script install.sh
-
-``` bash
-./install.sh
-```
-
-### Manual
-
-#### cloudflare-scrape-js2py
-
-[cloudflare-scrape-js2py](https://github.com/VeNoMouS/cloudflare-scrape-js2py.git)
-
-Install this module to bypass cloudflare, all install instructions in the README.md
-
-#### Other dependencies
-
-``` bash
 pip install -r requirements.txt
-```
 
 ### Dependencies
 
@@ -36,6 +18,7 @@ pip install -r requirements.txt
 +   [tqdm](https://github.com/tqdm/tqdm)
 +   [lxml](https://github.com/lxml/lxml.git)
 +   [Pillow](https://github.com/python-pillow/Pillow.git)
++   [cloudscraper](https://github.com/VeNoMouS/cloudscraper)
 
 ## Usage
 

@@ -3,7 +3,7 @@
 REPOSRC="https://github.com/VeNoMouS/cloudflare-scrape-js2py.git"
 LOCALREPO="cloudflare-scrape-js2py"
 
-git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || (cd "$LOCALREPO" ; git pull)
+#git clone "$REPOSRC" "$LOCALREPO" 2> /dev/null || (cd "$LOCALREPO" ; git pull)
 
 cd $LOCALREPO
 
