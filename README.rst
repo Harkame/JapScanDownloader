@@ -70,15 +70,124 @@ This file contains list of mangas to download, destination path, etc.
 Example of config file
 ^^^^^^^^^^^^^^^^^^^^^^
 
-\``\` yaml mangas: - chapter:
-https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
+.. code:: yaml
 
--  url: https://www.japscan.to/manga/uq-holder/
+  mangas:
+    - chapter:
+        https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
 
--  chapters: url: https://www.japscan.to/lecture-en-ligne/black-clover/
-   chapter_min: 158 chapter_max: 197
+    - url:
+        https://www.japscan.to/manga/uq-holder/
 
-destinatio
+    - chapters:
+        url:
+           https://www.japscan.to/lecture-en-ligne/black-clover/
+        chapter_min:
+           158
+        chapter_max:
+           197
+
+  destination_path:
+    ./mangas/
+
+  manga_format:
+    jpg
+
+Download an manga
+~~~~~~~~~~~~~~~~~
+
+Add an entry to attribute mangas
+
+.. code:: yml
+
+  mangas:
+    - url:
+      https://www.japscan.to/manga/uq-holder/
+
+    - chapter:
+      https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
+
+    - chapters:
+        url:
+           https://www.japscan.to/lecture-en-ligne/black-clover/
+        chapter_min:
+           158
+        chapter_max:
+           197
+
+3 supported format of download
+
+:boom: Be careful to URL format :boom:
+
+Manga
+^^^^^
+
+-  url : Url of the manga to download
+
+Chapter
+^^^^^^^
+
+-  url : Url of the chapter to download
+
+Chapters
+^^^^^^^^
+
+-  url : Url of the manga to download
+-  chapter_min : range min of chapters to download
+-  chapter_max : range max of chapters to download
+
+Change downloads destination
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Replace destination_path value by desired path
+
+Linux
+^^^^^
+
+.. code:: yml
+
+   destinationPath:
+      /home/harkame/mangas
+
+Windows
+^^^^^^^
+
+.. code:: yml
+
+   destinationPath:
+      F:\data\mangas
+
+Change Manga format
+^^^^^^^^^^^^^^^^^^^
+
+Replace manga_format value by desired format
+
+Supported format + jpg/png (default) : Just download image file + pdf :
+Create PDF file + cbz : Create CBZ archive
+
+.. code:: yml
+
+   mangaFormat:
+      jpg
+
+TODO
+----
+
+Feature, etc
+~~~~~~~~~~~~
+
+-  Chapters folders name (not only number)
+-  Don’t download already downloaded manga/chapter/page
+-  Better scrambling detection
+
+Test
+----
+
+.. code:: bash
+
+     pip install tox
+
+     tox
 
 .. _Beautiful Soup 4: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 .. _PyYAML: https://github.com/yml/pyyml
