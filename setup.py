@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-with open('README.md', 'r') as fh:
+with open('README.rst', 'r') as fh:
     long_description = fh.read()
 
 setup(
@@ -9,7 +9,6 @@ setup(
     author='Harkame',
     description='Script to download mangas from JapScan',
     long_description=long_description,
-    long_description_content_type='text/markdown',
     url='https://github.com/Harkame/JapScanDownloader',
     packages=find_packages(),
     classifiers=[
