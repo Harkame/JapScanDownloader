@@ -3,13 +3,10 @@ JapScanDownloader
 
 |Codacy Badge| |Build Status| |License: GPL v3| |codecov|
 
-Installation
-------------
+Installation - Please keep dependencies updated
+-----------------------------------------------
 
-Auto
-~~~~
-
-pip install -r requirements.txt
+pip install -r requirements.txt -U
 
 Dependencies
 ~~~~~~~~~~~~
