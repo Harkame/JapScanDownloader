@@ -159,8 +159,11 @@ Change Manga format
 
 Replace manga_format value by desired format
 
-Supported format + jpg/png (default) : Just download image file + pdf :
-Create PDF file + cbz : Create CBZ archive
+Supported format
+
+-  jpg/png (default) : Just download image file
+-  pdf : Create PDF file
+-  cbz : Create CBZ archive
 
 .. code:: yml
 
