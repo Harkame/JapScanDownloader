@@ -1,5 +1,5 @@
-from helper.argument_helper import get_arguments
-from helper.config_helper import get_config
+from helpers.argument_helper import get_arguments
+from helpers.config_helper import get_config
 
 import logging
 import os
