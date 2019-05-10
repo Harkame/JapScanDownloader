@@ -124,7 +124,7 @@ Manga
 Chapter
 ^^^^^^^
 
--  url : Url of the chapter to download
+-  chapter : Url of the chapter to download
 
 Chapters
 ^^^^^^^^
