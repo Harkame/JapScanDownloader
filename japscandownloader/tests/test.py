@@ -2,11 +2,11 @@ import os.path, sys
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
 
-import helper.argument_helper as argument_helper
-import helper.config_helper as config_helper
-import helper.unscramble_helper as unscramble_helper
-import helper.format_helper as format_helper
-import helper.download_helper as download_helper
+import helpers.argument_helper as argument_helper
+import helpers.config_helper as config_helper
+import helpers.unscramble_helper as unscramble_helper
+import helpers.format_helper as format_helper
+import helpers.download_helper as download_helper
 
 import settings.settings as settings
 
@@ -155,7 +155,7 @@ class DeleteTest(unittest.TestCase):
                 image_counter += 1
 
         self.assertEqual(image_counter, 0)
-        
+
 '''
 class DownloadTest(unittest.TestCase):
     scraper = cfscrape.create_scraper()

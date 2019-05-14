@@ -1,4 +1,4 @@
-from helper.download_helper import download_manga
+from helpers.download_helper import download_manga
 
 import settings.settings as settings
 

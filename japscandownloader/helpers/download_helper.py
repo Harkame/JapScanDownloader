@@ -1,5 +1,5 @@
-from helper.format_helper import create_cbz, create_pdf, delete_images
-from helper.unscramble_helper import unscramble_image, is_scrambled_scripts
+from helpers.format_helper import create_cbz, create_pdf, delete_images
+from helpers.unscramble_helper import unscramble_image, is_scrambled_scripts
 
 import settings.settings as settings
 
