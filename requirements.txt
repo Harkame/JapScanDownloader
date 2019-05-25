@@ -4,3 +4,4 @@ lxml
 tqdm
 pillow
 cloudscraper
+requests==2.21.0
