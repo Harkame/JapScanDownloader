@@ -10,7 +10,7 @@ import helpers.download_helper as download_helper
 
 import settings.settings as settings
 
-#import cfscrape
+import cloudscraper
 import unittest
 import numpy
 from PIL import Image
@@ -156,9 +156,9 @@ class DeleteTest(unittest.TestCase):
 
         self.assertEqual(image_counter, 0)
 
-'''
+
 class DownloadTest(unittest.TestCase):
-    scraper = cfscrape.create_scraper()
+    scraper = cloudscraper.create_scraper()
 
     def setUp(self):
         settings.manga_format = 'png'
@@ -175,14 +175,15 @@ class DownloadTest(unittest.TestCase):
         download_helper.download_page(self.scraper, chapter_path, page_url)
 
     def test_download_chapter(self):
-        chapter_url = 'https://www.japscan.to/lecture-en-ligne/hajime-no-ippo/1255/'
+        pass
 
-        download_helper.download_chapter(self.scraper, chapter_url)
+        #chapter_url = 'https://www.japscan.to/lecture-en-ligne/hajime-no-ippo/1255/'
+
+        #download_helper.download_chapter(self.scraper, chapter_url)
 
     def tearDown(self):
         if os.path.exists(settings.destination_path):
             shutil.rmtree(settings.destination_path, ignore_errors=True)
-'''
 
 if __name__ == '__main__':
     iterations = 5
