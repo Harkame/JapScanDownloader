@@ -120,7 +120,7 @@ Add an entry to attribute mangas
 
 3 supported format of download
 
-:boom: Be careful to URL format :boom:
+Be careful to URL format :boom:
 
 Manga
 ^^^^^
