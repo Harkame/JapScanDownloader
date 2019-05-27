@@ -18,6 +18,12 @@ Dependencies
 -  `Pillow`_
 -  `cloudscraper`_
 
+Be careful
+~~~~~~~~~~
+
+Because of problem with new version of urllib3 (1.25.3) make sure you have an older version
+I recommend this version : urllib3==1.24.3
+
 Usage
 -----
 
@@ -114,7 +120,7 @@ Add an entry to attribute mangas
 
 3 supported format of download
 
-:boom: Be careful to URL format :boom:
+Be careful to URL format :boom:
 
 Manga
 ^^^^^
@@ -143,7 +149,7 @@ Linux
 
 .. code:: yml
 
-   destinationPath:
+   destination_path:
       /home/harkame/mangas
 
 Windows
@@ -151,7 +157,7 @@ Windows
 
 .. code:: yml
 
-   destinationPath:
+   destination_path:
       F:\data\mangas
 
 Change Manga format
