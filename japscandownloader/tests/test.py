@@ -156,7 +156,7 @@ class DeleteTest(unittest.TestCase):
 
         self.assertEqual(image_counter, 0)
 
-
+'''
 class DownloadTest(unittest.TestCase):
     scraper = cloudscraper.create_scraper()
 
@@ -184,6 +184,7 @@ class DownloadTest(unittest.TestCase):
     def tearDown(self):
         if os.path.exists(settings.destination_path):
             shutil.rmtree(settings.destination_path, ignore_errors=True)
+'''
 
 if __name__ == '__main__':
     iterations = 5
