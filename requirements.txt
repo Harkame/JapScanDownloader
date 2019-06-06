@@ -1,7 +1,7 @@
-BeautifulSoup4==4.7.1
-pyyaml==5.1
-lxml==4.3.3
-tqdm==4.32.1
-pillow==6.0.0
+BeautifulSoup4
+pyyaml
+lxml
+tqdm
+pillow
 cloudscraper
 urllib3==1.24.3
