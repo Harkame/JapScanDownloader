@@ -1,4 +1,4 @@
-import settings.settings as settings
+from settings import settings
 
 from PIL import Image
 

@@ -1,5 +1,4 @@
-from helpers.argument_helper import get_arguments
-from helpers.config_helper import get_config
+from helpers import helper_argument, helper_config
 
 import logging
 import os
@@ -56,7 +55,7 @@ def init_arguments(arguments):
 
     global mangas
 
-    arguments = get_arguments(arguments)
+    arguments = helper_argument.get_arguments(arguments)
 
     if arguments.verbose:
         logger.setLevel(logging.DEBUG)
@@ -109,7 +108,7 @@ def init_config():
 
     global mangas
 
-    config = get_config(config_file)
+    config = helper_config.get_config(config_file)
 
     if config['mangas'] is not None:
         mangas.extend(config['mangas'])

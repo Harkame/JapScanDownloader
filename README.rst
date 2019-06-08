@@ -193,8 +193,16 @@ Test
 
      tox
 
+Generate cover report
+~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: bash
+
+pytest tests/ --cov=japscandownloader --cov-report=
+
+
 .. _Beautiful Soup 4: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
-.. _PyYAML: https://github.com/yml/pyyml
+.. _PyYAML: https://github.com/yaml/pyyaml
 .. _tqdm: https://github.com/tqdm/tqdm
 .. _lxml: https://github.com/lxml/lxml.git
 .. _Pillow: https://github.com/python-pillow/Pillow.git

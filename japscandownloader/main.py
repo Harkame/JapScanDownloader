@@ -1,4 +1,4 @@
-from helpers.download_helper import download_manga
+from helpers import helper_download
 
 import settings.settings as settings
 
@@ -11,7 +11,7 @@ def main(arguments):
     scraper = cloudscraper.create_scraper()
 
     for manga in settings.mangas:
-        download_manga(scraper, manga)
+        helper_download.download_manga(scraper, manga)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

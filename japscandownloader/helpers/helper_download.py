@@ -1,7 +1,6 @@
-from helpers.format_helper import create_cbz, create_pdf, delete_images
-from helpers.unscramble_helper import unscramble_image, is_scrambled_scripts
+from  helpers import helper_scrambling, helper_download
 
-import settings.settings as settings
+from settings import settings
 
 from bs4 import BeautifulSoup
 import os
@@ -100,7 +99,7 @@ def download_page(scraper, chapter_path, page_url):
 
     image_url = page.find('div', {'id': 'image'})['data-src']
 
-    unscramble = is_scrambled_scripts(page)
+    unscramble = helper_scrambling.is_scrambled_scripts(page)
 
     if settings.unscramble:
         unscramble = True
@@ -155,5 +154,5 @@ def download_page(scraper, chapter_path, page_url):
     file.close()
 
     if unscramble is True:
-        unscramble_image(scrambled_image, image_full_path)
+        helper_scrambling.unscramble_image(scrambled_image, image_full_path)
         os.remove(scrambled_image)
