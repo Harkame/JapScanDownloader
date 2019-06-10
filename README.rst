@@ -136,8 +136,8 @@ Chapters
 ^^^^^^^^
 
 -  url : Url of the manga to download
--  chapter_min : range min of chapters to download
--  chapter_max : range max of chapters to download
+-  chapter_min : range min of chapters to download (chapter min included)
+-  chapter_max : range max of chapters to download (chapter max included)
 
 Change downloads destination
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

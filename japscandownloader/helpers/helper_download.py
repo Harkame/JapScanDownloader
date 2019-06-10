@@ -41,7 +41,7 @@ def download_manga(scraper, manga):
     elif 'chapters' in manga:
         base_counter = manga['chapters']['chapter_min']
 
-        diff = manga['chapters']['chapter_max'] - manga['chapters']['chapter_min']
+        diff = (manga['chapters']['chapter_max'] - manga['chapters']['chapter_min']) + 1 #included
 
         chapters_progress_bar = tqdm(total=diff, position=0, bar_format='[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]')
 
