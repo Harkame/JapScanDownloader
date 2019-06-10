@@ -1,4 +1,6 @@
-import sys, os
+'''
+import os
+import sys
 
 my_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, my_path + '/../japscandownloader/')
@@ -40,3 +42,4 @@ class DownloadTests(unittest.TestCase):
     def tearDown(self):
         if os.path.exists(settings.destination_path):
             shutil.rmtree(settings.destination_path, ignore_errors=True)
+'''

@@ -12,7 +12,7 @@ JAPSCAN_URL = 'https://www.japscan.to'
 
 def download_manga(scraper, manga):
     if 'url' in manga:
-        manga_page = BeautifulSoup(scraper.get(manga['url']).content.decode('utf-8'), features='lxml')
+        manga_page = BeautifulSoup(scraper.get(manga['url']).content, features='lxml')
 
         chapter_divs = manga_page.findAll('div',{'class':'chapters_list text-truncate'});
 
@@ -95,7 +95,7 @@ def download_chapter(scraper, chapter_url):
 def download_page(scraper, chapter_path, page_url):
     settings.logger.debug('page_url: %s', page_url)
 
-    page = BeautifulSoup(scraper.get(page_url).content.decode('utf-8'), features='lxml')
+    page = BeautifulSoup(scraper.get(page_url).content, features='lxml')
 
     image_url = page.find('div', {'id': 'image'})['data-src']
 
