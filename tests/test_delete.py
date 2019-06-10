@@ -9,7 +9,7 @@ import unittest
 import numpy
 from PIL import Image
 
-from helpers import helper_format
+from helpers import helper_file
 
 class DeleteTest(unittest.TestCase):
     chapter = os.path.join('.', 'tests', 'test_chapter')
@@ -36,7 +36,7 @@ class DeleteTest(unittest.TestCase):
 
         self.assertEqual(image_counter, self.image_number)
 
-        helper_format.delete_images(self.chapter)
+        helper_file.delete_images(self.chapter)
 
         image_counter = 0;
 

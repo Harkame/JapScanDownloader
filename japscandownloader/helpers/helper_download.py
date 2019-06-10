@@ -1,4 +1,4 @@
-from  helpers import helper_scrambling, helper_download
+from helpers import helper_scrambling, helper_download, helper_format, helper_file
 
 from settings import settings
 
@@ -83,19 +83,19 @@ def download_chapter(scraper, chapter_url):
     pages_progress_bar.close()
 
     if settings.manga_format == 'pdf':
-        create_pdf(chapter_path, os.path.join(chapter_path, chapter_number + '.pdf'))
+        helper_format.create_pdf(chapter_path, os.path.join(chapter_path, chapter_number + '.pdf'))
         if not settings.keep:
-            delete_images(chapter_path)
+            helper_file.delete_images(chapter_path)
 
     elif settings.manga_format == 'cbz':
-        create_cbz(chapter_path, os.path.join(chapter_path, chapter_number + '.cbz'))
+        helper_format.create_cbz(chapter_path, os.path.join(chapter_path, chapter_number + '.cbz'))
         if not settings.keep:
-            delete_images(chapter_path)
+            helper_file.delete_images(chapter_path)
 
 def download_page(scraper, chapter_path, page_url):
     settings.logger.debug('page_url: %s', page_url)
 
-    page = BeautifulSoup(scraper.get(page_url).content, features='lxml')
+    page = BeautifulSoup(scraper.get(page_url).content.decode('utf-8'), features='lxml')
 
     image_url = page.find('div', {'id': 'image'})['data-src']
 

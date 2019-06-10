@@ -1,7 +1,11 @@
+from helpers import helper_file
+
 import os
 from PIL import Image
 from os.path import basename
 import zipfile
+
+from settings import settings
 
 def create_pdf(path, pdf_file_name):
     images = []
@@ -13,7 +17,6 @@ def create_pdf(path, pdf_file_name):
 
     images[0].save(pdf_file_name, "PDF" ,resolution=100.0, save_all=True, append_images=images[1:])
 
-
 def create_cbz(path, cbz_file_name):
     zipf = zipfile.ZipFile(cbz_file_name, 'w', zipfile.ZIP_DEFLATED)
 
@@ -22,8 +25,3 @@ def create_cbz(path, cbz_file_name):
             zipf.write(os.path.join(path, file), basename(os.path.join(path, file)))
 
     zipf.close()
-
-def delete_images(path):
-    for file in os.listdir(path):
-        if file.endswith('.jpg') or file.endswith('.png'):
-            os.remove(os.path.join(path, file))

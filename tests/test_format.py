@@ -6,7 +6,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.par
 
 import unittest
 
-from helpers import helper_format
+from helpers import helper_format, helper_file
 
 import numpy
 from PIL import Image
@@ -43,6 +43,6 @@ class TestFormat(unittest.TestCase):
         self.assertGreater(os.path.getsize(self.file_name), 0)
 
     def tearDown(self):
-        helper_format.delete_images(self.chapter)
+        helper_file.delete_images(self.chapter)
 
         os.remove(self.file_name)
