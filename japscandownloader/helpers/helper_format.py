@@ -1,11 +1,7 @@
-from helpers import helper_file
-
 import os
 from PIL import Image
 from os.path import basename
 import zipfile
-
-from settings import settings
 
 def create_pdf(path, pdf_file_name):
     images = []

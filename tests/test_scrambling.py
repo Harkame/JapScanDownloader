@@ -31,7 +31,7 @@ class TestScrambling(unittest.TestCase):
 
         page = BeautifulSoup(open(page_url, encoding='utf-8'), features='lxml')
 
-        unscramble = helper_scrambling.is_scrambled_scripts(page)
+        self.assertTrue(helper_scrambling.is_scrambled_scripts(page))
 
     def test_is_scrambled_clel(self):
         self.assertFalse(helper_scrambling.is_scrambled_clel('https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/114/2.html'))
