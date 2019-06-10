@@ -27,11 +27,17 @@ class TestScrambling(unittest.TestCase):
         #os.remove(temp_unscrambled_image
 
     def test_is_scrambled_scripts(self):
-        page_url = os.path.join('.', 'tests', 'test_scrambling', 'test_page.html')
+        page_url = os.path.join('.', 'tests', 'test_scrambling', 'test_scrambled_page.html')
 
         page = BeautifulSoup(open(page_url, encoding='utf-8'), features='lxml')
 
         self.assertTrue(helper_scrambling.is_scrambled_scripts(page))
+
+        page_url = os.path.join('.', 'tests', 'test_scrambling', 'test_not_scrambled_page.html')
+
+        page = BeautifulSoup(open(page_url, encoding='utf-8'), features='lxml')
+
+        self.assertFalse(helper_scrambling.is_scrambled_scripts(page))
 
     def test_is_scrambled_clel(self):
         self.assertFalse(helper_scrambling.is_scrambled_clel('https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/114/2.html'))
