@@ -29,7 +29,7 @@ class TestScrambling(unittest.TestCase):
     def test_is_scrambled_scripts(self):
         page_url = os.path.join('.', 'tests', 'test_scrambling', 'test_page.html')
 
-        page = BeautifulSoup(open(page_url), features='lxml')
+        page = BeautifulSoup(open(page_url, encoding='utf-8'), features='lxml')
 
         unscramble = helper_scrambling.is_scrambled_scripts(page)
 
