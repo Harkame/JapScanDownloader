@@ -1,3 +1,4 @@
+'''
 import os
 import sys
 
@@ -41,3 +42,4 @@ class DownloadTests(unittest.TestCase):
     def tearDown(self):
         if os.path.exists(settings.destination_path):
             shutil.rmtree(settings.destination_path, ignore_errors=True)
+'''
