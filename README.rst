@@ -1,7 +1,7 @@
 JapScanDownloader
 =================
 
-|Codacy Badge| |Build Status| |License: GPL v3| |Codacy Badge Coverage| |codecov|
+|Codacy Badge| |Code Climate Badge| |Build Status| |License: GPL v3| |codecov|
 
 Installation - Please keep dependencies updated
 -----------------------------------------------
@@ -210,11 +210,12 @@ pytest tests/ --cov=japscandownloader --cov-report=
 
 .. |Codacy Badge| image:: https://api.codacy.com/project/badge/Grade/acf59998d8a743188d5f7ef058010ffa
    :target: https://www.codacy.com/app/Harkame/JapScanDownloader?utm_source=github.com&utm_medium=referral&utm_content=Harkame/JapScanDownloader&utm_campaign=Badge_Grade
+.. |Code Climate Badge| image:: https://api.codeclimate.com/v1/badges/eb654455df609c6fd1a2/maintainability
+   :target: https://codeclimate.com/github/Harkame/JapScanDownloader/maintainability
+   :alt: Maintainability
 .. |Build Status| image:: https://travis-ci.org/Harkame/JapScanDownloader.svg?branch=master
    :target: https://travis-ci.org/Harkame/JapScanDownloader
 .. |License: GPL v3| image:: https://img.shields.io/badge/License-GPLv3-blue.svg
    :target: https://www.gnu.org/licenses/gpl-3.0
-.. |Codacy Badge Coverage| image:: https://api.codacy.com/project/badge/Coverage/acf59998d8a743188d5f7ef058010ffa
-   :target: https://www.codacy.com/app/Harkame/JapScanDownloader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Harkame/JapScanDownloader&amp;utm_campaign=Badge_Coverage
 .. |codecov| image:: https://codecov.io/gh/Harkame/JapScanDownloader/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/Harkame/JapScanDownloader
