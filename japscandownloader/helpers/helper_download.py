@@ -1,4 +1,4 @@
-from helpers import helper_scrambling, helper_format, helper_file
+from helpers import helper_scrambling, helper_format
 
 from settings import settings
 
@@ -71,26 +71,30 @@ def download_chapter(scraper, chapter_url):
 
     chapter_path = os.path.join(settings.destination_path, manga_name, chapter_number)
 
+    image_files = []
+
     for page_tag in page_options:
         page_url = JAPSCAN_URL + page_tag['value']
 
         settings.logger.debug('page_url : %s', page_url)
 
-        download_page(scraper, chapter_path, page_url)
+        image_files.append(download_page(scraper, chapter_path, page_url))
 
         pages_progress_bar.update(1)
 
     pages_progress_bar.close()
 
     if settings.manga_format == 'pdf':
-        helper_format.create_pdf(chapter_path, os.path.join(chapter_path, chapter_number + '.pdf'))
+        helper_format.create_pdf(chapter_path, os.path.join(chapter_path, chapter_number + '.pdf'), image_files)
         if not settings.keep:
-            helper_file.delete_images(chapter_path)
+            for image_file in image_files:
+                os.remove(image_file)
 
     elif settings.manga_format == 'cbz':
-        helper_format.create_cbz(chapter_path, os.path.join(chapter_path, chapter_number + '.cbz'))
+        helper_format.create_cbz(chapter_path, os.path.join(chapter_path, chapter_number + '.cbz'), image_files)
         if not settings.keep:
-            helper_file.delete_images(chapter_path)
+            for image_file in image_files:
+                os.remove(image_file)
 
 def download_page(scraper, chapter_path, page_url):
     settings.logger.debug('page_url: %s', page_url)
@@ -156,3 +160,5 @@ def download_page(scraper, chapter_path, page_url):
     if unscramble is True:
         helper_scrambling.unscramble_image(scrambled_image, image_full_path)
         os.remove(scrambled_image)
+
+    return image_full_path

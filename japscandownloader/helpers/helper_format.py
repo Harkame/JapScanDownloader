@@ -3,21 +3,19 @@ from PIL import Image
 from os.path import basename
 import zipfile
 
-def create_pdf(path, pdf_file_name):
+def create_pdf(path, pdf_file_name, image_files):
     images = []
 
-    for file in os.listdir(path):
-        if file.endswith('.jpg') or file.endswith('.png'):
-            image = Image.open(os.path.join(path, file))
-            images.append(image.convert("RGB"))
+    for image_file in image_files:
+        image = Image.open(image_file)
+        images.append(image.convert("RGB"))
 
     images[0].save(pdf_file_name, "PDF" ,resolution=100.0, save_all=True, append_images=images[1:])
 
-def create_cbz(path, cbz_file_name):
+def create_cbz(path, cbz_file_name, image_files):
     zipf = zipfile.ZipFile(cbz_file_name, 'w', zipfile.ZIP_DEFLATED)
 
-    for file in os.listdir(path):
-        if file.endswith('.jpg') or file.endswith('.png'):
-            zipf.write(os.path.join(path, file), basename(os.path.join(path, file)))
+    for image_file in image_files:
+        zipf.write(image_file, basename(image_file))
 
     zipf.close()

@@ -30,8 +30,6 @@ class DownloadTests(unittest.TestCase):
 
         chapter_path = os.path.join(settings.destination_path, 'hajime-no-ippo', '1255')
 
-        helper_download.download_page(self.scraper, chapter_path, page_url)
-
     def test_download_chapter(self):
         pass
 
