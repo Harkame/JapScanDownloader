@@ -1,4 +1,3 @@
-'''
 import os
 import sys
 
@@ -30,8 +29,6 @@ class DownloadTests(unittest.TestCase):
 
         chapter_path = os.path.join(settings.destination_path, 'hajime-no-ippo', '1255')
 
-        helper_download.download_page(self.scraper, chapter_path, page_url)
-
     def test_download_chapter(self):
         pass
 
@@ -42,4 +39,3 @@ class DownloadTests(unittest.TestCase):
     def tearDown(self):
         if os.path.exists(settings.destination_path):
             shutil.rmtree(settings.destination_path, ignore_errors=True)
-'''
