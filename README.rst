@@ -13,16 +13,10 @@ Dependencies
 
 -  `Beautiful Soup 4`_
 -  `PyYAML`_
--  `tqdm`_
 -  `lxml`_
+-  `tqdm`_
 -  `Pillow`_
 -  `cloudscraper`_
-
-Be careful
-~~~~~~~~~~
-
-Because of problem with new version of urllib3 (1.25.3) make sure you have an older version
-I recommend this version : urllib3==1.24.3
 
 Usage
 -----
