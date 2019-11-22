@@ -5,6 +5,7 @@ import settings.settings as settings
 import cloudscraper
 import sys
 
+
 def main(arguments):
     settings.init(arguments)
 
@@ -13,5 +14,6 @@ def main(arguments):
     for manga in settings.mangas:
         helper_download.download_manga(scraper, manga)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main(sys.argv[1:])

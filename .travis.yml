@@ -4,15 +4,15 @@ language:
 os:
   - linux
 
-python:
-  - 3.6
-
 matrix:
   include:
-    - python: 3.7
+    - python: 3.6
       dist: xenial
       sudo: false
     - python: 3.7
+      dist: xenial
+      sudo: false
+    - python: 3.8
       dist: xenial
       sudo: false
 
