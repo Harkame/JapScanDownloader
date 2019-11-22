@@ -3,9 +3,9 @@ from helpers import helper_argument, helper_config
 import logging
 import os
 
-DEFAULT_CONFIG_FILE = os.path.join('.', 'config.yml')
-DEFAULT_DESTINATION_PATH = os.path.join('.', 'mangas')
-DEFAULT_MANGA_FORMAT = 'jpg'
+DEFAULT_CONFIG_FILE = os.path.join(".", "config.yml")
+DEFAULT_DESTINATION_PATH = os.path.join(".", "mangas")
+DEFAULT_MANGA_FORMAT = "jpg"
 
 logger = logging.getLogger()
 config_file = None
@@ -16,6 +16,7 @@ reverse = False
 unscramble = False
 mangas = []
 
+
 def init(arguments):
     global logger
 
@@ -23,7 +24,6 @@ def init(arguments):
     global destination_path
     global keep
     global manga_format
-    global unscramble
     global reverse
 
     global mangas
@@ -34,14 +34,15 @@ def init(arguments):
 
     init_config()
 
-    logger.debug('config_file : %s', config_file)
-    logger.debug('destination_path : %s', destination_path)
-    logger.debug('keep : %s', keep)
-    logger.debug('manga_format : %s', manga_format)
-    logger.debug('unscramble : %s', unscramble)
-    logger.debug('reverse : %s', reverse)
+    logger.debug("config_file : %s", config_file)
+    logger.debug("destination_path : %s", destination_path)
+    logger.debug("keep : %s", keep)
+    logger.debug("manga_format : %s", manga_format)
 
-    logger.debug('mangas : %s', mangas)
+    logger.debug("reverse : %s", reverse)
+
+    logger.debug("mangas : %s", mangas)
+
 
 def init_arguments(arguments):
     global logger
@@ -51,7 +52,6 @@ def init_arguments(arguments):
     global keep
     global manga_format
     global reverse
-    global unscramble
 
     global mangas
 
@@ -59,7 +59,9 @@ def init_arguments(arguments):
 
     if arguments.verbose:
         logger.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(module)s :: %(lineno)s :: %(funcName)s :: %(message)s')
+        formatter = logging.Formatter(
+            "%(asctime)s :: %(levelname)s :: %(module)s :: %(lineno)s :: %(funcName)s :: %(message)s"
+        )
         stream_handler = logging.StreamHandler()
         stream_handler.setFormatter(formatter)
 
@@ -93,8 +95,6 @@ def init_arguments(arguments):
     if arguments.keep:
         keep = True
 
-    if arguments.keep:
-        unscramble = True
 
 def init_config():
     global logger
@@ -104,23 +104,22 @@ def init_config():
     global keep
     global manga_format
     global reverse
-    global unscramble
 
     global mangas
 
     config = helper_config.get_config(config_file)
 
-    if config['mangas'] is not None:
-        mangas.extend(config['mangas'])
+    if config["mangas"] is not None:
+        mangas.extend(config["mangas"])
 
     if destination_path is None:
-        if config['destination_path'] is not None:
-            destination_path = config['destination_path']
+        if config["destination_path"] is not None:
+            destination_path = config["destination_path"]
         else:
             destination_path = DEFAULT_DESTINATION_PATH
 
     if manga_format is None:
-        if config['manga_format'] is not None:
-            manga_format = config['manga_format']
+        if config["manga_format"] is not None:
+            manga_format = config["manga_format"]
         else:
             manga_format = DEFAULT_MANGA_FORMAT
