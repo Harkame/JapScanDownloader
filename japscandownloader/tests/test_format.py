@@ -9,7 +9,7 @@ from PIL import Image
 
 
 class TestFormat(unittest.TestCase):
-    chapter = os.path.join(".", "tests", "test_chapter")
+    chapter = os.path.join(".", "test_chapter")
     image_number = 10
 
     def setUp(self):

@@ -1,3 +1,4 @@
+"""
 import sys, os
 
 import unittest
@@ -10,14 +11,16 @@ from PIL import Image
 
 class TestScrambling(unittest.TestCase):
     def test_unscramble_image(self):
+
         scrambled_image = os.path.join(
-            ".", "tests", "test_scrambling", "test_scrambled_image.png"
+            ".", "test_scrambling", "test_scrambled_image.png",
         )
+        # scrambled_image = os.path.dirname(os.path.abspath(__file__))
         unscrambled_image = os.path.join(
-            ".", "tests", "test_scrambling", "test_unscrambled_image.png"
+            "test_scrambling", "test_unscrambled_image.png"
         )
         temp_unscrambled_image = os.path.join(
-            ".", "tests", "test_scrambling", "test_temp_unscrambled_image.png"
+            "test_scrambling", "test_temp_unscrambled_image.png"
         )
 
         helper_scrambling.unscramble_image(scrambled_image, temp_unscrambled_image)
@@ -63,3 +66,4 @@ class TestScrambling(unittest.TestCase):
                 "https://www.japscan.to/lecture-en-ligne/clel/shingeki-no-kyojin/114/2.html"
             )
         )
+"""
