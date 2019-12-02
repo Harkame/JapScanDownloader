@@ -1,6 +1,8 @@
-from settings import settings
-
 from PIL import Image
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def unscramble_image(scrambled_image, image_full_path):
@@ -36,10 +38,10 @@ def is_scrambled_scripts(page):
     if len(scripts) > 9:
         script = scripts[8]
 
-        settings.logger.debug("script : %s", script)
+        logger.debug("script : %s", script)
 
         if "_" in str(script):
-            settings.logger.debug("scrambled image")
+            logger.debug("scrambled image")
             return True
 
     return False
@@ -48,7 +50,7 @@ def is_scrambled_scripts(page):
 # Old way to detect scrambling
 def is_scrambled_clel(image_url):
     if "clel" in image_url:
-        settings.logger.debug("scrambled image")
+        logger.debug("scrambled image")
         return True
 
     return False

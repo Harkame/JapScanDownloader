@@ -8,7 +8,7 @@ import unittest
 class ConfigTest(unittest.TestCase):
     def test_get_config(self):
         config = helper_config.get_config(
-            os.path.join(".", "tests", "test_config", "test_config.yml")
+            os.path.join(".", "test_config", "test_config.yml")
         )
         self.assertEqual(config["destination_path"], "./mymangas/")
         self.assertEqual(config["manga_format"], "pdf")

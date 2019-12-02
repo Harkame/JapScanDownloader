@@ -4,4 +4,4 @@ lxml
 tqdm
 pillow
 cloudscraper
-Brotli==1.0.7
+urllib3==1.25.7
