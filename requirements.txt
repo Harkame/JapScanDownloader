@@ -4,3 +4,4 @@ lxml
 tqdm
 pillow
 cloudscraper
+Brotli==1.0.7
