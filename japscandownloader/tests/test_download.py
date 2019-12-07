@@ -22,7 +22,7 @@ class DownloadTests(unittest.TestCase):
             os.makedirs(self.japscandownloader.destination_path)
 
     def test_download_manga(self):
-        mangas = {"url": "https://www.japscan.to/manga/uq-holder/"}
+        mangas = {"url": "https://www.japscan.co/manga/raba-the-mules/"}
 
         self.japscandownloader.download(mangas)
 
