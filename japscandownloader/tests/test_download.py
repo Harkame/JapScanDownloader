@@ -1,41 +1,47 @@
-"""
 import os
 import sys
 
 import unittest
 import cloudscraper
 
-from ..helpers import helper_download
-
-from settings import settings
+from ..japscandownloader import JapScanDownloader
 
 import shutil
 
 
 class DownloadTests(unittest.TestCase):
-    scraper = cloudscraper.create_scraper()
+    japscandownloader = JapScanDownloader(cloudscraper.create_scraper())
 
     def setUp(self):
-        settings.manga_format = "png"
-        settings.destination_path = os.path.join(".", "tests", "test_download")
+        self.japscandownloader.manga_format = "png"
+        self.japscandownloader.destination_path = os.path.join(
+            os.path.dirname(__file__), "test_download"
+        )
 
-        if not os.path.exists(settings.destination_path):
-            os.makedirs(settings.destination_path)
+        if not os.path.exists(self.japscandownloader.destination_path):
+            os.makedirs(self.japscandownloader.destination_path)
 
-    def test_download_page(self):
-        page_url = "https://www.japscan.to/lecture-en-ligne/hajime-no-ippo/1255/1.html"
+    def test_download_manga(self):
+        mangas = {"url": "https://www.japscan.to/manga/uq-holder/"}
 
-        chapter_path = os.path.join(settings.destination_path, "hajime-no-ippo", "1255")
+        self.japscandownloader.download(mangas)
 
     def test_download_chapter(self):
-        pass
+        mangas = {
+            "chapter": "https://www.japscan.co/lecture-en-ligne/shingeki-no-kyojin/116/"
+        }
 
-        # chapter_url = 'https://www.japscan.to/lecture-en-ligne/hajime-no-ippo/1255/'
+        self.japscandownloader.download(mangas)
 
-        # helper_download.download_chapter(self.scraper, chapter_url)
+    def test_download_chapters(self):
+        mangas = {
+            "chapters": " https://www.japscan.co/lecture-en-ligne/black-clover/",
+            "chapter_min": 158,
+            "chapter_max": 161,
+        }
+
+        self.japscandownloader.download(mangas)
 
     def tearDown(self):
-        if os.path.exists(settings.destination_path):
-            shutil.rmtree(settings.destination_path, ignore_errors=True)
-
-"""
+        if os.path.exists(self.japscandownloader.destination_path):
+            shutil.rmtree(self.japscandownloader.destination_path, ignore_errors=True)

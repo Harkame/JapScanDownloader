@@ -2,12 +2,12 @@ import sys, os
 
 import unittest
 
-from ..helpers import helper_argument
+from ..helpers import get_arguments
 
 
 class TestArgument(unittest.TestCase):
     def test_short_option(self):
-        arguments = helper_argument.get_arguments(
+        arguments = get_arguments(
             [
                 "-v",
                 "-c",
@@ -31,7 +31,7 @@ class TestArgument(unittest.TestCase):
         self.assertEqual(arguments.reverse, 1)
 
     def test_long_option(self):
-        arguments = helper_argument.get_arguments(
+        arguments = get_arguments(
             [
                 "--verbose",
                 "--config_file",
@@ -59,5 +59,5 @@ class TestArgument(unittest.TestCase):
 
         for verbosity_level in range(1, 10):
             verbosity_argument += "v"
-            arguments = helper_argument.get_arguments([verbosity_argument])
+            arguments = get_arguments([verbosity_argument])
             self.assertEqual(arguments.verbose, verbosity_level)

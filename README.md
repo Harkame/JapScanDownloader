@@ -108,3 +108,10 @@ Be careful to URL format :boom:
 #### Manga
 
   - url : Url of the manga to download
+
+
+## TODO
+
+-   More tests
+-   Not download already downloaded
+-   Better scrambling detection

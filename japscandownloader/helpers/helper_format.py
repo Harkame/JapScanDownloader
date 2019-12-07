@@ -1,6 +1,7 @@
 import zipfile
 import logging
 from PIL import Image
+from os.path import basename
 
 logger = logging.getLogger(__name__)
 
