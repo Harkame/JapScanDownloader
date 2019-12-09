@@ -6,12 +6,12 @@ pip install -r requirements.txt -U
 
 ### Dependencies
 
-  - [Beautiful Soup 4]()
-  - [PyYAML]()
-  - [lxml]()
-  - [tqdm]()
-  - [Pillow]()
-  - [cloudscraper]()
+  - [Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+  - [PyYAML](https://github.com/yaml/pyyaml)
+  - [lxml](https://github.com/lxml/lxml.git)
+  - [tqdm](https://github.com/tqdm/tqdm)
+  - [Pillow](https://github.com/python-pillow/Pillow.git)
+  - [cloudscraper](https://github.com/VeNoMouS/cloudscraper)
 
 ## Usage
 
@@ -107,11 +107,66 @@ Be careful to URL format :boom:
 
 #### Manga
 
-  - url : Url of the manga to download
+-   url : Url of the manga to download
 
+#### Chapter
+
+-   chapter : Url of the chapter to download
+
+#### Chapters
+
+-   url : Url of the manga to download
+-   chapter_min : range min of chapters to download (chapter min included)
+-   chapter_max : range max of chapters to download (chapter max included)
+
+
+### Change downloads destination
+
+Replace destination_path value by desired path
+
+#### Linux
+
+``` yml
+   destination_path:
+      /home/harkame/mangas
+```
+
+#### Windows
+
+ ``` yml
+
+   destination_path:
+      F:\data\mangas
+```
+
+### Change Manga format
+
+Replace manga_format value by desired format
+
+Supported format
+
+-   jpg/png (default) : Just download image file
+-   pdf : Create PDF file
+-   cbz : Create CBZ archive
+
+``` yml
+
+   mangaFormat:
+      jpg
+```
 
 ## TODO
-
 -   More tests
--   Not download already downloaded
+-   Chapters folders name (not only number)
+-   Don’t download already downloaded manga/chapter/page
 -   Better scrambling detection
+-   Fix : Download test not working on travis
+
+## Tests
+
+ ``` bash
+
+     pip install tox
+
+     tox
+```
