@@ -21,6 +21,7 @@ class DownloadTests(unittest.TestCase):
         if not os.path.exists(self.japscandownloader.destination_path):
             os.makedirs(self.japscandownloader.destination_path)
 
+    """
     def test_download_manga(self):
         mangas = {"url": "https://www.japscan.co/manga/raba-the-mules/"}
 
@@ -32,6 +33,7 @@ class DownloadTests(unittest.TestCase):
         }
 
         self.japscandownloader.download(mangas)
+    """
 
     def test_download_chapters(self):
         mangas = {

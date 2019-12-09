@@ -27,7 +27,7 @@ from .helpers import (
 
 DEFAULT_CONFIG_FILE = os.path.join(".", "config.yml")
 DEFAULT_DESTINATION_PATH = os.path.join(".", "mangas")
-DEFAULT_MANGA_FORMAT = "jpg"
+DEFAULT_format = "jpg"
 
 
 class JapScanDownloader:
@@ -38,7 +38,7 @@ class JapScanDownloader:
         self.destination_path = DEFAULT_DESTINATION_PATH
         self.keep = False
         self.reverse = False
-        self.manga_format = DEFAULT_MANGA_FORMAT
+        self.format = DEFAULT_format
         self.unscramble = False
         self.mangas = []
 
@@ -51,7 +51,7 @@ class JapScanDownloader:
         logger.debug("destination_path : %s", self.destination_path)
         logger.debug("keep : %s", self.keep)
         logger.debug("reverse : %s", self.reverse)
-        logger.debug("manga_format : %s", self.manga_format)
+        logger.debug("format : %s", self.format)
         logger.debug("unscramble : %s", self.unscramble)
         logger.debug("mangas : %s", self.mangas)
 
@@ -88,7 +88,7 @@ class JapScanDownloader:
             self.destination_path = arguments.destination_path
 
         if arguments.format:
-            self.manga_format = arguments.format
+            self.format = arguments.format
 
         if arguments.reverse:
             self.reverse = True
@@ -111,10 +111,11 @@ class JapScanDownloader:
         ):
             self.destination_path = config["destination_path"]
 
-        if self.manga_format == DEFAULT_MANGA_FORMAT and self.manga_format is not None:
-            self.manga_format = config["manga_format"]
+        if self.format == DEFAULT_format and self.format is not None:
+            self.format = config["format"]
 
     def download(self, manga):
+        print(manga)
         if "url" in manga:
             manga_page = BeautifulSoup(
                 self.scraper.get(manga["url"]).content, features="lxml"
@@ -153,11 +154,9 @@ class JapScanDownloader:
             chapters_progress_bar.close()
 
         elif "chapters" in manga:
-            base_counter = manga["chapters"]["chapter_min"]
+            base_counter = manga["chapter_min"]
 
-            diff = (
-                manga["chapters"]["chapter_max"] - manga["chapters"]["chapter_min"]
-            ) + 1  # included
+            diff = (manga["chapter_max"] - manga["chapter_min"]) + 1  # included
 
             chapters_progress_bar = tqdm(
                 total=diff,
@@ -165,7 +164,7 @@ class JapScanDownloader:
                 bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]",
             )
 
-            while base_counter <= manga["chapters"]["chapter_max"]:
+            while base_counter <= manga["chapter_max"]:
                 self.download_chapter(
                     manga["chapters"]["url"] + str(base_counter) + "/"
                 )
@@ -215,21 +214,21 @@ class JapScanDownloader:
 
         pages_progress_bar.close()
 
-        if self.manga_format == "pdf":
+        if self.format == "pdf":
             create_pdf(
                 chapter_path,
                 os.path.join(chapter_path, chapter_number + ".pdf"),
                 image_files,
             )
 
-        elif self.manga_format == "cbz":
+        elif self.format == "cbz":
             create_cbz(
                 chapter_path,
                 os.path.join(chapter_path, chapter_number + ".cbz"),
                 image_files,
             )
 
-        if self.manga_format != DEFAULT_MANGA_FORMAT and not self.keep:
+        if self.format != DEFAULT_format and not self.keep:
             for image_file in image_files:
                 os.remove(image_file)
 
