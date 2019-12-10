@@ -1,6 +1,8 @@
 import cloudscraper
 import sys
 from japscandownloader import JapScanDownloader
+from os import sys, path
+
 
 if __name__ == "__main__":
     japscan_downloader = JapScanDownloader(cloudscraper.create_scraper())

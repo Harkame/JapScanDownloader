@@ -5,7 +5,7 @@ from ..helpers import get_config
 import unittest
 
 
-class ConfigTest(unittest.TestCase):
+class TestConfig(unittest.TestCase):
     def test_get_config(self):
         config = get_config(
             os.path.join(os.path.dirname(__file__), "test_config", "test_config.yml")

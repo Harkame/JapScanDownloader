@@ -9,7 +9,7 @@ from ..japscandownloader import JapScanDownloader
 import shutil
 
 
-class DownloadTests(unittest.TestCase):
+class TestDownload(unittest.TestCase):
     japscandownloader = JapScanDownloader(cloudscraper.create_scraper())
 
     def setUp(self):
@@ -37,9 +37,11 @@ class DownloadTests(unittest.TestCase):
 
     def test_download_chapters(self):
         mangas = {
-            "chapters": " https://www.japscan.co/lecture-en-ligne/black-clover/",
-            "chapter_min": 158,
-            "chapter_max": 161,
+            "chapters": {
+                "url": "https://www.japscan.co/lecture-en-ligne/black-clover/",
+                "chapter_min": 158,
+                "chapter_max": 161,
+            }
         }
 
         self.japscandownloader.download(mangas)

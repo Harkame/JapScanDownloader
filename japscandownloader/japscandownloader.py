@@ -14,16 +14,26 @@ JAPSCAN_URL = "https://www.japscan.to"
 
 logger = logging.getLogger(__name__)
 
-from .helpers import (
-    get_arguments,
-    get_config,
-    create_pdf,
-    create_cbz,
-    unscramble_image,
-    is_scrambled_scripts,
-    is_scrambled_clel,
-)
-
+if __package__ is None or __package__ == "":
+    from helpers import (
+        get_arguments,
+        get_config,
+        create_pdf,
+        create_cbz,
+        unscramble_image,
+        is_scrambled_scripts,
+        is_scrambled_clel,
+    )
+else:
+    from .helpers import (
+        get_arguments,
+        get_config,
+        create_pdf,
+        create_cbz,
+        unscramble_image,
+        is_scrambled_scripts,
+        is_scrambled_clel,
+    )
 
 DEFAULT_CONFIG_FILE = os.path.join(".", "config.yml")
 DEFAULT_DESTINATION_PATH = os.path.join(".", "mangas")
@@ -115,7 +125,6 @@ class JapScanDownloader:
             self.format = config["format"]
 
     def download(self, manga):
-        print(manga)
         if "url" in manga:
             manga_page = BeautifulSoup(
                 self.scraper.get(manga["url"]).content, features="lxml"
@@ -154,9 +163,11 @@ class JapScanDownloader:
             chapters_progress_bar.close()
 
         elif "chapters" in manga:
-            base_counter = manga["chapter_min"]
+            base_counter = manga["chapters"]["chapter_min"]
 
-            diff = (manga["chapter_max"] - manga["chapter_min"]) + 1  # included
+            diff = (
+                manga["chapters"]["chapter_max"] - manga["chapters"]["chapter_min"]
+            ) + 1  # included
 
             chapters_progress_bar = tqdm(
                 total=diff,
@@ -164,7 +175,7 @@ class JapScanDownloader:
                 bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]",
             )
 
-            while base_counter <= manga["chapter_max"]:
+            while base_counter <= manga["chapters"]["chapter_max"]:
                 self.download_chapter(
                     manga["chapters"]["url"] + str(base_counter) + "/"
                 )
@@ -172,7 +183,7 @@ class JapScanDownloader:
 
             chapters_progress_bar.close()
         else:
-            self.download_chapter(manga["chapter"])
+            self.download_chapter(manga["chapter"]["url"])
 
     def download_chapter(self, chapter_url):
         logger.debug("chapter_url : %s", chapter_url)
