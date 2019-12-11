@@ -124,8 +124,9 @@ class JapScanDownloader:
         if self.format == DEFAULT_format and self.format is not None:
             self.format = config["format"]
 
-    def download(self, manga):
-        if "url" in manga:
+    def download(self, item):
+        if "manga" in item:
+            manga = item["manga"]
             manga_page = BeautifulSoup(
                 self.scraper.get(manga["url"]).content, features="lxml"
             )
@@ -162,12 +163,12 @@ class JapScanDownloader:
 
             chapters_progress_bar.close()
 
-        elif "chapters" in manga:
-            base_counter = manga["chapters"]["chapter_min"]
+        elif "chapters" in item:
+            chapters = item["chapters"]
 
-            diff = (
-                manga["chapters"]["chapter_max"] - manga["chapters"]["chapter_min"]
-            ) + 1  # included
+            base_counter = chapters["chapter_min"]
+
+            diff = (chapters["chapter_max"] - chapters["chapter_min"]) + 1  # included
 
             chapters_progress_bar = tqdm(
                 total=diff,
@@ -175,22 +176,24 @@ class JapScanDownloader:
                 bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]",
             )
 
-            while base_counter <= manga["chapters"]["chapter_max"]:
-                self.download_chapter(
-                    manga["chapters"]["url"] + str(base_counter) + "/"
-                )
+            while base_counter <= chapters["chapter_max"]:
+                self.download_chapter(chapters["url"] + str(base_counter) + "/")
                 base_counter += 1
 
             chapters_progress_bar.close()
-        else:
-            self.download_chapter(manga["chapter"]["url"])
+        elif "chapter" in item:
+            chapter = item["chapter"]
+
+            self.download_chapter(chapter["url"])
 
     def download_chapter(self, chapter_url):
         logger.debug("chapter_url : %s", chapter_url)
 
-        pages = BeautifulSoup(
-            self.scraper.get(chapter_url).content, features="lxml"
-        ).find("select", {"id": "pages"})
+        html = self.scraper.get(chapter_url).content
+
+        print(html)
+
+        pages = BeautifulSoup(html, features="lxml").find("select", {"id": "pages"})
 
         page_options = pages.findAll("option", value=True)
 
@@ -297,8 +300,6 @@ class JapScanDownloader:
                     raise
 
         image_content = response.content
-
-        unscramble = True
 
         if unscramble is True:
             scrambled_image = image_full_path + "_scrambled"

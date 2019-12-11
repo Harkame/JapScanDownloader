@@ -36,7 +36,7 @@ class TestDownload(unittest.TestCase):
     """
 
     def test_download_chapters(self):
-        mangas = {
+        chapters = {
             "chapters": {
                 "url": "https://www.japscan.co/lecture-en-ligne/black-clover/",
                 "chapter_min": 158,
@@ -44,7 +44,7 @@ class TestDownload(unittest.TestCase):
             }
         }
 
-        self.japscandownloader.download(mangas)
+        self.japscandownloader.download(chapters)
 
     def tearDown(self):
         if os.path.exists(self.japscandownloader.destination_path):
