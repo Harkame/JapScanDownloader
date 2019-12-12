@@ -69,19 +69,20 @@ This file contains list of mangas to download, destination path, etc.
 
 ``` yaml
 mangas:
-  - chapter:
-      https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
+  - chapter :
+      url:
+        https://www.japscan.co/lecture-en-ligne/one-piece/965/
 
-  - url:
-      https://www.japscan.to/manga/uq-holder/
+  - url :
+      https://www.japscan.co/manga/oggy-et-les-cafards/
 
   - chapters:
       url:
-         https://www.japscan.to/lecture-en-ligne/black-clover/
+        https://www.japscan.co/lecture-en-ligne/black-clover/
       chapter_min:
-         158
+        158
       chapter_max:
-         197
+        161
 
 destination_path:
   ./mangas/
@@ -121,13 +122,15 @@ Be careful to URL format :boom:
 
 #### Chapter
 
--   chapter : Url of the chapter to download
+-   chapter
+   -   Url of the chapter to download
 
 #### Chapters
 
--   url : Url of the manga to download
--   chapter_min : range min of chapters to download (chapter min included)
--   chapter_max : range max of chapters to download (chapter max included)
+- chapters
+   -   url : Url of the manga to download
+   -   chapter_min : range min of chapters to download (chapter min included)
+   -   chapter_max : range max of chapters to download (chapter max included)
 
 ### Change downloads destination
 
