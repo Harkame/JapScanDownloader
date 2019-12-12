@@ -1,4 +1,4 @@
-import sys, os
+import os
 
 from ..helpers import get_config
 
