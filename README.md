@@ -14,10 +14,10 @@ pip install -r requirements.txt -U
 
   -   [Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
   -   [PyYAML](https://github.com/yaml/pyyaml)
-  -    [lxml](https://github.com/lxml/lxml.git)
-  -    [tqdm](https://github.com/tqdm/tqdm)
-  -    [Pillow](https://github.com/python-pillow/Pillow.git)
-  -    [cloudscraper](https://github.com/VeNoMouS/cloudscraper)
+  -   [lxml](https://github.com/lxml/lxml.git)
+  -   [tqdm](https://github.com/tqdm/tqdm)
+  -   [Pillow](https://github.com/python-pillow/Pillow.git)
+  -   [cloudscraper](https://github.com/VeNoMouS/cloudscraper)
 
 ## Usage
 
