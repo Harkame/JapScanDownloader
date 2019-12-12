@@ -189,11 +189,9 @@ class JapScanDownloader:
     def download_chapter(self, chapter_url):
         logger.debug("chapter_url : %s", chapter_url)
 
-        html = self.scraper.get(chapter_url).content
-
-        print(html)
-
-        pages = BeautifulSoup(html, features="lxml").find("select", {"id": "pages"})
+        pages = BeautifulSoup(
+            self.scraper.get(chapter_url).content, features="lxml"
+        ).find("select", {"id": "pages"})
 
         page_options = pages.findAll("option", value=True)
 
