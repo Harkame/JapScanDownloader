@@ -123,14 +123,14 @@ Be careful to URL format :boom:
 #### Chapter
 
 -   chapter
-   -   Url of the chapter to download
+   - url : Url of the chapter to download
 
 #### Chapters
 
-- chapters
+-   chapters
    -   url : Url of the manga to download
-   -   chapter_min : range min of chapters to download (chapter min included)
-   -   chapter_max : range max of chapters to download (chapter max included)
+   -   chapter_min : range min of chapters to download (included)
+   -   chapter_max : range max of chapters to download (included)
 
 ### Change downloads destination
 
