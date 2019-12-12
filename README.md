@@ -97,40 +97,20 @@ Add an entry to attribute mangas
 
 ``` yml
 mangas:
-  - url:
+  - url: #complete manga
       https://www.japscan.to/manga/uq-holder/
 
-  - chapter:
+  - chapter: #specific chapter
       https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
 
-  - chapters:
+  - chapters: #multiple chapters
       url:
         https://www.japscan.to/lecture-en-ligne/black-clover/
-      chapter_min:
+      chapter_min: #included
         158
-      chapter_max:
+      chapter_max: #included
         197
 ```
-
-3 supported format of download
-
-Be careful to URL format :boom:
-
-#### Manga
-
--   url : Url of the manga to download
-
-#### Chapter
-
--   chapter
-   - url : Url of the chapter to download
-
-#### Chapters
-
--   chapters
-   -   url : Url of the manga to download
-   -   chapter_min : range min of chapters to download (included)
-   -   chapter_max : range max of chapters to download (included)
 
 ### Change downloads destination
 
