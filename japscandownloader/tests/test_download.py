@@ -21,7 +21,6 @@ class TestDownload(unittest.TestCase):
         if not os.path.exists(self.japscandownloader.destination_path):
             os.makedirs(self.japscandownloader.destination_path)
 
-    """
     def test_download_manga(self):
         mangas = {"url": "https://www.japscan.co/manga/raba-the-mules/"}
 
@@ -29,11 +28,12 @@ class TestDownload(unittest.TestCase):
 
     def test_download_chapter(self):
         mangas = {
-            "chapter": "https://www.japscan.co/lecture-en-ligne/shingeki-no-kyojin/116/"
+            "chapter": {
+                "url": "https://www.japscan.co/lecture-en-ligne/shingeki-no-kyojin/116/"
+            }
         }
 
         self.japscandownloader.download(mangas)
-    """
 
     def test_download_chapters(self):
         chapters = {

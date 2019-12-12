@@ -1,5 +1,3 @@
-import sys, os
-
 import unittest
 
 from ..helpers import get_arguments

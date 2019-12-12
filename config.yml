@@ -1,4 +1,10 @@
 mangas:
+  - chapter :
+      url:
+        https://www.japscan.co/lecture-en-ligne/one-piece/965/
+
+  - url :
+      https://www.japscan.co/manga/oggy-et-les-cafards/
 
   - chapters:
       url:

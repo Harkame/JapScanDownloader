@@ -1,8 +1,3 @@
-import cloudscraper
-import sys
-
-import os
-from os.path import basename
 import logging
 
 from bs4 import BeautifulSoup
@@ -22,7 +17,6 @@ if __package__ is None or __package__ == "":
         create_cbz,
         unscramble_image,
         is_scrambled_scripts,
-        is_scrambled_clel,
     )
 else:
     from .helpers import (
@@ -32,7 +26,6 @@ else:
         create_cbz,
         unscramble_image,
         is_scrambled_scripts,
-        is_scrambled_clel,
     )
 
 DEFAULT_CONFIG_FILE = os.path.join(".", "config.yml")
@@ -115,23 +108,18 @@ class JapScanDownloader:
         if self.mangas is not None:
             self.mangas.extend(config["mangas"])
 
-        if (
-            self.destination_path == DEFAULT_DESTINATION_PATH
-            and self.destination_path is not None
-        ):
+        if self.destination_path == DEFAULT_DESTINATION_PATH:
             self.destination_path = config["destination_path"]
 
-        if self.format == DEFAULT_format and self.format is not None:
+        if self.format == DEFAULT_format:
             self.format = config["format"]
 
     def download(self, item):
-        if "manga" in item:
-            manga = item["manga"]
-            manga_page = BeautifulSoup(
-                self.scraper.get(manga["url"]).content, features="lxml"
-            )
+        if "url" in item:
+            url = item["url"]
+            manga_page = BeautifulSoup(self.scraper.get(url).content, features="lxml")
 
-            chapter_divs = manga_page.findAll(
+            chapter_divs = manga_page.find_all(
                 "div", {"class": "chapters_list text-truncate"}
             )
 
@@ -189,11 +177,14 @@ class JapScanDownloader:
     def download_chapter(self, chapter_url):
         logger.debug("chapter_url : %s", chapter_url)
 
-        pages = BeautifulSoup(
-            self.scraper.get(chapter_url).content, features="lxml"
-        ).find("select", {"id": "pages"})
+        html = self.scraper.get(chapter_url).content
 
-        page_options = pages.findAll("option", value=True)
+        pages = BeautifulSoup(html, features="lxml").find("select", {"id": "pages"})
+
+        if pages is None:
+            raise Exception(f"Can't read pages {str(html)}")
+
+        page_options = pages.find_all("option", value=True)
 
         pages_progress_bar = tqdm(
             total=len(page_options),

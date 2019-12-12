@@ -8,16 +8,20 @@
 
 ## Installation - Please keep dependencies updated
 
+``` bash
+
 pip install -r requirements.txt -U
+
+```
 
 ### Dependencies
 
-  - [Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
-  - [PyYAML](https://github.com/yaml/pyyaml)
-  - [lxml](https://github.com/lxml/lxml.git)
-  - [tqdm](https://github.com/tqdm/tqdm)
-  - [Pillow](https://github.com/python-pillow/Pillow.git)
-  - [cloudscraper](https://github.com/VeNoMouS/cloudscraper)
+-   [Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+-   [PyYAML](https://github.com/yaml/pyyaml)
+-   [lxml](https://github.com/lxml/lxml.git)
+-   [tqdm](https://github.com/tqdm/tqdm)
+-   [Pillow](https://github.com/python-pillow/Pillow.git)
+-   [cloudscraper](https://github.com/VeNoMouS/cloudscraper)
 
 ## Usage
 
@@ -65,19 +69,20 @@ This file contains list of mangas to download, destination path, etc.
 
 ``` yaml
 mangas:
-  - chapter:
-      https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
+  - chapter :
+      url:
+        https://www.japscan.co/lecture-en-ligne/one-piece/965/
 
-  - url:
-      https://www.japscan.to/manga/uq-holder/
+  - url :
+      https://www.japscan.co/manga/oggy-et-les-cafards/
 
   - chapters:
       url:
-         https://www.japscan.to/lecture-en-ligne/black-clover/
+        https://www.japscan.co/lecture-en-ligne/black-clover/
       chapter_min:
-         158
+        158
       chapter_max:
-         197
+        161
 
 destination_path:
   ./mangas/
@@ -92,39 +97,20 @@ Add an entry to attribute mangas
 
 ``` yml
 mangas:
-  - url:
+  - url: #complete manga
       https://www.japscan.to/manga/uq-holder/
 
-  - chapter:
+  - chapter: #specific chapter
       https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
 
-  - chapters:
+  - chapters: #multiple chapters
       url:
         https://www.japscan.to/lecture-en-ligne/black-clover/
-      chapter_min:
+      chapter_min: #included
         158
-      chapter_max:
+      chapter_max: #included
         197
 ```
-
-3 supported format of download
-
-Be careful to URL format :boom:
-
-#### Manga
-
--   url : Url of the manga to download
-
-#### Chapter
-
--   chapter : Url of the chapter to download
-
-#### Chapters
-
--   url : Url of the manga to download
--   chapter_min : range min of chapters to download (chapter min included)
--   chapter_max : range max of chapters to download (chapter max included)
-
 
 ### Change downloads destination
 
@@ -133,16 +119,15 @@ Replace destination_path value by desired path
 #### Linux
 
 ``` yml
-   destination_path:
-      /home/harkame/mangas
+destination_path:
+  /home/harkame/mangas
 ```
 
 #### Windows
 
  ``` yml
-
-   destination_path:
-      F:\data\mangas
+destination_path:
+  F:\data\mangas
 ```
 
 ### Change Manga format
@@ -156,9 +141,8 @@ Supported format
 -   cbz : Create CBZ archive
 
 ``` yml
-
-   mangaFormat:
-      jpg
+mangaFormat:
+  jpg
 ```
 
 ## TODO
@@ -170,9 +154,8 @@ Supported format
 
 ## Tests
 
- ``` bash
+``` bash
+pip install tox
 
-     pip install tox
-
-     tox
+tox
 ```
