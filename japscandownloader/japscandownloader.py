@@ -115,11 +115,9 @@ class JapScanDownloader:
             self.format = config["format"]
 
     def download(self, item):
-        if "manga" in item:
-            manga = item["manga"]
-            manga_page = BeautifulSoup(
-                self.scraper.get(manga["url"]).content, features="lxml"
-            )
+        if "url" in item:
+            url = item["url"]
+            manga_page = BeautifulSoup(self.scraper.get(url).content, features="lxml")
 
             chapter_divs = manga_page.find_all(
                 "div", {"class": "chapters_list text-truncate"}
