@@ -8,7 +8,11 @@
 
 ## Installation - Please keep dependencies updated
 
+``` bash
+
 pip install -r requirements.txt -U
+
+```
 
 ### Dependencies
 
