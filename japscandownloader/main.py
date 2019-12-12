@@ -1,7 +1,6 @@
 import cloudscraper
 import sys
 from japscandownloader import JapScanDownloader
-from os import sys, path
 
 
 if __name__ == "__main__":
