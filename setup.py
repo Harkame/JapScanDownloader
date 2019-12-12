@@ -1,18 +1,15 @@
 from setuptools import setup, find_packages
 
-with open('README.rst', 'r') as fh:
+with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name='japscandownloader',
-    version='0.0.1',
-    author='Harkame',
-    description='Script to download mangas from JapScan',
+    name="japscandownloader",
+    version="0.0.1",
+    author="Harkame",
+    description="Script to download mangas from JapScan",
     long_description=long_description,
-    url='https://github.com/Harkame/JapScanDownloader',
+    url="https://github.com/Harkame/JapScanDownloader",
     packages=find_packages(),
-    classifiers=[
-        'Manga downloader',
-        'Japscan'
-    ],
+    classifiers=["Manga downloader", "Japscan"],
 )
