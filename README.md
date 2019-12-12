@@ -119,16 +119,15 @@ Replace destination_path value by desired path
 #### Linux
 
 ``` yml
-   destination_path:
-      /home/harkame/mangas
+destination_path:
+  /home/harkame/mangas
 ```
 
 #### Windows
 
  ``` yml
-
-   destination_path:
-      F:\data\mangas
+destination_path:
+  F:\data\mangas
 ```
 
 ### Change Manga format
@@ -142,9 +141,8 @@ Supported format
 -   cbz : Create CBZ archive
 
 ``` yml
-
-   mangaFormat:
-      jpg
+mangaFormat:
+  jpg
 ```
 
 ## TODO
@@ -156,9 +154,8 @@ Supported format
 
 ## Tests
 
- ``` bash
+``` bash
+pip install tox
 
-     pip install tox
-
-     tox
+tox
 ```
