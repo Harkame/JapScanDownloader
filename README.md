@@ -30,7 +30,7 @@ pip install -r requirements.txt -U
 ### Run
 
 ``` bash
-python japscandownloader/main.py -D C:\\path\\chtomedriver.exe
+python japscandownloader/main.py -D C:\\path\\chromedriver.exe
 ```
 
 ### Options
