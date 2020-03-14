@@ -5,3 +5,4 @@ tqdm
 pillow
 cloudscraper
 urllib3==1.25.7
+selenium

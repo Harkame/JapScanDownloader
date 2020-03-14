@@ -1,6 +1,6 @@
 import cloudscraper
 import sys
-from japscandownloader import JapScanDownloader
+from jss_selenium import JapScanDownloader
 
 
 if __name__ == "__main__":

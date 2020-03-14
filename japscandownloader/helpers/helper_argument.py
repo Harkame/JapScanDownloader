@@ -21,6 +21,16 @@ def get_arguments(arguments):
     )
 
     argument_parser.add_argument(
+        "-D",
+        "--driver",
+        required=True,
+        help="""
+    Chrome web driver
+    Example : python japscandownloader/main.py -d C:\chromedriver.exe""",
+        type=str,
+    )
+
+    argument_parser.add_argument(
         "-d",
         "--destination_path",
         help="Set destination path of downloaded mangas"
