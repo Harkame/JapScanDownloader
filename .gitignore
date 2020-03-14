@@ -16,3 +16,4 @@ dist/
 cloudflare-scrape-js2py/
 cfscrape.egg-info/
 test_download/
+debug.log
