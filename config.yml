@@ -1,18 +1,17 @@
 mangas:
-  - chapter :
-      url:
-        https://www.japscan.co/lecture-en-ligne/one-piece/965/
-
-  - url :
-      https://www.japscan.co/manga/oggy-et-les-cafards/
-
   - chapters:
-      url:
-        https://www.japscan.co/lecture-en-ligne/black-clover/
-      chapter_min:
-        158
-      chapter_max:
-        161
+      manga:
+          https://www.japscan.co/lecture-en-ligne/black-clover/
+      min:
+          158
+      max:
+          161
+  - manga :
+      https://www.japscan.co/manga/oggy-et-les-cafards/
+  - chapter :
+      https://www.japscan.co/lecture-en-ligne/one-piece/965/
+
+
 
 destination_path:
   ./mangas/

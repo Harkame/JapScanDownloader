@@ -22,48 +22,53 @@ pip install -r requirements.txt -U
 -   [tqdm](https://github.com/tqdm/tqdm)
 -   [Pillow](https://github.com/python-pillow/Pillow.git)
 -   [cloudscraper](https://github.com/VeNoMouS/cloudscraper)
+-   [Google Chrome](https://www.google.com/chrome/)
+-   [ChromeDriver](https://chromedriver.chromium.org)
 
 ## Usage
 
 ### Run
 
 ``` bash
-python japscandownloader/main.py
+python japscandownloader/main.py -D C:\\path\\chtomedriver.exe
 ```
 
 ### Options
 
 ``` bash
-usage: main.py [-h] [-c CONFIG_FILE] [-d DESTINATION_PATH] [-f FORMAT] [-v]
-               [-r] [-k] [-u]
+usage: main.py [-h] [-c CONFIG_FILE] -D DRIVER [-d DESTINATION_PATH] [-f FORMAT] [-v] [-r] [-k] [-u]
+
+Script to download mangas from JapScan
 
 optional arguments:
   -h, --help            show this help message and exit
   -c CONFIG_FILE, --config_file CONFIG_FILE
-                        Set config file Example : python
-                        japscandownloader/main.py -c /home/myconfigfile.yml
+                        Set config file{os.linesep}Example : python japscandownloader/main.py -c /home/myconfigfile.yml
+  -D DRIVER, --driver DRIVER
+
+                            Chrome web driver
+                            Example : python japscandownloader/main.py -d C:\chromedriver.exe
   -d DESTINATION_PATH, --destination_path DESTINATION_PATH
-                        Set destination path of downloaded mangas Example :
-                        python japscandownloader/main.py -d /home/mymangas/
+                        Set destination path of downloaded mangasExample : python japscandownloader/main.py -d /home/mymangas/
   -f FORMAT, --format FORMAT
-                        Set format of downloaded mangas Example : python
-                        japscandownloader/main.py -f cbz|pdf|jpg|png
-  -v, --verbose         Active verbose mode, support different level Example :
-                        python japscandownloader/main.py -vv
-  -r, --reverse         Reverse chapters download order (Default : Last to
-                        first) Example : python japscandownloader/main.py -r
-  -k, --keep            Keep downloaded images (when format is pdf/cbz)
-                        (default : false) Example : python
-                        japscandownloader/main.py -k
-  -u, --unscramble      Force unscrambling Example : python
-                        japscandownloader/main.py -u
+                        Set format of downloaded mangasExample : python japscandownloader/main.py -f cbz|pdf|jpg|png
+  -v, --verbose         Active verbose mode, support different levelExample : python japscandownloader/main.py -vv
+  -r, --reverse         Reverse chapters download orderDefault : Last to firstExample : python japscandownloader/main.py -r
+  -k, --keep            Keep downloaded images (when format is pdf/cbz)Default : falseExample : python japscandownloader/main.py -k
+  -u, --unscramble      Force unscramblingExample : python japscandownloader/main.py -u
 ```
 
-### How it work
+### How it works
 
 This program use an config file (default : ./config.yml)
 
 This file contains list of mangas to download, destination path, etc.
+
+```
+
+python japscandownlaoder/main.py -D C:\path\chromedriver.exe
+
+```
 
 #### Example of config file
 
@@ -150,7 +155,7 @@ mangaFormat:
 -   Chapters folders name (not only number)
 -   Don’t download already downloaded manga/chapter/page
 -   Better scrambling detection
--   Fix : Download test not working on travis
+-   Fix : Download test/cloudscraper not working on travis/tox
 
 ## Tests
 
