@@ -14,6 +14,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import json
 import sys
+import urllib3.exceptions
 
 JAPSCAN_URL = "https://www.japscan.to"
 
@@ -78,7 +79,7 @@ class JapScanDownloader:
         logger.debug("mangas : %s", self.mangas)
 
         options = webdriver.ChromeOptions()
-        options.add_argument("--user-data-dir=/home/username/.config/google-chrome")
+        # options.add_argument("--user-data-dir=/home/username/.config/google-chrome")
         options.add_argument("--log-level=3")
         caps = DesiredCapabilities.CHROME
         caps["goog:loggingPrefs"] = {"performance": "ALL"}
@@ -145,28 +146,6 @@ class JapScanDownloader:
 
         if self.format == DEFAULT_format:
             self.format = config["format"]
-
-    def run(self, manga_url):
-        self.driver.get(manga_url["url"])
-
-        time.sleep(2)
-
-        browser_log = self.driver.get_log("performance")
-        events = [process_browser_log_entry(entry) for entry in browser_log]
-
-        for event in events:
-            if "params" in event:
-                params = event["params"]
-                if "response" in params:
-                    response = params["response"]
-                    if "url" in response:
-                        url = response["url"]
-
-                        if len(url) > 100:
-                            print(event)
-                            print(url)
-
-        time.sleep(1000)
 
     def download(self, item):
         if "chapters" in item:
@@ -249,7 +228,6 @@ class JapScanDownloader:
         page_options = []
 
         for page_options_tag in pages.find_elements_by_css_selector("option"):
-            print(page_options_tag.get_attribute("value"))
             page_options.append(page_options_tag.get_attribute("value"))
 
         pages_progress_bar = tqdm(
@@ -271,8 +249,6 @@ class JapScanDownloader:
 
         for index, page_tag in enumerate(page_options):
             page_url = JAPSCAN_URL + page_tag
-
-            logger.debug("page_url : %s", page_url)
 
             file = self.download_page(chapter_path, page_url, index)
 
@@ -302,7 +278,20 @@ class JapScanDownloader:
                 os.remove(image_file)
 
     def download_page(self, chapter_path, page_url, index):
-        logger.debug("page_url: %s", page_url)
+        time.sleep(1)
+
+        logger.debug(f"page_url : {page_url}")
+
+        success = False
+
+        while success is False:
+            try:
+                self.driver.get(page_url)
+                success = True
+            except urllib3.exceptions.ProtocolError:
+                logger.debug(f"error self.driver.get({page_ur}) retry")
+                success = False
+                time.sleep(5)
 
         browser_log = self.driver.get_log("performance")
         events = [process_browser_log_entry(entry) for entry in browser_log]
@@ -317,12 +306,9 @@ class JapScanDownloader:
                     if "url" in response:
                         url = response["url"]
 
-                        if len(url) > 100:
-                            print(url)
+                        if len(url) > 100 and url.endswith(".jpg"):
                             image_url = url
                             break
-
-        self.driver.get(page_url)
 
         unscramble = False
 
@@ -332,8 +318,6 @@ class JapScanDownloader:
 
         if image_url is None:
             return
-
-        logger.debug("image_url : %s", image_url)
 
         reverse_image_url = image_url[::-1]
 
@@ -357,8 +341,6 @@ class JapScanDownloader:
 
         logger.debug("image_path : %s", image_path)
 
-        logger.debug("image_full_path : %s", image_full_path)
-
         response = self.scraper.get(image_url)
 
         if not os.path.exists(os.path.dirname(image_full_path)):
@@ -369,8 +351,6 @@ class JapScanDownloader:
                 if exc.errno != errno.EEXIST:
                     raise
 
-        image_content = response.content
-
         if unscramble is True:
             scrambled_image = image_full_path + "_scrambled"
         else:
@@ -378,7 +358,7 @@ class JapScanDownloader:
 
         file = open(scrambled_image, "wb")
 
-        file.write(image_content)
+        file.write(response.content)
 
         file.close()
 

@@ -11,8 +11,6 @@ mangas:
   - chapter :
       https://www.japscan.co/lecture-en-ligne/one-piece/965/
 
-
-
 destination_path:
   ./mangas/
 
