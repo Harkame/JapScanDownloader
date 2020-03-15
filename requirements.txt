@@ -1,4 +1,3 @@
-BeautifulSoup4
 pyyaml
 lxml
 tqdm

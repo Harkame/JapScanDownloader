@@ -64,7 +64,7 @@ This program use an config file (default : ./config.yml)
 
 This file contains list of mangas to download, destination path, etc.
 
-```
+``` bash
 
 python japscandownlaoder/main.py -D C:\path\chromedriver.exe
 
