@@ -15,7 +15,6 @@ pip install -r requirements.txt -U
 
 ### Dependencies
 
--   [Beautiful Soup 4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 -   [PyYAML](https://github.com/yaml/pyyaml)
 -   [lxml](https://github.com/lxml/lxml.git)
 -   [tqdm](https://github.com/tqdm/tqdm)
