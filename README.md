@@ -2,7 +2,6 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/acf59998d8a743188d5f7ef058010ffa)](https://www.codacy.com/manual/Harkame/JapScanDownloader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Harkame/JapScanDownloader&amp;utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/eb654455df609c6fd1a2/maintainability)](https://codeclimate.com/github/Harkame/JapScanDownloader/maintainability)
-[![codecov](https://codecov.io/gh/Harkame/JapScanDownloader/branch/master/graph/badge.svg)](https://codecov.io/gh/Harkame/JapScanDownloader)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Installation - Please keep dependencies updated
@@ -149,17 +148,9 @@ mangaFormat:
 ```
 
 ## TODO
--   More tests
+-   Tests with selenium
 -   Chapters folders name (not only number)
 -   Don’t download already downloaded manga/chapter/page
 -   Better scrambling detection
 -   Bug : Maximum connection try
 -   Bug : doublon/invalid first image
-
-## Tests
-
-``` bash
-pip install tox
-
-tox
-```
