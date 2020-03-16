@@ -72,18 +72,17 @@ python japscandownlaoder/main.py -D C:\path\chromedriver.exe
 ``` yaml
 mangas:
   - chapter :
-      url:
-        https://www.japscan.co/lecture-en-ligne/one-piece/965/
+      https://www.japscan.co/lecture-en-ligne/one-piece/965/
 
-  - url :
+  - manga :
       https://www.japscan.co/manga/oggy-et-les-cafards/
 
   - chapters:
-      url:
+      manga:
         https://www.japscan.co/lecture-en-ligne/black-clover/
-      chapter_min:
+      min:
         158
-      chapter_max:
+      max:
         161
 
 destination_path:
@@ -99,18 +98,18 @@ Add an entry to attribute mangas
 
 ``` yml
 mangas:
-  - url: #complete manga
+  - manga: #complete manga
       https://www.japscan.to/manga/uq-holder/
 
   - chapter: #specific chapter
       https://www.japscan.to/lecture-en-ligne/shingeki-no-kyojin/60/
 
   - chapters: #multiple chapters
-      url:
+      manga:
         https://www.japscan.to/lecture-en-ligne/black-clover/
-      chapter_min: #included
+      min: #included
         158
-      chapter_max: #included
+      max: #included
         197
 ```
 
