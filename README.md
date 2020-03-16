@@ -153,7 +153,8 @@ mangaFormat:
 -   Chapters folders name (not only number)
 -   Don’t download already downloaded manga/chapter/page
 -   Better scrambling detection
--   Fix : Download test/cloudscraper not working on travis/tox
+-   Bug : Maximum connection try
+-   Bug : doublon/invalid first image
 
 ## Tests
 
