@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import json
 import urllib3.exceptions
+from random import randint
 
 JAPSCAN_URL = "https://www.japscan.to"
 
@@ -76,6 +77,8 @@ class JapScanDownloader:
         options = webdriver.ChromeOptions()
         # options.add_argument("--user-data-dir=/home/username/.config/google-chrome")
         options.add_argument("--log-level=3")
+        options.add_argument("--disable-blink-features")
+        options.add_argument("--disable-blink-features=AutomationControlled")
         caps = DesiredCapabilities.CHROME
         caps["goog:loggingPrefs"] = {"performance": "ALL"}
 
@@ -273,7 +276,7 @@ class JapScanDownloader:
                 os.remove(image_file)
 
     def download_page(self, chapter_path, page_url, index):
-        time.sleep(1)
+        time.sleep(randint(1, 5))
 
         logger.debug(f"page_url : {page_url}")
 
@@ -302,6 +305,9 @@ class JapScanDownloader:
                         url = response["url"]
 
                         if len(url) > 100 and url.endswith(".jpg"):
+
+                            print(url)
+
                             image_url = url
                             break
 
