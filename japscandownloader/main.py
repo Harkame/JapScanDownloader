@@ -1,12 +1,13 @@
-import cloudscraper
 import sys
 from jss_selenium import JapScanDownloader
-
+import signal
 
 if __name__ == "__main__":
-    japscan_downloader = JapScanDownloader(cloudscraper.create_scraper())
+    jsl = JapScanDownloader()
 
-    japscan_downloader.init(sys.argv[1:])
+    signal.signal(signal.SIGINT, jsl.signal_handler)
 
-    for manga in japscan_downloader.mangas:
-        japscan_downloader.download(manga)
+    jsl.init(sys.argv[1:])
+
+    for manga in jsl.mangas:
+        jsl.download(manga)

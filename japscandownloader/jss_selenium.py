@@ -54,9 +54,7 @@ DEFAULT_format = "jpg"
 
 
 class JapScanDownloader:
-    def __init__(self, scraper):
-        self.scraper = scraper
-
+    def __init__(self):
         self.config_file = DEFAULT_CONFIG_FILE
         self.destination_path = DEFAULT_DESTINATION_PATH
         self.keep = False
@@ -342,8 +340,6 @@ class JapScanDownloader:
 
         logger.debug("image_path : %s", image_path)
 
-        response = self.scraper.get(image_url)
-
         if not os.path.exists(os.path.dirname(image_full_path)):
             try:
                 os.makedirs(os.path.dirname(image_full_path))
@@ -358,3 +354,11 @@ class JapScanDownloader:
         im.save(image_full_path)
 
         return image_full_path
+
+    def signal_handler(self, sig, frame):
+        print("Exit")
+
+        if self.driver is not None:
+            self.driver.quit()
+
+        sys.exit(0)
