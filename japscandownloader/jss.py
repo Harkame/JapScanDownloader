@@ -1,31 +1,13 @@
 import logging
 
+from bs4 import BeautifulSoup
 import os
 from tqdm import tqdm
-import time
-from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-import json
-import urllib3.exceptions
-from random import randint
-
-from PIL import Image
-from io import BytesIO
-import sys
-
+from urllib.parse import urlparse
 
 JAPSCAN_URL = "https://www.japscan.to"
 
 logger = logging.getLogger(__name__)
-
-
-def process_browser_log_entry(entry):
-    response = json.loads(entry["message"])["message"]
-    return response
-
 
 if __package__ is None or __package__ == "":
     from helpers import (
@@ -35,7 +17,6 @@ if __package__ is None or __package__ == "":
         create_cbz,
         unscramble_image,
         is_scrambled_scripts,
-        process_browser_log_entry,
     )
 else:
     from .helpers import (
@@ -45,7 +26,6 @@ else:
         create_cbz,
         unscramble_image,
         is_scrambled_scripts,
-        process_browser_log_entry,
     )
 
 DEFAULT_CONFIG_FILE = os.path.join(".", "config.yml")
@@ -64,7 +44,6 @@ class JapScanDownloader:
         self.format = DEFAULT_format
         self.unscramble = False
         self.mangas = []
-        self.driver = None
 
     def init(self, arguments):
         self.init_arguments(arguments)
@@ -78,20 +57,6 @@ class JapScanDownloader:
         logger.debug("format : %s", self.format)
         logger.debug("unscramble : %s", self.unscramble)
         logger.debug("mangas : %s", self.mangas)
-
-        options = webdriver.ChromeOptions()
-        options.add_argument("--log-level=3")
-        options.add_argument("--disable-blink-features")
-        options.add_argument("--disable-blink-features=AutomationControlled")
-        options.add_argument("window-size=1080,1920")
-        options.add_argument("--headless")
-        options.add_experimental_option("excludeSwitches", ["enable-logging"])
-        caps = DesiredCapabilities.CHROME
-        caps["goog:loggingPrefs"] = {"performance": "ALL"}
-
-        self.driver = webdriver.Chrome(
-            self.driver_path, options=options, desired_capabilities=caps
-        )
 
     def init_arguments(self, arguments):
         arguments = get_arguments(arguments)
@@ -137,9 +102,6 @@ class JapScanDownloader:
         if arguments.unscramble:
             self.unscramble = True
 
-        if arguments.driver:
-            self.driver_path = arguments.driver
-
     def init_config(self):
         config = get_config(self.config_file)
 
@@ -153,17 +115,48 @@ class JapScanDownloader:
             self.format = config["format"]
 
     def download(self, item):
-        if "chapters" in item:
+        if "url" in item:
+            url = item["url"]
+            manga_page = BeautifulSoup(self.scraper.get(url).content, features="lxml")
+
+            chapter_divs = manga_page.find_all(
+                "div", {"class": "chapters_list text-truncate"}
+            )
+
+            chapters_progress_bar = tqdm(
+                total=len(chapter_divs),
+                position=0,
+                bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]",
+            )
+
+            chapters = None
+
+            if self.reverse:
+                chapters = reversed(chapter_divs)
+            else:
+                chapters = chapter_divs
+
+            for chapter_div in chapters:
+                chapter_tag = chapter_div.find(href=True)
+
+                chapter_name = (
+                    chapter_tag.contents[0].replace("\t", "").replace("\n", "")
+                )
+
+                logger.debug("chapter_name : %s", chapter_name)
+
+                chapter_url = JAPSCAN_URL + chapter_tag["href"]
+
+                self.download_chapter(chapter_url)
+
+            chapters_progress_bar.close()
+
+        elif "chapters" in item:
             chapters = item["chapters"]
 
-            url = chapters["manga"]
+            base_counter = chapters["chapter_min"]
 
-            base_counter = chapters["min"]
-
-            min = chapters["min"]
-            max = chapters["max"]
-
-            diff = (max - min) + 1  # included
+            diff = (chapters["chapter_max"] - chapters["chapter_min"]) + 1  # included
 
             chapters_progress_bar = tqdm(
                 total=diff,
@@ -171,69 +164,27 @@ class JapScanDownloader:
                 bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]",
             )
 
-            while base_counter <= max:
-                self.download_chapter(url + str(base_counter) + "/")
+            while base_counter <= chapters["chapter_max"]:
+                self.download_chapter(chapters["url"] + str(base_counter) + "/")
                 base_counter += 1
 
             chapters_progress_bar.close()
-
         elif "chapter" in item:
             chapter = item["chapter"]
 
-            self.download_chapter(chapter)
-        elif "manga" in item:
-            url = item["manga"]
-
-            self.driver.get(url)
-
-            WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, "div#main"))
-            )
-
-            chapters = []
-
-            for chapter_tag in self.driver.find_elements_by_css_selector(
-                "div.chapters_list.text-truncate a"
-            ):
-                chapter = {}
-                chapter["url"] = chapter_tag.get_attribute("href")
-                chapter["name"] = chapter_tag.text.replace("\t", "").replace("\n", "")
-
-                chapters.append(chapter)
-
-            chapters_progress_bar = tqdm(
-                total=len(chapters),
-                position=0,
-                bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]",
-            )
-
-            for chapter in chapters:
-                logger.debug("chapter_name : %s", chapter["name"])
-
-                self.download_chapter(chapter["url"])
-
-            chapters_progress_bar.close()
+            self.download_chapter(chapter["url"])
 
     def download_chapter(self, chapter_url):
-        self.driver.get(chapter_url)
-
-        WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(
-                (By.CSS_SELECTOR, "h1.text-center.mt-2.font-weight-bold")
-            )
-        )
-
         logger.debug("chapter_url : %s", chapter_url)
 
-        pages = self.driver.find_element_by_css_selector("select#pages")
+        html = self.scraper.get(chapter_url).content
+
+        pages = BeautifulSoup(html, features="lxml").find("select", {"id": "pages"})
 
         if pages is None:
             raise Exception(f"Can't read pages {str(html)}")
 
-        page_options = []
-
-        for page_options_tag in pages.find_elements_by_css_selector("option"):
-            page_options.append(page_options_tag.get_attribute("value"))
+        page_options = pages.find_all("option", value=True)
 
         pages_progress_bar = tqdm(
             total=len(page_options),
@@ -252,10 +203,12 @@ class JapScanDownloader:
 
         image_files = []
 
-        for index, page_tag in enumerate(page_options):
-            page_url = JAPSCAN_URL + page_tag
+        for page_tag in page_options:
+            page_url = JAPSCAN_URL + page_tag["value"]
 
-            file = self.download_page(chapter_path, page_url, index)
+            logger.debug("page_url : %s", page_url)
+
+            file = self.download_page(chapter_path, page_url)
 
             if file is not None:
                 image_files.append(file)
@@ -282,47 +235,30 @@ class JapScanDownloader:
             for image_file in image_files:
                 os.remove(image_file)
 
-    def download_page(self, chapter_path, page_url, index):
-        time.sleep(randint(1, 5))
+    def download_page(self, chapter_path, page_url):
+        logger.debug("page_url: %s", page_url)
 
-        logger.debug(f"page_url : {page_url}")
+        page = BeautifulSoup(self.scraper.get(page_url).content, features="lxml")
 
-        success = False
+        image_url = page.find("div", {"id": "image"})["data-src"]
 
-        while success is False:
-            try:
-                self.driver.get(page_url)
-                success = True
-            except urllib3.exceptions.ProtocolError:
-                logger.debug(f"error self.driver.get({page_ur}) retry")
-                success = False
-                time.sleep(5)
+        response = self.scraper.get(image_url)
 
-        browser_log = self.driver.get_log("performance")
-        events = [process_browser_log_entry(entry) for entry in browser_log]
+        if response.status_code != 200:
+            return
 
-        image_url = None
+        unscramble = is_scrambled_scripts(page)
 
-        for event in events:
-            if "params" in event:
-                params = event["params"]
-                if "response" in params:
-                    response = params["response"]
-                    if "url" in response:
-                        url = response["url"]
+        if self.unscramble:
+            unscramble = True
 
-                        if len(url) > 100 and url.endswith(".jpg"):
-                            image_url = url
-                            break
+        logger.debug("unscramble : %s", unscramble)
 
         logger.debug("image_url: %s", image_url)
 
-        if image_url is None:
-            return
-
         reverse_image_url = image_url[::-1]
 
-        image_name = str(index) + ".png"
+        image_name = urlparse(image_url).path.split("/")[-1]
 
         image_full_path = os.path.join(chapter_path, image_name)
 
@@ -342,7 +278,7 @@ class JapScanDownloader:
 
         logger.debug("image_path : %s", image_path)
 
-        response = self.scraper.get(image_url)
+        logger.debug("image_full_path : %s", image_full_path)
 
         if not os.path.exists(os.path.dirname(image_full_path)):
             try:
@@ -352,9 +288,21 @@ class JapScanDownloader:
                 if exc.errno != errno.EEXIST:
                     raise
 
-        image_element = self.driver.find_element_by_id("image")
+        image_content = response.content
 
-        im = Image.open(BytesIO(image_element.screenshot_as_png))
-        im.save(image_full_path)
+        if unscramble is True:
+            scrambled_image = image_full_path + "_scrambled"
+        else:
+            scrambled_image = image_full_path
+
+        file = open(scrambled_image, "wb")
+
+        file.write(image_content)
+
+        file.close()
+
+        if unscramble is True:
+            unscramble_image(scrambled_image, image_full_path)
+            os.remove(scrambled_image)
 
         return image_full_path

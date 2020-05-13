@@ -2,6 +2,5 @@ pyyaml
 lxml
 tqdm
 pillow
-cloudscraper
 selenium
 urllib3
