@@ -67,6 +67,18 @@ python japscandownlaoder/main.py -D C:\path\chromedriver.exe
 
 ```
 
+### Change image resolutions
+
+In file japscandownloader/jss_selenium.py, line 84/85, chagne with your desired resolution
+
+``` python
+
+options.add_argument("window-size=1080,1920")
+
+options.add_argument("window-size=1440,2560")
+
+```
+
 #### Example of config file
 
 ``` yaml

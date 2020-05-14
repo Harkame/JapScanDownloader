@@ -82,6 +82,7 @@ class JapScanDownloader:
         options.add_argument("--disable-blink-features")
         options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_argument("window-size=1080,1920")
+        # options.add_argument("window-size=1440,2560")
         options.add_argument("--headless")
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
         caps = DesiredCapabilities.CHROME
@@ -354,11 +355,3 @@ class JapScanDownloader:
         im.save(image_full_path)
 
         return image_full_path
-
-    def signal_handler(self, sig, frame):
-        print("Exit")
-
-        if self.driver is not None:
-            self.driver.quit()
-
-        sys.exit(0)
