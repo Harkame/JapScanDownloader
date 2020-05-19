@@ -1,4 +1,5 @@
 import argparse
+import shutil
 
 import logging
 
@@ -17,17 +18,15 @@ def get_arguments(arguments):
         help="Set config file"
         "{os.linesep}"
         "Example : python japscandownloader/main.py -c /home/myconfigfile.yml",
-        type=str,
     )
 
     argument_parser.add_argument(
         "-D",
         "--driver",
-        required=True,
+        default=shutil.which("chromedriver"),
         help="""
     Chrome web driver
     Example : python japscandownloader/main.py -d C:\chromedriver.exe""",
-        type=str,
     )
 
     argument_parser.add_argument(
@@ -35,7 +34,6 @@ def get_arguments(arguments):
         "--destination_path",
         help="Set destination path of downloaded mangas"
         "Example : python japscandownloader/main.py -d /home/mymangas/",
-        type=str,
     )
 
     argument_parser.add_argument(
@@ -43,7 +41,6 @@ def get_arguments(arguments):
         "--format",
         help="Set format of downloaded mangas"
         "Example : python japscandownloader/main.py -f cbz|pdf|jpg|png",
-        type=str,
     )
 
     argument_parser.add_argument(

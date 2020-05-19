@@ -1,20 +1,21 @@
+# Directory to downlod the mangas to
+destination_path: ./mangas/
+
+# Supported format
+# - jpg/png: Download image files
+# - pdf: Create PDF file
+# - cbz: Create CBZ archive
+format: jpg
+
 mangas:
-  - chapter :
-      https://www.japscan.co/lecture-en-ligne/rikudou/189/
+  # Download an entire manga 
+  - manga: https://www.japscan.co/manga/oggy-et-les-cafards/
+
+  # Download a specific chapter
+  - chapter: https://www.japscan.co/lecture-en-ligne/rikudou/189/
+
+  # Download contiguous chapters
   - chapters:
-      manga:
-          https://www.japscan.co/lecture-en-ligne/black-clover/
-      min:
-          158
-      max:
-          161
-  - manga :
-      https://www.japscan.co/manga/oggy-et-les-cafards/
-  - chapter :
-      https://www.japscan.co/lecture-en-ligne/one-piece/965/
-
-destination_path:
-  ./mangas/
-
-format:
-  jpg
+      manga: https://www.japscan.co/lecture-en-ligne/black-clover/
+      min: 158
+      max: 161

@@ -1,6 +1,7 @@
 import logging
 
 import os
+import shutil
 from tqdm import tqdm
 import time
 from selenium import webdriver
@@ -27,26 +28,15 @@ def process_browser_log_entry(entry):
     return response
 
 
-if __package__ is None or __package__ == "":
-    from helpers import (
-        get_arguments,
-        get_config,
-        create_pdf,
-        create_cbz,
-        unscramble_image,
-        is_scrambled_scripts,
-        process_browser_log_entry,
-    )
-else:
-    from .helpers import (
-        get_arguments,
-        get_config,
-        create_pdf,
-        create_cbz,
-        unscramble_image,
-        is_scrambled_scripts,
-        process_browser_log_entry,
-    )
+from .helpers import (
+    get_arguments,
+    get_config,
+    create_pdf,
+    create_cbz,
+    unscramble_image,
+    is_scrambled_scripts,
+    process_browser_log_entry,
+)
 
 DEFAULT_CONFIG_FILE = os.path.join(".", "config.yml")
 DEFAULT_DESTINATION_PATH = os.path.join(".", "mangas")

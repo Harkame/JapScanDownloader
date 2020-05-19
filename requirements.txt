@@ -1,6 +1,0 @@
-pyyaml
-lxml
-tqdm
-pillow
-selenium
-urllib3

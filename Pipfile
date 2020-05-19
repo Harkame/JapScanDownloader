@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+nose = "*"
+numpy = "*"
+pipenv-setup = "*"
+pytest = "*"
+pytest-cov = "*"
+beautifulsoup4 = "*"
+cloudscraper = "*"
+
+[packages]
+lxml = "*"
+pillow = "*"
+pyyaml = "*"
+selenium = "*"
+tqdm = "*"
+urllib3 = "*"
+
+[requires]
+python_version = "3.7"

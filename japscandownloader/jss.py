@@ -1,36 +1,19 @@
 import logging
-
-from bs4 import BeautifulSoup
 import os
-from tqdm import tqdm
 from urllib.parse import urlparse
 
-JAPSCAN_URL = "https://www.japscan.to"
+from bs4 import BeautifulSoup
+from tqdm import tqdm
 
-logger = logging.getLogger(__name__)
-
-if __package__ is None or __package__ == "":
-    from helpers import (
-        get_arguments,
-        get_config,
-        create_pdf,
-        create_cbz,
-        unscramble_image,
-        is_scrambled_scripts,
-    )
-else:
-    from .helpers import (
-        get_arguments,
-        get_config,
-        create_pdf,
-        create_cbz,
-        unscramble_image,
-        is_scrambled_scripts,
-    )
+from .helpers import (create_cbz, create_pdf, get_arguments, get_config,
+                      is_scrambled_scripts, unscramble_image)
 
 DEFAULT_CONFIG_FILE = os.path.join(".", "config.yml")
 DEFAULT_DESTINATION_PATH = os.path.join(".", "mangas")
 DEFAULT_format = "jpg"
+JAPSCAN_URL = "https://www.japscan.to"
+
+logger = logging.getLogger(__name__)
 
 
 class JapScanDownloader:
