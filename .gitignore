@@ -1,7 +1,5 @@
 mangas/
 __pycache__/
-config.yml
-.tox
 japscandownloader.egg-info/
 .coverage
 coverage.xml
