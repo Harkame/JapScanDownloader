@@ -13,6 +13,11 @@ first.
 pip install japscandownloader
 ```
 
+```console
+$ which chromedriver
+/usr/local/bin/chromedriver
+```
+
 ## Usage
 
 ```console
