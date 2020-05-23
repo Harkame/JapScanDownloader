@@ -1,5 +1,5 @@
 # JapScanDownloader
-
+[![PyPI version](https://badge.fury.io/py/japscandownloader.svg)](https://badge.fury.io/py/japscandownloader)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/acf59998d8a743188d5f7ef058010ffa)](https://www.codacy.com/manual/Harkame/JapScanDownloader?utm_source=github.com&utm_medium=referral&utm_content=Harkame/JapScanDownloader&utm_campaign=Badge_Grade)
 [![Maintainability](https://api.codeclimate.com/v1/badges/eb654455df609c6fd1a2/maintainability)](https://codeclimate.com/github/Harkame/JapScanDownloader/maintainability)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
