@@ -69,11 +69,4 @@ def get_arguments(arguments):
         action="count",
     )
 
-    argument_parser.add_argument(
-        "-u",
-        "--unscramble",
-        help="Force unscrambling" "Example : python japscandownloader/main.py -u",
-        action="count",
-    )
-
     return argument_parser.parse_args(arguments)

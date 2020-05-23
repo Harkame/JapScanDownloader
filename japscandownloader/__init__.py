@@ -1,1 +1,1 @@
-from .jss_selenium import JapScanDownloader
+from .jsd_selenium import JapScanDownloader
