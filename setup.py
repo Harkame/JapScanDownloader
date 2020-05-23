@@ -11,7 +11,7 @@ setup(
     long_description=long_description,
     url="https://github.com/Harkame/JapScanDownloader",
     packages=find_packages(),
-    classifiers=["Manga downloader", "Japscan"],
+    classifiers=["Programming Language :: Python",],
     install_requires=[
         "lxml==4.5.1",
         "pillow==7.1.2",
@@ -71,5 +71,8 @@ setup(
             "wheel==0.34.2",
             "zipp==3.1.0; python_version < '3.8'",
         ]
+    },
+    entry_points={
+        "console_scripts": ["japscandownloader = japscandownloader.main:main"],
     },
 )
