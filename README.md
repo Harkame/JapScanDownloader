@@ -10,7 +10,7 @@ This project depends on [Google Chrome][1] and [ChromeDriver][2], install them
 first.
 
 ```console
-pip install japscandownloader
+$ pip install japscandownloader
 ```
 
 ```console
