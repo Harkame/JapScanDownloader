@@ -13,6 +13,14 @@ first.
 $ pip install japscandownloader
 ```
 
+OR
+
+```console
+$ git clone https://github.com/Harkame/JapScanDownloader.git
+$ cd JapScanDownloader
+$ python setup.py install
+```
+
 ```console
 $ which chromedriver
 /usr/local/bin/chromedriver
