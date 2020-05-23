@@ -13,20 +13,10 @@ first.
 pip install japscandownloader
 ```
 
-```console
-$ which chromedriver
-/usr/local/bin/chromedriver
-$ pip install -r requirements.txt -U
-```
-
 ## Usage
 
 ```console
-japscandownloader
-```
-
-```console
-$ python japscandownloader/main.py
+$ japscandownloader
 ```
 
 ## Configuration
@@ -47,7 +37,6 @@ your desired resolution.
 - Tests with selenium
 - Chapters folders name (not only number)
 - Don’t download already downloaded manga/chapter/page
-- Better scrambling detection
 - Bug : Maximum connection try
 - Bug : doublon/invalid first image
 
