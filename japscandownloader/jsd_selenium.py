@@ -292,7 +292,9 @@ class JapScanDownloader:
                     if "url" in response:
                         url = response["url"]
 
-                        if len(url) > 100 and url.endswith(".jpg"):
+                        if len(url) > 130 and (
+                            url.endswith(".jpg") or url.endswith(".png")
+                        ):
                             image_url = url
                             break
 
