@@ -16,6 +16,6 @@ mangas:
 
   # Download contiguous chapters
   - chapters:
-    manga: https://www.japscan.co/lecture-en-ligne/black-clover/
-    min: 158
-    max: 161
+      manga: https://www.japscan.co/lecture-en-ligne/black-clover/
+      min: 158
+      max: 161
