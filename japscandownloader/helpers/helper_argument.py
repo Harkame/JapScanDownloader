@@ -69,4 +69,14 @@ def get_arguments(arguments):
         action="count",
     )
 
+    argument_parser.add_argument(
+        "-p",
+        "--profile",
+        help="Chrome profile path"
+        "Example with Windows : python -p C:\\Users\\Me\\AppData\\Local\\Google\\Chrome\\User Data"
+        "Be careful, you can't use your normal chrome browser and this parameter at same time (user data directory is already in use)",
+    )
+
+    argument_parser.add_argument("-s", "--show", help="Show browser", action="count")
+
     return argument_parser.parse_args(arguments)

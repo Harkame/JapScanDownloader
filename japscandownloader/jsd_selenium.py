@@ -49,6 +49,8 @@ class JapScanDownloader:
         self.format = DEFAULT_format
         self.mangas = []
         self.driver = None
+        self.profile = None
+        self.show = False
 
     def init(self, arguments):
         self.init_arguments(arguments)
@@ -61,14 +63,22 @@ class JapScanDownloader:
         logger.debug("reverse : %s", self.reverse)
         logger.debug("format : %s", self.format)
         logger.debug("mangas : %s", self.mangas)
+        logger.debug("profile : %s", self.profile)
+        logger.debug("show : %s", self.show)
 
         options = webdriver.ChromeOptions()
         options.add_argument("--log-level=3")
         options.add_argument("--disable-blink-features")
         options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_argument("window-size=1080,1920")
+
+        if self.profile is not None:
+            options.add_argument(f"user-data-dir={self.profile}")
+
         # options.add_argument("window-size=1440,2560")
-        options.add_argument("--headless")
+        if not self.show:
+            options.add_argument("--headless")
+
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
         caps = DesiredCapabilities.CHROME
         caps["goog:loggingPrefs"] = {"performance": "ALL"}
@@ -120,6 +130,12 @@ class JapScanDownloader:
 
         if arguments.driver:
             self.driver_path = arguments.driver
+
+        if arguments.profile:
+            self.profile = arguments.profile
+
+        if arguments.show:
+            self.show = True
 
     def init_config(self):
         config = get_config(self.config_file)

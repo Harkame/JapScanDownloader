@@ -8,14 +8,7 @@ destination_path: ./mangas/
 format: jpg
 
 mangas:
-  # Download an entire manga
-  - manga: https://www.japscan.co/manga/oggy-et-les-cafards/
-
-  # Download a specific chapter
-  - chapter: https://www.japscan.co/lecture-en-ligne/one-piece/957/
-
-  # Download contiguous chapters
   - chapters:
-      manga: https://www.japscan.co/lecture-en-ligne/black-clover/
-      min: 158
-      max: 161
+      manga: https://www.japscan.co/lecture-en-ligne/hunter-x-hunter/
+      min: 200
+      max: 220

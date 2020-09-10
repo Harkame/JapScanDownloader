@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="japscandownloader",
-    version="1.0.2",
+    version="1.0.3",
     author="Harkame",
     description="Script to download mangas from JapScan",
     long_description=long_description,
