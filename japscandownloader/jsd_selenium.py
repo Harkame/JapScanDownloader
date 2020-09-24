@@ -71,6 +71,7 @@ class JapScanDownloader:
         options.add_argument("--disable-blink-features")
         options.add_argument("--disable-blink-features=AutomationControlled")
         options.add_argument("window-size=1080,1920")
+        options.add_argument("--profile-directory=Default")
 
         if self.profile is not None:
             options.add_argument(f"user-data-dir={self.profile}")
@@ -80,6 +81,9 @@ class JapScanDownloader:
             options.add_argument("--headless")
 
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
+        options.add_experimental_option("useAutomationExtension", False)
+        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+
         caps = DesiredCapabilities.CHROME
         caps["goog:loggingPrefs"] = {"performance": "ALL"}
 
