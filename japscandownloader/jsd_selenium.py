@@ -355,7 +355,14 @@ class JapScanDownloader:
 
         image_element = self.driver.find_element_by_id("image")
 
-        im = Image.open(BytesIO(image_element.screenshot_as_png))
-        im.save(image_full_path)
+        im = None
+
+        try:
+            im = Image.open(BytesIO(image_element.screenshot_as_png))
+        except selenium.common.exceptions.WebDriverException:
+            logger.debug(f"error invalid image_element.screenshot_as_png")
+
+        if im is not None:
+            im.save(image_full_path)
 
         return image_full_path
