@@ -8,6 +8,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import WebDriverException
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import json
 import urllib3.exceptions
@@ -70,13 +71,13 @@ class JapScanDownloader:
         options.add_argument("--log-level=3")
         options.add_argument("--disable-blink-features")
         options.add_argument("--disable-blink-features=AutomationControlled")
-        options.add_argument("window-size=1080,1920")
+        # options.add_argument("window-size=1080,1920")
         options.add_argument("--profile-directory=Default")
 
         if self.profile is not None:
             options.add_argument(f"user-data-dir={self.profile}")
 
-        # options.add_argument("window-size=1440,2560")
+        options.add_argument("window-size=1440,2560")
         if not self.show:
             options.add_argument("--headless")
 
@@ -359,8 +360,14 @@ class JapScanDownloader:
 
         try:
             im = Image.open(BytesIO(image_element.screenshot_as_png))
-        except selenium.common.exceptions.WebDriverException:
-            logger.debug(f"error invalid image_element.screenshot_as_png")
+        except Exception:  # Fail on get image
+            logger.debug(f"error : invalid image_element.screenshot_as_png")
+            time.sleep(4)
+
+            try:  # Retry to get image after a fail
+                im = Image.open(BytesIO(image_element.screenshot_as_png))
+            except Exception:
+                logger.debug(f"error retry : invalid image_element.screenshot_as_png")
 
         if im is not None:
             im.save(image_full_path)
