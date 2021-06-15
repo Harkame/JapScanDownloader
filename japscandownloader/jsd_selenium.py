@@ -286,14 +286,14 @@ class JapScanDownloader:
             for image_file in image_files:
                 os.remove(image_file)
 
-    def prepend_zeroes(self, current_chapter_value, total_images):
+    def prepend_zeroes(self, current_image_idx, total_images):
         """
-        :param current_chapter_value: Int value of current page number. Example : 1, 2, 3
+        :param current_image_idx: Int value of current page number. Example : 1, 2, 3
         :param total_images: Total number of images in the chapter
         :return:
         """
         max_digits = int(math.log10(int(total_images))) + 1
-        return str(current_chapter_value).zfill(max_digits)
+        return str(current_image_idx).zfill(max_digits)
 
     def download_page(self, chapter_path, page_url, index, total):
         time.sleep(randint(1, 5))
