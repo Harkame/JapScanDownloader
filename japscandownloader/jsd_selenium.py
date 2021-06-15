@@ -1,4 +1,6 @@
+import errno
 import logging
+import math
 
 import os
 import shutil
@@ -230,7 +232,7 @@ class JapScanDownloader:
         pages = self.driver.find_element_by_css_selector("select#pages")
 
         if pages is None:
-            raise Exception(f"Can't read pages {str(html)}")
+            raise Exception(f"Can't read pages {str(chapter_url)}")
 
         page_options = []
 
@@ -257,7 +259,7 @@ class JapScanDownloader:
         for index, page_tag in enumerate(page_options):
             page_url = JAPSCAN_URL + page_tag
 
-            file = self.download_page(chapter_path, page_url, index)
+            file = self.download_page(chapter_path, page_url, index, len(page_options))
 
             if file is not None:
                 image_files.append(file)
@@ -284,7 +286,16 @@ class JapScanDownloader:
             for image_file in image_files:
                 os.remove(image_file)
 
-    def download_page(self, chapter_path, page_url, index):
+    def prepend_zeroes(self, current_chapter_value, total_images):
+        """
+        :param current_chapter_value: Int value of current page number. Example : 1, 2, 3
+        :param total_images: Total number of images in the chapter
+        :return:
+        """
+        max_digits = int(math.log10(int(total_images))) + 1
+        return str(current_chapter_value).zfill(max_digits)
+
+    def download_page(self, chapter_path, page_url, index, total):
         time.sleep(randint(1, 5))
 
         logger.debug(f"page_url : {page_url}")
@@ -296,7 +307,7 @@ class JapScanDownloader:
                 self.driver.get(page_url)
                 success = True
             except urllib3.exceptions.ProtocolError:
-                logger.debug(f"error self.driver.get({page_ur}) retry")
+                logger.debug(f"error self.driver.get({page_url}) retry")
                 success = False
                 time.sleep(5)
 
@@ -326,7 +337,7 @@ class JapScanDownloader:
 
         reverse_image_url = image_url[::-1]
 
-        image_name = str(index) + ".png"
+        image_name = self.prepend_zeroes(index, total) + ".png"
 
         image_full_path = os.path.join(chapter_path, image_name)
 
