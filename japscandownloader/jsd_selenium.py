@@ -296,6 +296,15 @@ class JapScanDownloader:
         return str(current_image_idx).zfill(max_digits)
 
     def download_page(self, chapter_path, page_url, index, total):
+
+        image_name = self.prepend_zeroes(index, total) + ".png"
+        image_full_path = os.path.join(chapter_path, image_name)
+
+        logger.debug("image_full_path : %s", image_full_path)
+
+        if os.path.exists(image_full_path):
+            return image_full_path
+
         time.sleep(randint(1, 5))
 
         logger.debug(f"page_url : {page_url}")
@@ -336,12 +345,6 @@ class JapScanDownloader:
             return
 
         reverse_image_url = image_url[::-1]
-
-        image_name = self.prepend_zeroes(index, total) + ".png"
-
-        image_full_path = os.path.join(chapter_path, image_name)
-
-        logger.debug("image_full_path : %s", image_full_path)
 
         slash_counter = 0
         index = 0
