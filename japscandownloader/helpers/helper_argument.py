@@ -26,7 +26,7 @@ def get_arguments(arguments):
         default=shutil.which("chromedriver"),
         help="""
     Chrome web driver
-    Example : python japscandownloader/main.py -d C:\chromedriver.exe""",
+    Example : python japscandownloader/main.py -D C:\chromedriver.exe""",
     )
 
     argument_parser.add_argument(
