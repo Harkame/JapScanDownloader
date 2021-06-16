@@ -178,6 +178,7 @@ class JapScanDownloader:
             while base_counter <= max:
                 self.download_chapter(url + str(base_counter) + "/")
                 base_counter += 1
+                chapters_progress_bar.update(1)
 
             chapters_progress_bar.close()
 
@@ -215,6 +216,7 @@ class JapScanDownloader:
                 logger.debug("chapter_name : %s", chapter["name"])
 
                 self.download_chapter(chapter["url"])
+                chapters_progress_bar.update(1)
 
             chapters_progress_bar.close()
 
