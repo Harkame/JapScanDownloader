@@ -303,6 +303,7 @@ class JapScanDownloader:
         logger.debug("image_full_path : %s", image_full_path)
 
         if os.path.exists(image_full_path):
+            logger.debug(f"skipping file : {image_full_path}")
             return image_full_path
 
         time.sleep(randint(1, 5))
@@ -341,24 +342,24 @@ class JapScanDownloader:
 
         logger.debug("image_url: %s", image_url)
 
-        if image_url is None:
-            return
+        # if image_url is None:
+        #     return
 
-        reverse_image_url = image_url[::-1]
-
-        slash_counter = 0
-        index = 0
-
-        while slash_counter < 3:
-            if reverse_image_url[index] == "/":
-                slash_counter += 1
-            index += 1
-
-        reverse_image_url = reverse_image_url[0:index]
-
-        image_path = reverse_image_url[::-1]
-
-        logger.debug("image_path : %s", image_path)
+        # reverse_image_url = image_url[::-1]
+        #
+        # slash_counter = 0
+        # index = 0
+        #
+        # while slash_counter < 3:
+        #     if reverse_image_url[index] == "/":
+        #         slash_counter += 1
+        #     index += 1
+        #
+        # reverse_image_url = reverse_image_url[0:index]
+        #
+        # image_path = reverse_image_url[::-1]
+        #
+        # logger.debug("image_path : %s", image_path)
 
         if not os.path.exists(os.path.dirname(image_full_path)):
             try:
