@@ -23,6 +23,7 @@ import sys
 from .helpers import (
     get_arguments,
     get_config,
+    update_config,
     create_pdf,
     create_cbz,
     process_browser_log_entry,
@@ -219,6 +220,53 @@ class JapScanDownloader:
                 chapters_progress_bar.update(1)
 
             chapters_progress_bar.close()
+        elif "subscription" in item:
+            subscription = item["subscription"]
+            url = subscription["manga"]
+            previous_last_chapter = subscription["last_chapter"]
+
+            self.driver.get(url)
+
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "div#main"))
+            )
+
+            chapters = []
+
+            last_chapter = None
+
+            for chapter_tag in self.driver.find_elements_by_css_selector(
+                    "div.chapters_list.text-truncate a"
+            ):
+                chapter = {
+                    "url": chapter_tag.get_attribute("href"),
+                    "name": chapter_tag.text.replace("\t", "").replace("\n", "")
+                }
+
+                if last_chapter is None:
+                    last_chapter = chapter["url"]
+
+                if chapter["url"] == previous_last_chapter:
+                    break
+
+                chapters.append(chapter)
+
+            chapters_progress_bar = tqdm(
+                total=len(chapters),
+                position=0,
+                bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [subscription: " + url + "]",
+            )
+
+            for chapter in chapters:
+                logger.debug("chapter_name : %s", chapter["name"])
+
+                self.download_chapter(chapter["url"])
+                chapters_progress_bar.update(1)
+
+            chapters_progress_bar.close()
+
+            if last_chapter != previous_last_chapter:
+                update_config(self.config_file, url, last_chapter)
 
     def download_chapter(self, chapter_url):
         self.driver.get(chapter_url)
