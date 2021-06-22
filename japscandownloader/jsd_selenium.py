@@ -257,16 +257,13 @@ class JapScanDownloader:
                 bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [subscription: " + url + "]",
             )
 
-            for chapter in chapters:
+            for chapter in reversed(chapters):
                 logger.debug("chapter_name : %s", chapter["name"])
-
                 self.download_chapter(chapter["url"])
+                update_config(self.config_file, url, chapter["url"])
                 chapters_progress_bar.update(1)
 
             chapters_progress_bar.close()
-
-            if last_chapter != previous_last_chapter:
-                update_config(self.config_file, url, last_chapter)
 
     def download_chapter(self, chapter_url):
         self.driver.get(chapter_url)
