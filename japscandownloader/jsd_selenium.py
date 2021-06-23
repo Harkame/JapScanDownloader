@@ -368,26 +368,26 @@ class JapScanDownloader:
                 success = False
                 time.sleep(5)
 
-        browser_log = self.driver.get_log("performance")
-        events = [process_browser_log_entry(entry) for entry in browser_log]
-
-        image_url = None
-
-        for event in events:
-            if "params" in event:
-                params = event["params"]
-                if "response" in params:
-                    response = params["response"]
-                    if "url" in response:
-                        url = response["url"]
-
-                        if len(url) > 130 and (
-                            url.endswith(".jpg") or url.endswith(".png")
-                        ):
-                            image_url = url
-                            break
-
-        logger.debug("image_url: %s", image_url)
+        # browser_log = self.driver.get_log("performance")
+        # events = [process_browser_log_entry(entry) for entry in browser_log]
+        #
+        # image_url = None
+        #
+        # for event in events:
+        #     if "params" in event:
+        #         params = event["params"]
+        #         if "response" in params:
+        #             response = params["response"]
+        #             if "url" in response:
+        #                 url = response["url"]
+        #
+        #                 if len(url) > 130 and (
+        #                     url.endswith(".jpg") or url.endswith(".png")
+        #                 ):
+        #                     image_url = url
+        #                     break
+        #
+        # logger.debug("image_url: %s", image_url)
 
         # if image_url is None:
         #     return
@@ -415,6 +415,12 @@ class JapScanDownloader:
             except OSError as exc:
                 if exc.errno != errno.EEXIST:
                     raise
+
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(
+                (By.ID, "image")
+            )
+        )
 
         image_element = self.driver.find_element_by_id("image")
 
