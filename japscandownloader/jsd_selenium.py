@@ -244,6 +244,9 @@ class JapScanDownloader:
                     if "spoiler" in badge.text.lower():  # raw spoiler chapter not translated yet, skip download
                         skip_chapter = True
                         break
+                    if "raw" in badge.text.lower():  # raw spoiler chapter not translated yet, skip download
+                        skip_chapter = True
+                        break
 
                 if skip_chapter:
                     continue
