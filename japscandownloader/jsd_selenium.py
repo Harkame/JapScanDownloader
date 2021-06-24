@@ -238,6 +238,16 @@ class JapScanDownloader:
             for chapter_tag in self.driver.find_elements_by_css_selector(
                     "div.chapters_list.text-truncate a"
             ):
+                skip_chapter = False
+                badges = chapter_tag.find_elements_by_css_selector("span.badge")
+                for badge in badges:
+                    if "spoiler" in badge.text.lower():  # raw spoiler chapter not translated yet, skip download
+                        skip_chapter = True
+                        break
+
+                if skip_chapter:
+                    continue
+
                 chapter = {
                     "url": chapter_tag.get_attribute("href"),
                     "name": chapter_tag.text.replace("\t", "").replace("\n", "")
@@ -353,7 +363,7 @@ class JapScanDownloader:
             logger.debug(f"skipping file : {image_full_path}")
             return image_full_path
 
-        time.sleep(randint(1, 5))
+        # time.sleep(randint(1, 5))  # seems ok without it
 
         logger.debug(f"page_url : {page_url}")
 
