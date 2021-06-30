@@ -8,6 +8,12 @@ destination_path: ./mangas/
 format: jpg
 
 mangas:
+  # subscription, will download all chapters until last_chapter and then update the last_chapter
+  - subscription:
+      last_chapter: https://www.japscan.ws/lecture-en-ligne/boruto/48/
+      manga: https://www.japscan.ws/manga/boruto/
+
+  # Download a complete manga
   - manga: https://www.japscan.se/manga/oggy-et-les-cafards/
 
   # Download a specific chapter

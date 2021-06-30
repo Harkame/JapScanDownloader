@@ -1,4 +1,6 @@
+import errno
 import logging
+import math
 
 import os
 import shutil
@@ -21,6 +23,7 @@ import sys
 from .helpers import (
     get_arguments,
     get_config,
+    update_config,
     create_pdf,
     create_cbz,
     process_browser_log_entry,
@@ -176,6 +179,7 @@ class JapScanDownloader:
             while base_counter <= max:
                 self.download_chapter(url + str(base_counter) + "/")
                 base_counter += 1
+                chapters_progress_bar.update(1)
 
             chapters_progress_bar.close()
 
@@ -213,6 +217,64 @@ class JapScanDownloader:
                 logger.debug("chapter_name : %s", chapter["name"])
 
                 self.download_chapter(chapter["url"])
+                chapters_progress_bar.update(1)
+
+            chapters_progress_bar.close()
+        elif "subscription" in item:
+            subscription = item["subscription"]
+            url = subscription["manga"]
+            previous_last_chapter = subscription["last_chapter"]
+
+            self.driver.get(url)
+
+            WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "div#main"))
+            )
+
+            chapters = []
+
+            last_chapter = None
+
+            for chapter_tag in self.driver.find_elements_by_css_selector(
+                    "div.chapters_list.text-truncate a"
+            ):
+                skip_chapter = False
+                badges = chapter_tag.find_elements_by_css_selector("span.badge")
+                for badge in badges:
+                    if "spoiler" in badge.text.lower():  # raw spoiler chapter not translated yet, skip download
+                        skip_chapter = True
+                        break
+                    if "raw" in badge.text.lower():  # raw spoiler chapter not translated yet, skip download
+                        skip_chapter = True
+                        break
+
+                if skip_chapter:
+                    continue
+
+                chapter = {
+                    "url": chapter_tag.get_attribute("href"),
+                    "name": chapter_tag.text.replace("\t", "").replace("\n", "")
+                }
+
+                if last_chapter is None:
+                    last_chapter = chapter["url"]
+
+                if chapter["url"] == previous_last_chapter:
+                    break
+
+                chapters.append(chapter)
+
+            chapters_progress_bar = tqdm(
+                total=len(chapters),
+                position=0,
+                bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [subscription: " + url + "]",
+            )
+
+            for chapter in reversed(chapters):
+                logger.debug("chapter_name : %s", chapter["name"])
+                self.download_chapter(chapter["url"])
+                update_config(self.config_file, url, chapter["url"])
+                chapters_progress_bar.update(1)
 
             chapters_progress_bar.close()
 
@@ -230,7 +292,7 @@ class JapScanDownloader:
         pages = self.driver.find_element_by_css_selector("select#pages")
 
         if pages is None:
-            raise Exception(f"Can't read pages {str(html)}")
+            raise Exception(f"Can't read pages {str(chapter_url)}")
 
         page_options = []
 
@@ -257,7 +319,7 @@ class JapScanDownloader:
         for index, page_tag in enumerate(page_options):
             page_url = JAPSCAN_URL + page_tag
 
-            file = self.download_page(chapter_path, page_url, index)
+            file = self.download_page(chapter_path, page_url, index, len(page_options))
 
             if file is not None:
                 image_files.append(file)
@@ -284,8 +346,27 @@ class JapScanDownloader:
             for image_file in image_files:
                 os.remove(image_file)
 
-    def download_page(self, chapter_path, page_url, index):
-        time.sleep(randint(1, 5))
+    def prepend_zeroes(self, current_image_idx, total_images):
+        """
+        :param current_image_idx: Int value of current page number. Example : 1, 2, 3
+        :param total_images: Total number of images in the chapter
+        :return:
+        """
+        max_digits = int(math.log10(int(total_images))) + 1
+        return str(current_image_idx).zfill(max_digits)
+
+    def download_page(self, chapter_path, page_url, index, total):
+
+        image_name = self.prepend_zeroes(index, total) + ".png"
+        image_full_path = os.path.join(chapter_path, image_name)
+
+        logger.debug("image_full_path : %s", image_full_path)
+
+        if os.path.exists(image_full_path):
+            logger.debug(f"skipping file : {image_full_path}")
+            return image_full_path
+
+        # time.sleep(randint(1, 5))  # seems ok without it
 
         logger.debug(f"page_url : {page_url}")
 
@@ -296,55 +377,49 @@ class JapScanDownloader:
                 self.driver.get(page_url)
                 success = True
             except urllib3.exceptions.ProtocolError:
-                logger.debug(f"error self.driver.get({page_ur}) retry")
+                logger.debug(f"error self.driver.get({page_url}) retry")
                 success = False
                 time.sleep(5)
 
-        browser_log = self.driver.get_log("performance")
-        events = [process_browser_log_entry(entry) for entry in browser_log]
+        # browser_log = self.driver.get_log("performance")
+        # events = [process_browser_log_entry(entry) for entry in browser_log]
+        #
+        # image_url = None
+        #
+        # for event in events:
+        #     if "params" in event:
+        #         params = event["params"]
+        #         if "response" in params:
+        #             response = params["response"]
+        #             if "url" in response:
+        #                 url = response["url"]
+        #
+        #                 if len(url) > 130 and (
+        #                     url.endswith(".jpg") or url.endswith(".png")
+        #                 ):
+        #                     image_url = url
+        #                     break
+        #
+        # logger.debug("image_url: %s", image_url)
 
-        image_url = None
+        # if image_url is None:
+        #     return
 
-        for event in events:
-            if "params" in event:
-                params = event["params"]
-                if "response" in params:
-                    response = params["response"]
-                    if "url" in response:
-                        url = response["url"]
-
-                        if len(url) > 130 and (
-                            url.endswith(".jpg") or url.endswith(".png")
-                        ):
-                            image_url = url
-                            break
-
-        logger.debug("image_url: %s", image_url)
-
-        if image_url is None:
-            return
-
-        reverse_image_url = image_url[::-1]
-
-        image_name = str(index) + ".png"
-
-        image_full_path = os.path.join(chapter_path, image_name)
-
-        logger.debug("image_full_path : %s", image_full_path)
-
-        slash_counter = 0
-        index = 0
-
-        while slash_counter < 3:
-            if reverse_image_url[index] == "/":
-                slash_counter += 1
-            index += 1
-
-        reverse_image_url = reverse_image_url[0:index]
-
-        image_path = reverse_image_url[::-1]
-
-        logger.debug("image_path : %s", image_path)
+        # reverse_image_url = image_url[::-1]
+        #
+        # slash_counter = 0
+        # index = 0
+        #
+        # while slash_counter < 3:
+        #     if reverse_image_url[index] == "/":
+        #         slash_counter += 1
+        #     index += 1
+        #
+        # reverse_image_url = reverse_image_url[0:index]
+        #
+        # image_path = reverse_image_url[::-1]
+        #
+        # logger.debug("image_path : %s", image_path)
 
         if not os.path.exists(os.path.dirname(image_full_path)):
             try:
@@ -353,6 +428,12 @@ class JapScanDownloader:
             except OSError as exc:
                 if exc.errno != errno.EEXIST:
                     raise
+
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(
+                (By.ID, "image")
+            )
+        )
 
         image_element = self.driver.find_element_by_id("image")
 

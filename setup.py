@@ -16,10 +16,10 @@ setup(
     install_requires=[
         "lxml==4.5.1",
         "pillow==7.1.2",
-        "pyyaml==5.3.1",
         "selenium==3.141.0",
         "tqdm==4.46.0",
         "urllib3==1.25.9",
+        "ruamel.yaml==0.17.9",
     ],
     dependency_links=[],
     extras_require={
