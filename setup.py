@@ -51,7 +51,7 @@ setup(
             "pipfile==0.0.2",
             "plette[validation]==0.2.3",
             "pluggy==0.13.1",
-            "py==1.8.1",
+            "py==1.10.0",
             "pyparsing==2.4.7",
             "pytest==5.4.2",
             "pytest-cov==2.8.1",
