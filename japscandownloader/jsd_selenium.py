@@ -55,6 +55,8 @@ class JapScanDownloader:
         self.driver = None
         self.profile = None
         self.show = False
+        self.split = False
+        self.split_reverse = False
 
     def init(self, arguments):
         self.init_arguments(arguments)
