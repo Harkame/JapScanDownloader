@@ -80,7 +80,13 @@ def get_arguments(arguments):
     argument_parser.add_argument("-s", "--show", help="Show browser", action="count")
 
     argument_parser.add_argument(
-        "-S", "--split", help="Split double pages", action="count"
+        "-S",
+        "--split",
+        help="Split double pages, reverse order with -SS"
+        "Default : false"
+        "Example split : python japscandownloader/main.py -S"
+        "Example split and reverse: python japscandownloader/main.py -SS",
+        action="count"
     )
 
     return argument_parser.parse_args(arguments)
