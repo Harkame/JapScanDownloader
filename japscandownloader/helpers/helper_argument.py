@@ -79,4 +79,8 @@ def get_arguments(arguments):
 
     argument_parser.add_argument("-s", "--show", help="Show browser", action="count")
 
+    argument_parser.add_argument(
+        "-S", "--split", help="Split double pages", action="count"
+    )
+
     return argument_parser.parse_args(arguments)

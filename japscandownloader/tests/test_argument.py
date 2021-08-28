@@ -14,9 +14,10 @@ class TestArgument(unittest.TestCase):
                 "./mymangas",
                 "-f",
                 "myformat",
-                "-u",
+                # "-u",
                 "-k",
                 "-r",
+                "-S",
             ]
         )
 
@@ -24,9 +25,10 @@ class TestArgument(unittest.TestCase):
         self.assertEqual(arguments.config_file, "./myconfig.yml")
         self.assertEqual(arguments.destination_path, "./mymangas")
         self.assertEqual(arguments.format, "myformat")
-        self.assertEqual(arguments.unscramble, 1)
+        # self.assertEqual(arguments.unscramble, 1)
         self.assertEqual(arguments.keep, 1)
         self.assertEqual(arguments.reverse, 1)
+        self.assertEqual(arguments.split, 1)
 
     def test_long_option(self):
         arguments = get_arguments(
@@ -38,9 +40,10 @@ class TestArgument(unittest.TestCase):
                 "./mymangas",
                 "--format",
                 "myformat",
-                "--unscramble",
+                # "--unscramble",
                 "--keep",
                 "--reverse",
+                "--split",
             ]
         )
 
@@ -48,9 +51,10 @@ class TestArgument(unittest.TestCase):
         self.assertEqual(arguments.config_file, "./myconfig.yml")
         self.assertEqual(arguments.destination_path, "./mymangas")
         self.assertEqual(arguments.format, "myformat")
-        self.assertEqual(arguments.unscramble, 1)
+        # self.assertEqual(arguments.unscramble, 1)
         self.assertEqual(arguments.keep, 1)
         self.assertEqual(arguments.reverse, 1)
+        self.assertEqual(arguments.split, 1)
 
     def test_multiple_verbose(self):
         verbosity_argument = "-"
