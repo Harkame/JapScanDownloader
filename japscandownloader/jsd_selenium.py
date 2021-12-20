@@ -55,6 +55,8 @@ class JapScanDownloader:
         self.driver = None
         self.profile = None
         self.show = False
+        self.split = False
+        self.split_reverse = False
 
     def init(self, arguments):
         self.init_arguments(arguments)
@@ -69,6 +71,8 @@ class JapScanDownloader:
         logger.debug("mangas : %s", self.mangas)
         logger.debug("profile : %s", self.profile)
         logger.debug("show : %s", self.show)
+        logger.debug("split : %s", self.split)
+        logger.debug("split_reverse : %s", self.split_reverse)
 
         options = webdriver.ChromeOptions()
         options.add_argument("--log-level=3")
@@ -144,6 +148,10 @@ class JapScanDownloader:
 
         if arguments.show:
             self.show = True
+
+        if arguments.split:
+            self.split = True
+            self.split_reverse = True if arguments.split > 1 else False
 
     def init_config(self):
         config = get_config(self.config_file)
@@ -323,6 +331,27 @@ class JapScanDownloader:
 
             if file is not None:
                 image_files.append(file)
+
+                if self.split:
+                    pic = Image.open(file)
+                    if pic.size[1] / pic.size[0] < 0.9:
+                        logger.debug("Split double page")
+
+                        file_a = file[:-4] + "A" + file[-4:]
+                        file_b = file[:-4] + "B" + file[-4:]
+
+                        image_files.pop()
+                        image_files.append(file_a)
+                        image_files.append(file_b)
+
+                        if self.split_reverse:
+                            logger.debug("Reverse splitted double page")
+                            file_a, file_b = file_b, file_a
+
+                        pic.crop((0, 0, pic.size[0] / 2, pic.size[1])).save(file_a)
+                        pic.crop((pic.size[0] / 2, 0, pic.size[0], pic.size[1])).save(file_b)
+
+                        os.remove(file)
 
             pages_progress_bar.update(1)
 
