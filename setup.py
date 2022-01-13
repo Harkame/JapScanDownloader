@@ -15,7 +15,7 @@ setup(
     classifiers=["Programming Language :: Python",],
     install_requires=[
         "lxml==4.5.1",
-        "pillow==7.1.2",
+        "pillow==9.0.0",
         "selenium==3.141.0",
         "tqdm==4.46.0",
         "urllib3==1.25.9",
