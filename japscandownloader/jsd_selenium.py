@@ -181,7 +181,7 @@ class JapScanDownloader:
             chapters_progress_bar = tqdm(
                 total=diff,
                 position=0,
-                bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]",
+                bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [chapters: " + url + "]",
             )
 
             while base_counter <= max:
@@ -218,7 +218,7 @@ class JapScanDownloader:
             chapters_progress_bar = tqdm(
                 total=len(chapters),
                 position=0,
-                bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [chapters]",
+                bar_format="[{bar}] - [{n_fmt}/{total_fmt}] - [chapters: " + url + "]",
             )
 
             for chapter in chapters:
