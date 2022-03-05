@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="japscandownloader",
-    version="1.0.6",
+    version="1.0.7",
     author="Harkame",
     description="Script to download mangas from JapScan",
     long_description=long_description,
@@ -14,12 +14,12 @@ setup(
     packages=find_packages(),
     classifiers=["Programming Language :: Python",],
     install_requires=[
-        "lxml==4.5.1",
-        "pillow==7.1.2",
-        "selenium==3.141.0",
-        "tqdm==4.46.0",
-        "urllib3==1.25.9",
-        "ruamel.yaml==0.17.9",
+        "lxml>=4.5.1",
+        "pillow>=7.1.2",
+        "selenium>=3.141.0",
+        "tqdm>=4.46.0",
+        "urllib3>=1.25.9",
+        "ruamel.yaml>=0.17.9",
     ],
     dependency_links=[],
     extras_require={
