@@ -49,9 +49,6 @@ your desired resolution.
 
 - Tests with selenium
 - Chapters folders name (not only number)
-- Don’t download already downloaded manga/chapter/page
-- Bug : Maximum connection try
-- Bug : doublon/invalid first image
 
 [1]: https://www.google.com/chrome
 [2]: https://chromedriver.chromium.org

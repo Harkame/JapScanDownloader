@@ -15,66 +15,65 @@ def get_arguments(arguments):
     argument_parser.add_argument(
         "-c",
         "--config_file",
-        help="Set config file"
-        "{os.linesep}"
-        "Example : python japscandownloader/main.py -c /home/myconfigfile.yml",
+        help="Set config file\n"
+             "Example : python japscandownloader/main.py -c /home/myconfigfile.yml",
     )
 
     argument_parser.add_argument(
         "-D",
         "--driver",
         default=shutil.which("chromedriver"),
-        help="""
-    Chrome web driver
-    Example : python japscandownloader/main.py -D C:\chromedriver.exe""",
+        help="""Chrome web driver
+Example : python japscandownloader/main.py -D C:\\chromedriver.exe""",
     )
 
     argument_parser.add_argument(
         "-d",
         "--destination_path",
-        help="Set destination path of downloaded mangas"
-        "Example : python japscandownloader/main.py -d /home/mymangas/",
+        help="Set destination path of downloaded mangas\n"
+             "Example : python japscandownloader/main.py -d /home/mymangas/",
     )
 
     argument_parser.add_argument(
         "-f",
         "--format",
-        help="Set format of downloaded mangas"
-        "Example : python japscandownloader/main.py -f cbz|pdf|jpg|png",
+        help="Set format of downloaded mangas\n"
+             "Example : python japscandownloader/main.py -f cbz|pdf|jpg|png",
     )
 
     argument_parser.add_argument(
         "-v",
         "--verbose",
-        help="Active verbose mode, support different level"
-        "Example : python japscandownloader/main.py -vv",
+        help="Active verbose mode, support different level\n"
+             "Example : python japscandownloader/main.py -vv",
         action="count",
     )
 
     argument_parser.add_argument(
         "-r",
         "--reverse",
-        help="Reverse chapters download order"
-        "Default : Last to first"
-        "Example : python japscandownloader/main.py -r",
+        help="Reverse chapters download order\n"
+             "Default : Last to first\n"
+             "Example : python japscandownloader/main.py -r",
         action="count",
     )
 
     argument_parser.add_argument(
         "-k",
         "--keep",
-        help="Keep downloaded images (when format is pdf/cbz)"
-        "Default : false"
-        "Example : python japscandownloader/main.py -k",
+        help="Keep downloaded images (when format is pdf/cbz)\n"
+             "Default : false\n"
+             "Example : python japscandownloader/main.py -k",
         action="count",
     )
 
     argument_parser.add_argument(
         "-p",
         "--profile",
-        help="Chrome profile path"
-        "Example with Windows : python -p C:\\Users\\Me\\AppData\\Local\\Google\\Chrome\\User Data"
-        "Be careful, you can't use your normal chrome browser and this parameter at same time (user data directory is already in use)",
+        help="Chrome profile path\n"
+             "Example with Windows : python -p C:\\Users\\Me\\AppData\\Local\\Google\\Chrome\\User Data\n"
+             "Be careful, you can't use your normal chrome browser and this parameter at same time\n"
+             "(user data directory is already in use)",
     )
 
     argument_parser.add_argument("-s", "--show", help="Show browser", action="count")
@@ -82,11 +81,20 @@ def get_arguments(arguments):
     argument_parser.add_argument(
         "-S",
         "--split",
-        help="Split double pages, reverse order with -SS"
-        "Default : false"
-        "Example split : python japscandownloader/main.py -S"
-        "Example split and reverse: python japscandownloader/main.py -SS",
+        help="Split double pages, reverse order with -SS\n"
+             "Default : false\n"
+             "Example split : python japscandownloader/main.py -S\n"
+             "Example split and reverse: python japscandownloader/main.py -SS",
         action="count"
+    )
+
+    argument_parser.add_argument(
+        "-R",
+        "--retries",
+        help="Infinite retries in case of timeout\n"
+             "Default : false\n"
+             "Example : python japscandownloader/main.py -R",
+        action="count",
     )
 
     return argument_parser.parse_args(arguments)
