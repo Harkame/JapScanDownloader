@@ -319,7 +319,8 @@ class JapScanDownloader:
         image_files = []
 
         for index, page_tag in enumerate(page_options):
-            page_url = JAPSCAN_URL + page_tag
+            page_number = (int(page_tag) + 1)
+            page_url = chapter_url + str(page_number) + ".html"
 
             file = self.download_page(chapter_path, page_url, index, len(page_options))
 
@@ -415,7 +416,7 @@ class JapScanDownloader:
         try:
             WebDriverWait(self.driver, 10).until(
                 ec.presence_of_element_located(
-                    (By.ID, "image")
+                    (By.CSS_SELECTOR, "div#single-reader img")
                 )
             )
         except TimeoutException:
@@ -426,7 +427,7 @@ class JapScanDownloader:
             else:
                 raise
 
-        image_element = self.driver.find_element_by_id("image")
+        image_element = self.driver.find_element_by_css_selector("div#single-reader img")
 
         im = None
 
