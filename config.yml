@@ -1,5 +1,8 @@
 # Directory to downlod the mangas to
 destination_path: ./mangas/
+# to load browser extensions like ublock, uncomment and adapt this
+#load_extension: C:\\Users\\username\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\\changethis\\1.46.0_0
+
 
 # Supported format
 # - jpg/png: Download image files

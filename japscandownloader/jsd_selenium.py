@@ -2,15 +2,17 @@ import errno
 import logging
 import math
 import os
+import shutil
 import time
-from io import BytesIO
 
+import requests
+import undetected_chromedriver as uc
 import urllib3.exceptions
 from PIL import Image
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
+# from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.ui import WebDriverWait
 from tqdm import tqdm
@@ -23,7 +25,7 @@ from .helpers import (
     create_cbz,
 )
 
-JAPSCAN_URL = "https://www.japscan.to"
+TIMEOUT = 10
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +49,7 @@ class JapScanDownloader:
         self.split = False
         self.split_reverse = False
         self.retries = False
+        self.load_extension = None
 
     def init(self, arguments):
         self.init_arguments(arguments)
@@ -64,30 +67,40 @@ class JapScanDownloader:
         logger.debug("split : %s", self.split)
         logger.debug("split_reverse : %s", self.split_reverse)
 
+        # options = uc.ChromeOptions()
         options = webdriver.ChromeOptions()
+
+        if self.load_extension is not None:
+            options.add_argument("--load-extension=" + self.load_extension)
+
         options.add_argument("--log-level=3")
         options.add_argument("--disable-blink-features")
         options.add_argument("--disable-blink-features=AutomationControlled")
-        # options.add_argument("window-size=1080,1920")
         options.add_argument("--profile-directory=Default")
 
         if self.profile is not None:
             options.add_argument(f"user-data-dir={self.profile}")
 
-        options.add_argument("window-size=1440,2560")
+        # if not self.show:
+        #     options.add_argument("--headless")
+        #
+        # options.add_experimental_option("excludeSwitches", ["enable-logging"])
+        # options.add_experimental_option("useAutomationExtension", False)
+        # options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        #
+        # self.driver = webdriver.Chrome(
+        #     self.driver_path, options=options, desired_capabilities=DesiredCapabilities.CHROME
+        # )
         if not self.show:
             options.add_argument("--headless")
+        options.add_argument("--window-size=1440,2560")
+        options.add_argument("--start-maximized")
+        options.add_argument("--no-sandbox")
 
-        options.add_experimental_option("excludeSwitches", ["enable-logging"])
-        options.add_experimental_option("useAutomationExtension", False)
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
+        self.driver = uc.Chrome(use_subprocess=True, options=options)
 
-        caps = DesiredCapabilities.CHROME
-        caps["goog:loggingPrefs"] = {"performance": "ALL"}
-
-        self.driver = webdriver.Chrome(
-            self.driver_path, options=options, desired_capabilities=caps
-        )
+        # if not self.show:  # when headless doesn't work with cloudflare protections, just put the browser out of the screen
+        #     self.driver.set_window_position(-6000, 0)
 
     def init_arguments(self, arguments):
         arguments = get_arguments(arguments)
@@ -149,6 +162,9 @@ class JapScanDownloader:
     def init_config(self):
         config = get_config(self.config_file)
 
+        if "load_extension" in config:
+            self.load_extension = config["load_extension"]
+
         if self.mangas is not None:
             self.mangas.extend(config["mangas"])
 
@@ -193,15 +209,15 @@ class JapScanDownloader:
 
             self.driver.get(url)
 
-            WebDriverWait(self.driver, 10).until(
+            WebDriverWait(self.driver, TIMEOUT).until(
                 ec.presence_of_element_located((By.CSS_SELECTOR, "div#main"))
             )
 
             chapters = []
 
-            for chapter_tag in self.driver.find_elements_by_css_selector(
-                    "div.chapters_list.text-truncate a"
-            ):
+            for chapter_tag in self.driver.find_elements(By.CSS_SELECTOR,
+                                                         "div.chapters_list.text-truncate a"
+                                                         ):
                 chapter = {
                     "url": chapter_tag.get_attribute("href"),
                     "name": chapter_tag.text.replace("\t", "").replace("\n", "")
@@ -229,7 +245,7 @@ class JapScanDownloader:
 
             self.driver.get(url)
 
-            WebDriverWait(self.driver, 10).until(
+            WebDriverWait(self.driver, TIMEOUT).until(
                 ec.presence_of_element_located((By.CSS_SELECTOR, "div#main"))
             )
 
@@ -237,11 +253,9 @@ class JapScanDownloader:
 
             last_chapter = None
 
-            for chapter_tag in self.driver.find_elements_by_css_selector(
-                    "div.chapters_list.text-truncate a"
-            ):
+            for chapter_tag in self.driver.find_elements(By.CSS_SELECTOR, "div.chapters_list.text-truncate a"):
                 skip_chapter = False
-                badges = chapter_tag.find_elements_by_css_selector("span.badge")
+                badges = chapter_tag.find_elements(By.CSS_SELECTOR, "span.badge")
                 for badge in badges:
                     if "spoiler" in badge.text.lower():  # raw spoiler chapter not translated yet, skip download
                         skip_chapter = True
@@ -291,14 +305,14 @@ class JapScanDownloader:
 
         logger.debug("chapter_url : %s", chapter_url)
 
-        pages = self.driver.find_element_by_css_selector("select#pages")
+        pages = self.driver.find_element(By.CSS_SELECTOR, "select#pages")
 
         if pages is None:
             raise Exception(f"Can't read pages {str(chapter_url)}")
 
         page_options = []
 
-        for page_options_tag in pages.find_elements_by_css_selector("option"):
+        for page_options_tag in pages.find_elements(By.CSS_SELECTOR, "option"):
             page_options.append(page_options_tag.get_attribute("value"))
 
         pages_progress_bar = tqdm(
@@ -427,22 +441,14 @@ class JapScanDownloader:
             else:
                 raise
 
-        image_element = self.driver.find_element_by_css_selector("div#single-reader img")
-
-        im = None
-
-        try:
-            im = Image.open(BytesIO(image_element.screenshot_as_png))
-        except Exception:  # Fail on get image
-            logger.debug(f"error : invalid image_element.screenshot_as_png")
-            time.sleep(4)
-
-            try:  # Retry to get image after a fail
-                im = Image.open(BytesIO(image_element.screenshot_as_png))
-            except Exception:
-                logger.debug(f"error retry : invalid image_element.screenshot_as_png")
-
-        if im is not None:
-            im.save(image_full_path)
+        image_element = self.driver.find_element(By.CSS_SELECTOR, "div#single-reader img")
+        # do not use image_element.screenshot_as_png, but download the image instead to get the correct quality
+        src = image_element.get_attribute('src')
+        res = requests.get(src, stream=True)
+        if res.status_code == 200:
+            with open(image_full_path, 'wb') as f:
+                shutil.copyfileobj(res.raw, f)
+        else:
+            raise RuntimeError("unable to get image " + src)
 
         return image_full_path

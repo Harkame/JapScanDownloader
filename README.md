@@ -18,7 +18,7 @@ OR
 ```console
 $ git clone https://github.com/Harkame/JapScanDownloader.git
 $ cd JapScanDownloader
-$ python setup.py install
+$ python -m pip install .
 ```
 
 ```console
@@ -34,7 +34,7 @@ $ japscandownloader
 
 ## Configuration
 
-The program uses an configuration file. This file contains list of mangas to
+The program uses a configuration file. This file contains list of mangas to
 download, destination path, etc.
 
 Copy and edit the default configuration file (config.yml) to match your needs.
