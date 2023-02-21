@@ -43,7 +43,7 @@ setup(
             "importlib-metadata==1.6.0; python_version < '3.8'",
             "more-itertools==8.3.0",
             "nose==1.3.7",
-            "numpy==1.18.4",
+            "numpy==1.21.0",
             "orderedmultidict==1.0.1",
             "packaging==19.2",
             "pathspec==0.8.0",
