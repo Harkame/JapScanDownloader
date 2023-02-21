@@ -71,7 +71,7 @@ setup(
             "urllib3==1.25.9",
             "vistir==0.5.1",
             "wcwidth==0.1.9",
-            "wheel==0.34.2",
+            "wheel==0.38.1",
             "zipp==3.1.0; python_version < '3.8'",
         ]
     },
