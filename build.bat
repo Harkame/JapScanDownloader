@@ -1,0 +1,1 @@
+pyinstaller -y -F -i japscan.ico -n japscandownloader -w --noupx japscandownloader/main.py
