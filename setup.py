@@ -32,7 +32,7 @@ setup(
             "black==19.10b0; python_version >= '3.6'",
             "cached-property==1.5.1",
             "cerberus==1.3.2",
-            "certifi==2020.4.5.1",
+            "certifi==2022.12.7",
             "chardet==3.0.4",
             "click==7.1.2",
             "cloudscraper==1.2.38",
