@@ -4,6 +4,7 @@ import math
 import os
 import shutil
 import time
+from io import BytesIO
 
 import requests
 import undetected_chromedriver as uc
@@ -32,6 +33,31 @@ logger = logging.getLogger(__name__)
 DEFAULT_CONFIG_FILE = os.path.join(".", "config.yml")
 DEFAULT_DESTINATION_PATH = os.path.join(".", "mangas")
 DEFAULT_format = "jpg"
+
+
+def download_with_screenshot(image_element, image_full_path):
+    im = None
+    try:
+        im = Image.open(BytesIO(image_element.screenshot_as_png))
+    except Exception:  # Fail on get image
+        logger.debug(f"error : invalid image_element.screenshot_as_png")
+        time.sleep(4)
+
+        try:  # Retry to get image after a fail
+            im = Image.open(BytesIO(image_element.screenshot_as_png))
+        except Exception:
+            logger.debug(f"error retry : invalid image_element.screenshot_as_png")
+    if im is not None:
+        im.save(image_full_path)
+
+
+def download_with_request(image_full_path, src):
+    res = requests.get(src, stream=True)
+    if res.status_code == 200:
+        with open(image_full_path, 'wb') as f:
+            shutil.copyfileobj(res.raw, f)
+    else:
+        raise RuntimeError("unable to get image " + src)
 
 
 class JapScanDownloader:
@@ -97,7 +123,8 @@ class JapScanDownloader:
         options.add_argument("--start-maximized")
         options.add_argument("--no-sandbox")
 
-        self.driver = uc.Chrome(use_subprocess=True, options=options)
+        # self.driver = uc.Chrome(use_subprocess=True, options=options)
+        self.driver = uc.Chrome(use_subprocess=False, options=options)
 
         # if not self.show:  # when headless doesn't work with cloudflare protections, just put the browser out of the screen
         #     self.driver.set_window_position(-6000, 0)
@@ -444,11 +471,15 @@ class JapScanDownloader:
         image_element = self.driver.find_element(By.CSS_SELECTOR, "div#single-reader img")
         # do not use image_element.screenshot_as_png, but download the image instead to get the correct quality
         src = image_element.get_attribute('src')
-        res = requests.get(src, stream=True)
-        if res.status_code == 200:
-            with open(image_full_path, 'wb') as f:
-                shutil.copyfileobj(res.raw, f)
-        else:
-            raise RuntimeError("unable to get image " + src)
+        # download_with_screenshot(image_element, image_full_path)
+        self.download_image_full_screen(image_full_path, src)
+        # download_with_request(image_full_path, src)
 
         return image_full_path
+
+    def download_image_full_screen(self, image_full_path, src):
+        self.driver.get(src)
+        image_element = self.driver.find_element(By.CSS_SELECTOR, "img")
+        # src = image_element.get_attribute('src')
+        download_with_screenshot(image_element, image_full_path)
+        # download_with_request(image_full_path, src)
